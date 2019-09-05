@@ -1,0 +1,29 @@
+{
+  "name": "iime",
+  "version": "1.0.0",
+  "description": "一个基于iijs构建的简单轻量级blog系统",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yafoo/iime.git"
+  },
+  "keywords": [
+    "iijs",
+    "blog",
+    "simple",
+    "lightweight"
+  ],
+  "author": "yafoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yafoo/iime/issues"
+  },
+  "homepage": "https://github.com/yafoo/iime#readme",
+  "dependencies": {
+    "iijs": "^2.0.0"
+  }
+}

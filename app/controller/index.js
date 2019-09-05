@@ -1,6 +1,6 @@
-const Controller = require('../../lib/controller');
+const {controller} = require('iijs');
 
-class index extends Controller {
+class index extends controller {
     async index() {
         let readme = await this.view.load('README.md');
         readme = this.view.md.toHTML(readme);
