@@ -1,17 +1,12 @@
 const {Controller} = require('iijs');
 
-class index extends Controller {
+class Index extends Controller {
     async index() {
         let readme = await this.view.load('README.md', true);
         readme = this.view.md.render(readme);
         readme = readme.replace('</p>', '</p><hr>');
-        this.assign('title', 'iijs - 一个简单轻量级Node.js MVC框架');
+        this.assign('title', 'iime - 一个基于iijs构建的简单轻量级blog系统');
         this.assign('readme', readme);
-        await this.fetch();
-    }
-
-    async doc() {
-        this.assign('title', 'iijs文档手册 - iijs');
         await this.fetch();
     }
 
@@ -30,4 +25,4 @@ class index extends Controller {
     }
 }
 
-module.exports = index;
+module.exports = Index;

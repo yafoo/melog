@@ -1,17 +1,16 @@
 # iime
 一个基于iijs构建的简单轻量级blog系统
 
-#### 项目介绍
+### 项目介绍
 
 源码：[github](https://github.com/yafoo/iime "github")　[码云](https://gitee.com/yafu/iime "码云")
 
-#### 其他
+### 其他
 
 1. [爱主页](https://www.i-i.me/ "爱主页 - 网址收藏分享平台！")
 2. [iijs MVC框架](https://github.com/yafoo/iijs "iijs MVC框架")
-3. 联系我，QQ：331406669
 
-#### Nginx代理设置
+### Nginx代理设置
 
 ```
 location / {
@@ -26,6 +25,6 @@ location / {
 }
 ```
 
-#### License
+### License
 
 [MIT](LICENSE)
