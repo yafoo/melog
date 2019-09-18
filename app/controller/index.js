@@ -1,9 +1,9 @@
-const {Controller} = require('iijs');
+const {Controller, helper} = require('iijs');
 
 class Index extends Controller {
     async index() {
         let readme = await this.view.load('README.md', true);
-        readme = this.view.md.render(readme);
+        readme = helper.md().render(readme);
         readme = readme.replace('</p>', '</p><hr>');
         this.assign('title', 'iime - 一个基于iijs构建的简单轻量级blog系统');
         this.assign('readme', readme);
