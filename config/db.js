@@ -1,21 +1,18 @@
-const mysql = require('mysql');
-const pool = mysql.createPool({
-    host     : '127.0.0.1',   // 数据库地址
-    user     : 'root',    // 数据库用户
-    password : 'root',   // 数据库密码
-    database : 'iime'  // 选中数据库
-});
-
-let db = function(sql){
-    return new Promise((resolve, reject)=>{
-        pool.query(sql, function(err, rows, fields){
-            if(err){
-                reject(err);
-            }else{
-                resolve(rows);
-            }
-        });
-    })
-}
-
-module.exports = db;
+module.exports = {
+    // 数据库类型
+    'type'        : 'mysql',
+    // 服务器地址
+    'hostname'    : '127.0.0.1',
+    // 数据库名
+    'database'    : 'iime',
+    // 数据库用户名
+    'username'    : 'root',
+    // 数据库密码
+    'password'    : '',
+    // 数据库连接端口
+    'hostport'    : '',
+    // 数据库编码默认采用utf8
+    'charset'     : 'utf8',
+    // 数据库表前缀
+    'prefix'      : 'iime_'
+};

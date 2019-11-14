@@ -15,13 +15,11 @@ class Index extends Controller {
     }
 
     async mysql() {
-        const db = this.ctx.loader.config.db;
-        await db('select * from link').then(function(data){
-            this.ctx.body = data;
-        }).catch(function(err){
-            console.log(err);
-            this.ctx.body = data;
-        });
+        const model_article = this.ctx.$ii.app.model.base.table('iime_article');
+        console.log(model_article);
+        const list = await model_article.select();
+        console.log(list);
+        this.ctx.body = list;
     }
 }
 

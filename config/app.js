@@ -1,6 +1,6 @@
 const app = {
     app_debug: true, //调试模式
-    app_multi: true, //是否开启多应用
+    app_multi: false, //是否开启多应用
 
     default_app: 'app', //默认应用
     default_controller: 'index', //默认控制器
