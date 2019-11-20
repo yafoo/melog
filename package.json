@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/yafoo/iime#readme",
   "dependencies": {
-    "iijs": "^2.2.2",
-    "mysql": "^2.17.1"
+    "iijs": "^2.3.0"
   }
 }
