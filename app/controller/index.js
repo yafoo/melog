@@ -17,7 +17,6 @@ class Index extends Controller {
     async mysql() {
         const model_article = this.ctx.$ii.app.model.article;
         const list = await model_article.getList();
-        console.log(list);
         this.ctx.body = list;
     }
 }
