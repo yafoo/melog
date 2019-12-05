@@ -2,8 +2,47 @@
 {{block 'title'}}
     <title>{{title}}</title>
 {{/block}}
+
 {{block 'content'}}
-<div class="c">
-    {{@readme}}
+<div class="container row">
+    <main class="main">
+        <div class="content">
+            {{@readme}}
+        </div>
+    </main>
+    <aside class="aside">
+        <hr class="hr">
+        <dl class="box">
+            <dt><h3 class="title">最新博文</h3><span class="extra">更多</span></dt>
+            <dd>
+                <ul>
+                    <li><a href="">vue项目中极验验证的使用</a></li>
+                    <li><a href="">地理文本处理技术在高德的演进地理文本处理技术在高德的演进</a></li>
+                    <li><a href="">query分析技术演进</a></li>
+                    <li><a href="">一文学会 Node.js 中的流</a></li>
+                    <li><a href="">AJAX原理及常见面试题</a></li>
+                    <li><a href="">HTTP菜鸟教程</a></li>
+                    <li><a href="">浅谈 MVC 和 MVVM 模型</a></li>
+                    <li><a href="">css3自定义彩色分割线</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <hr class="hr">
+        <dl class="box">
+            <dt><h3 class="title">热点博文</h3><span class="extra">更多</span></dt>
+            <dd>
+                <ul>
+                    <li><a href="">vue项目中极验验证的使用</a></li>
+                    <li><a href="">地理文本处理技术在高德的演进地理文本处理技术在高德的演进</a></li>
+                    <li><a href="">query分析技术演进</a></li>
+                    <li><a href="">一文学会 Node.js 中的流</a></li>
+                    <li><a href="">AJAX原理及常见面试题</a></li>
+                    <li><a href="">HTTP菜鸟教程</a></li>
+                    <li><a href="">浅谈 MVC 和 MVVM 模型</a></li>
+                    <li><a href="">css3自定义彩色分割线</a></li>
+                </ul>
+            </dd>
+        </dl>
+    </aside>
 </div>
 {{/block}}
