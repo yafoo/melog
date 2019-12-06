@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    {{block 'title'}}<title>iime</title>{{/block}}
+    {{block 'title'}}<title>{{title}} - iime</title>{{/block}}
     <link rel="stylesheet" href="/static/iime.css">
     {{block 'css'}}{{/block}}
 </head>
@@ -15,10 +15,8 @@
                 <div class="navbar-menu">☰</div>
             </div>
             <ul class="navbar-item">
-                <li><a href="/">文章</a></li>
-                <li><a href="/">日记</a></li>
-                <li><a href="/">图片</a></li>
-                <li><a href="/">关于</a></li>
+                {{each nav item}}
+                <li><a href="/{{item.cate_folder}}">{{item.cate_name}}</a></li>{{/each}}
             </ul>
         </nav>
         {{block 'header'}}{{/block}}

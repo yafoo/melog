@@ -1,13 +1,26 @@
 {{extend './layout.htm'}}
 {{block 'title'}}
-    <title>{{title}}</title>
+    <title>{{site.title}}</title>
+{{/block}}
+
+{{block 'header'}}
+        <div class="container jumbotron">
+            <h1>{{site.title}}</h1>
+            <p>{{site.description}}</p>
+        </div>
 {{/block}}
 
 {{block 'content'}}
 <div class="container row">
     <main class="main">
-        <div class="content">
-            {{@readme}}
+        <div class="list">
+            {{each list item}}
+            <dl class="list-item">
+                <dt><h3 class="title"><a href="/a/{{item.id}}">{{item.title}}</a></h3><span class="extra"><a href="/{{item.cate_folder}}">{{item.cate_name}}</a></span></dt>
+                <dd>
+                    {{item.description}}
+                </dd>
+            </dl>{{/each}}
         </div>
     </main>
     <aside class="aside">
@@ -16,14 +29,8 @@
             <dt><h3 class="title">最新博文</h3><span class="extra">更多</span></dt>
             <dd>
                 <ul>
-                    <li><a href="">vue项目中极验验证的使用</a></li>
-                    <li><a href="">地理文本处理技术在高德的演进地理文本处理技术在高德的演进</a></li>
-                    <li><a href="">query分析技术演进</a></li>
-                    <li><a href="">一文学会 Node.js 中的流</a></li>
-                    <li><a href="">AJAX原理及常见面试题</a></li>
-                    <li><a href="">HTTP菜鸟教程</a></li>
-                    <li><a href="">浅谈 MVC 和 MVVM 模型</a></li>
-                    <li><a href="">css3自定义彩色分割线</a></li>
+                    {{each latest item}}
+                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
                 </ul>
             </dd>
         </dl>
@@ -32,14 +39,8 @@
             <dt><h3 class="title">热点博文</h3><span class="extra">更多</span></dt>
             <dd>
                 <ul>
-                    <li><a href="">vue项目中极验验证的使用</a></li>
-                    <li><a href="">地理文本处理技术在高德的演进地理文本处理技术在高德的演进</a></li>
-                    <li><a href="">query分析技术演进</a></li>
-                    <li><a href="">一文学会 Node.js 中的流</a></li>
-                    <li><a href="">AJAX原理及常见面试题</a></li>
-                    <li><a href="">HTTP菜鸟教程</a></li>
-                    <li><a href="">浅谈 MVC 和 MVVM 模型</a></li>
-                    <li><a href="">css3自定义彩色分割线</a></li>
+                    {{each hot item}}
+                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
                 </ul>
             </dd>
         </dl>

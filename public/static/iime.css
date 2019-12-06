@@ -23,6 +23,7 @@ ul>li {list-style: none;}
     background-color: #46bc99;
     color: #fff;
     margin-bottom: 20px;
+    transition: height 1s;
 }
 .navbar {
     position: relative;
@@ -129,6 +130,30 @@ ul>li {list-style: none;}
     color: #666;
 }
 .box dd{
+    padding-top: 5px;
+}
+
+/* list */
+.list-item {
+    padding: 10px 0;
+}
+.list-item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+.list-item dt {
+    display: flex;
+    justify-content: space-between;
+}
+.list-item dt .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.list-item dt .extra {
+    color: #666;
+}
+.list-item dd {
+    font-size: 13px;
+    color: #888;
     padding-top: 5px;
 }
 

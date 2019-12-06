@@ -7,13 +7,16 @@ class Article extends Controller {
         const article = await model_article.getOneByID(aid);
         if(!article) return;
 
-        const latest = await model_article.latest();
-        const hot = await model_article.hot();
+        const nav = await this.ctx.$ii.app.model.cate.getNav();
+        const latest = await model_article.getNew();
+        const hot = await model_article.getHot();
 
+        this.assign('nav', nav);
         this.assign('title', article.title);
         this.assign('article', article);
         this.assign('latest', latest);
         this.assign('hot', hot);
+        
         await this.fetch();
     }
 }
