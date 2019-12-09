@@ -13,28 +13,11 @@
         <article class="content">
             {{@article.content}}
         </article>
+        <ul class="prenext">
+        <li>上一篇: <a href="https://www.phpjieshuo.com/archives/146/">位运算在 PHP 实际项目当中的高级运用</a></li>
+        <li>下一篇: <a href="https://www.phpjieshuo.com/archives/148/">让 HTTPDNS 解决客户端 DNS 劫持与提高解析稳定性</a></li>
+    </ul>
     </main>
-    <aside class="aside">
-        <hr class="hr">
-        <dl class="box">
-            <dt><h3 class="title">最新博文</h3><span class="extra">更多</span></dt>
-            <dd>
-                <ul>
-                    {{each latest item}}
-                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
-                </ul>
-            </dd>
-        </dl>
-        <hr class="hr">
-        <dl class="box">
-            <dt><h3 class="title">热点博文</h3><span class="extra">更多</span></dt>
-            <dd>
-                <ul>
-                    {{each hot item}}
-                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
-                </ul>
-            </dd>
-        </dl>
-    </aside>
+    {{include './aside.htm'}}
 </div>
 {{/block}}

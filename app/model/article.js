@@ -31,12 +31,12 @@ class Article extends Model {
 
     //获取文章及分类属性
     async getListWithCate(condition, rows=10, page, pageSize){
-        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.cate_folder').join('cate c', 'a.cate_id=c.id').where(condition).limit(rows).page(page, pageSize).cache(600).select();
+        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.cate_folder').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).page(page, pageSize).cache(600).select();
     }
 
     //最新文章
     async getNew(rows=8){
-        return await this.db.field('id,title,click').limit(rows).cache(600).select();
+        return await this.db.field('id,title,click').order('id', 'desc').limit(rows).cache(600).select();
     }
 
     //热点文章

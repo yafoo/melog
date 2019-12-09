@@ -2,8 +2,8 @@
 
 {{block 'header'}}
         <div class="container jumbotron">
-            <h1>{{cate.name}}</h1>
-            <p>{{cate.description}}</p>
+            <h1>{{cate.cate_name}}</h1>
+            <p>{{cate.cate_description}}</p>
         </div>
 {{/block}}
 
@@ -13,34 +13,18 @@
         <div class="list">
             {{each list item}}
             <dl class="list-item">
-                <dt><h3 class="title"><a href="/a/{{item.id}}">{{item.title}}</a></h3><span class="extra">详情</span></dt>
+                <dt><h3 class="title"><a href="/a/{{item.id}}">{{item.title}}</a></h3></dt>
                 <dd>
                     {{item.description}}
                 </dd>
+                <ul>
+                    <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
+                    <li>浏览: {{item.click}}</li>
+                    <li>关键词: {{item.keywords}}</li>
+                </ul>
             </dl>{{/each}}
         </div>
     </main>
-    <aside class="aside">
-        <hr class="hr">
-        <dl class="box">
-            <dt><h3 class="title">最新博文</h3><span class="extra">更多</span></dt>
-            <dd>
-                <ul>
-                    {{each latest item}}
-                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
-                </ul>
-            </dd>
-        </dl>
-        <hr class="hr">
-        <dl class="box">
-            <dt><h3 class="title">热点博文</h3><span class="extra">更多</span></dt>
-            <dd>
-                <ul>
-                    {{each hot item}}
-                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
-                </ul>
-            </dd>
-        </dl>
-    </aside>
+    {{include './aside.htm'}}
 </div>
 {{/block}}

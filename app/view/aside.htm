@@ -1,0 +1,22 @@
+    <aside class="aside">
+        <hr class="hr">
+        <dl class="box">
+            <dt><h3 class="title">最新博文</h3><span class="extra">更多</span></dt>
+            <dd>
+                <ul>
+                    {{each latest item}}
+                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
+                </ul>
+            </dd>
+        </dl>
+        <hr class="hr">
+        <dl class="box">
+            <dt><h3 class="title">热点博文</h3><span class="extra">更多</span></dt>
+            <dd>
+                <ul>
+                    {{each hot item}}
+                    <li><a href="/a/{{item.id}}">{{item.title}}</a></li>{{/each}}
+                </ul>
+            </dd>
+        </dl>
+    </aside>
