@@ -1,6 +1,10 @@
 $(function(){
     $(".navbar-menu").click(function(){
-        $(".navbar-item").toggle();
+        if($(".navbar-item").height() == 0) {
+            $(".navbar-item").height($(".navbar-item").children().length * 41);
+        } else {
+            $(".navbar-item").height(0);
+        }
     });
 
     $(window).scroll(function(e){
@@ -10,6 +14,7 @@ $(function(){
             $('#go-top').stop().fadeOut(400);
         }
     });
+    
     $('#go-top').click(function(){
         $('html,body').animate({scrollTop:'0px'}, 200);
     });
