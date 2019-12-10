@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/yafoo/iime#readme",
   "dependencies": {
-    "iijs": "^2.5.4",
+    "iijs": "^2.5.5",
     "markdown-it": "^10.0.0"
   }
 }
