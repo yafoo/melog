@@ -1,5 +1,8 @@
 const {utils} = require('iijs');
+const dateFormat = (value, format) => utils.date.format(format, value);
+const urlC = (folder) => '/' + folder;
+const urlA = (id) => '/a/' + id;
 
-module.exports = {
-    dateFormat: function(value, format) {return utils.date.format(format, value);}
+module.exports = {dateFormat, urlC, urlA,
+    view_filter: {dateFormat, urlC, urlA}
 }
