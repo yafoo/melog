@@ -233,6 +233,12 @@ ul>li {list-style: none;}
     max-width: 100%;
 }
 
+/* tools-bar */
+.tools-bar {
+    line-height: 28px;
+    padding: 10px 0;
+}
+
 /* prenext */
 .prenext {
     line-height: 28px;
