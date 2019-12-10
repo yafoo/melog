@@ -13,10 +13,11 @@
         <article class="content">
             {{@article.content}}
         </article>
+        <hr class="hr">
         <ul class="prenext">
-        <li>上一篇: <a href="https://www.phpjieshuo.com/archives/146/">位运算在 PHP 实际项目当中的高级运用</a></li>
-        <li>下一篇: <a href="https://www.phpjieshuo.com/archives/148/">让 HTTPDNS 解决客户端 DNS 劫持与提高解析稳定性</a></li>
-    </ul>
+            {{if preOne}}<li>上一篇: <a href="{{preOne.id | urlA}}">{{preOne.title}}</a></li>{{/if}}
+            {{if nextOne}}<li>下一篇: <a href="{{nextOne.id | urlA}}">{{nextOne.title}}</a></li>{{/if}}
+        </ul>
     </main>
     {{include './aside.htm'}}
 </div>

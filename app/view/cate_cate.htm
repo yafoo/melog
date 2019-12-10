@@ -2,8 +2,8 @@
 
 {{block 'header'}}
         <div class="container jumbotron">
-            <h1>{{cate.cate_name}}</h1>
-            <p>{{cate.cate_description}}</p>
+            <h1>{{cate.c_name}}</h1>
+            <p>{{cate.c_description}}</p>
         </div>
 {{/block}}
 
@@ -13,7 +13,7 @@
         <div class="list">
             {{each list item}}
             <dl class="list-item">
-                <dt><h3 class="title"><a href="/a/{{item.id}}">{{item.title}}</a></h3></dt>
+                <dt><h3 class="title"><a href="{{item.id | urlA}}">{{item.title}}</a></h3></dt>
                 <dd>
                     {{item.description}}
                 </dd>

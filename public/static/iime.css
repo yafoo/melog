@@ -170,6 +170,9 @@ ul>li {list-style: none;}
 }
 
 /* content markdown */
+.content {
+    overflow: hidden;
+}
 .content>* {
     margin: 0.6em 0;
 }
@@ -223,6 +226,11 @@ ul>li {list-style: none;}
 }
 .content p {
     line-height: 1.8;
+}
+.content img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
 }
 
 /* prenext */

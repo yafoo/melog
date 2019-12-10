@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    {{block 'title'}}<title>{{title}} - iime</title>{{/block}}
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}"/>
+    <meta name="keywords" content="{{keywords}}"/>
     <link rel="stylesheet" href="/static/iime.css">
     {{block 'css'}}{{/block}}
 </head>
@@ -11,12 +13,11 @@
     <header id="header">
         <nav class="container navbar">
             <div class="navbar-header">
-                <a class="logo" href="/">iime</a>
+                <a class="logo" href="/">{{site.title}}</a>
                 <div class="navbar-menu">☰</div>
             </div>
-            <ul class="navbar-item">
-                {{each nav item}}
-                <li><a href="/{{item.cate_folder}}">{{item.cate_name}}</a></li>{{/each}}
+            <ul class="navbar-item">{{each nav item}}
+                <li><a href="{{item.c_folder | urlC}}">{{item.c_name}}</a></li>{{/each}}
             </ul>
         </nav>
         {{block 'header'}}{{/block}}
@@ -24,11 +25,10 @@
     {{block 'content'}}{{/block}}
     <footer id="footer">
         <div class="container">
-            <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号</a>
-            <span>京公网安备11010802014853</span>
+            {{@site.beian}}
         </div>
         <div class="copy-right">
-            <span>© 2020 iime</span><span>Powered by <a href="https://me.i-i.me/" target="_blank">iime</a></span>
+            <span>© 2020 {{site.title}}</span><span>Powered by <a href="https://me.i-i.me/" target="_blank">iime</a></span>
         </div>
     </footer>
     <div id="go-top"></div>
