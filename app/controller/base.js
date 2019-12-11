@@ -2,13 +2,13 @@ const {Controller} = require('iijs');
 
 class Base extends Controller {
     async _init() {
-        const nav = await this.ctx.$ii.app.model.cate.getNav();
-        const model_article = this.ctx.$ii.app.model.article;
+        const nav = await this.$model.cate.getNav();
+        const model_article = this.$model.article;
         const [latest, hot] = await Promise.all([
             model_article.getNew(),
             model_article.getHot()
         ]);
-        this.site = await this.ctx.$ii.app.model.site.getSiteData();
+        this.site = await this.$model.site.getSiteData();
         
         this.assign('site', this.site);
         

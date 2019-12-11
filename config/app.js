@@ -7,6 +7,7 @@ const app = {
     default_app: 'app', //默认应用
     default_controller: 'index', //默认控制器
     default_action: 'index', //默认方法
+    default_common: 'common', //默认公共应用，存放公共模型及逻辑
 
     deny_apps: ['common'], //禁止访问应用
     controller_folder: 'controller', //控制器目录名

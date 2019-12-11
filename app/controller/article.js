@@ -3,13 +3,12 @@ const Base = require('./base');
 class Article extends Base {
     async article() {
         const aid = parseInt(this.ctx.params.id);
-        const model_article = this.ctx.$ii.app.model.article;
+        const model_article = this.$model.article;
         const article = await model_article.getOneByID(aid);
         if(!article) return;
 
         //栏目信息
-        const model_cate = this.ctx.$ii.app.model.cate;
-        const cate = await model_cate.getOneByID(article.cate_id);
+        const cate = await this.$model.cate.getOneByID(article.cate_id);
 
         //上一篇、下一篇
         const [preOne, nextOne] = await Promise.all([
