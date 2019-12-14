@@ -16,8 +16,8 @@
             {{@article.content}}
         </article>
         <hr class="hr">
-        <ul class="prenext">
-            {{if preOne}}<li>上一篇: <a href="{{preOne.id | urlA}}">{{preOne.title}}</a></li>{{/if}}
+        <ul class="prevnext">
+            {{if prevOne}}<li>上一篇: <a href="{{prevOne.id | urlA}}">{{prevOne.title}}</a></li>{{/if}}
             {{if nextOne}}<li>下一篇: <a href="{{nextOne.id | urlA}}">{{nextOne.title}}</a></li>{{/if}}
         </ul>
     </main>

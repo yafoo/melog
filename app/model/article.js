@@ -45,7 +45,7 @@ class Article extends Model {
     }
 
     //上一篇
-    async preOne(cur_id, condition) {
+    async prevOne(cur_id, condition) {
         return await this.db.field('id,title').where({id: ['>', cur_id]}).where(condition).order('id', 'asc').find();
     }
 

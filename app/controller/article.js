@@ -11,8 +11,8 @@ class Article extends Base {
         const cate = await this.$model.cate.getOneByID(article.cate_id);
 
         //上一篇、下一篇
-        const [preOne, nextOne] = await Promise.all([
-            model_article.preOne(aid),
+        const [prevOne, nextOne] = await Promise.all([
+            model_article.prevOne(aid),
             model_article.nextOne(aid)
         ]);
 
@@ -26,7 +26,7 @@ class Article extends Base {
 
         this.assign('cate', cate);
         this.assign('article', article);
-        this.assign('preOne', preOne);
+        this.assign('prevOne', prevOne);
         this.assign('nextOne', nextOne);
         
         await this.fetch();
