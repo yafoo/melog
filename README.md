@@ -1,9 +1,9 @@
-# iime
+# melog
 一个基于iijs构建的简单轻量级blog系统
 
 ### 项目介绍
 
-源码：[github](https://github.com/yafoo/iime "github")　[码云](https://gitee.com/yafu/iime "码云")
+源码：[github](https://github.com/yafoo/melog "github")　[码云](https://gitee.com/yafu/melog "码云")
 
 ### 其他
 
