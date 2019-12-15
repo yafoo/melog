@@ -9,7 +9,11 @@ class Cate extends Base {
             return;
         }
 
-        const list = await this.$model.article.getListByCate(cate.id);
+        const [total, list] = await this.$model.article.getPageList({cate_id: cate.id});
+        if(!list || list.length == 0) {
+            return;
+        }
+        const pagination = total ? this.$pagination.cate.config({urlIndex: this.$config.utils.urlC(c_folder), urlPage: this.$config.utils.urlC(c_folder) + 'list_${page}.html'}).render(total) : '';
 
         this.assign('title', cate.c_name + ' - ' + this.site.title);
         this.assign('description', cate.c_description);
@@ -17,6 +21,8 @@ class Cate extends Base {
 
         this.assign('cate', cate);
         this.assign('list', list);
+
+        this.assign('pagination', pagination);
         
         await this.fetch();
     }

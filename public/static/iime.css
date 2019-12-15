@@ -26,6 +26,9 @@ ul>li {list-style: none;}
     margin-bottom: 20px;
     transition: height 1s;
 }
+#header a:hover{
+    color: inherit;
+}
 .navbar {
     position: relative;
 }
@@ -116,7 +119,7 @@ ul>li {list-style: none;}
 
 /* box */
 .box {
-    line-height: 28px;
+    line-height: 32px;
     padding: 10px 0;
 }
 .box dt {
@@ -239,10 +242,45 @@ ul>li {list-style: none;}
     padding: 10px 0;
 }
 
-/* prenext */
+/* prevnext */
 .prevnext {
     line-height: 28px;
     padding: 10px 0;
+}
+
+/* pagination */
+.page {
+    display: flex;
+    padding: 15px 0;
+}
+.page li {
+    margin-right: 6px;
+}
+.page li a {
+    display: block;
+    border: 1px solid #ccc;
+    transition: border-color .2s;
+    min-width: 36px;
+    height: 36px;
+    line-height: 34px;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 10px;
+}
+.page li:hover a {
+    border: 1px solid #46bc99;
+    color: #46bc99;
+}
+.page li.active a {
+    border: 1px solid #46bc99;
+    background-color: #46bc99;
+    color: #fff;
+}
+.pagination .info {
+    display: none;
+}
+.page li.prev, .page li.next {
+    display: none;
 }
 
 @media screen and (min-width: 601px) {
@@ -257,7 +295,7 @@ ul>li {list-style: none;}
         overflow: hidden;
     }
     .row .aside {
-        width: 200px;
+        width: 250px;
         margin-left: 20px;
         overflow: hidden;
     }
@@ -282,6 +320,9 @@ ul>li {list-style: none;}
         margin-left: 14px;
         border-top: none;
     }
+    .box {
+        line-height: 28px;
+    }
 }
 
 @media screen and (min-width: 961px) {
@@ -291,7 +332,13 @@ ul>li {list-style: none;}
         margin-left: auto;
     }
     .row .aside {
-        width: 250px;
+        width: 280px;
         margin-left: 30px;
+    }
+    .page li.prev, .page li.next {
+        display: block;
+    }
+    .pagination .info {
+        display: inline;
     }
 }
