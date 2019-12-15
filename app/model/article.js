@@ -27,7 +27,7 @@ class Article extends Model {
 
     //获取文章及分类属性
     async getListWithCate(condition, rows=10, page, pageSize){
-        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.c_name,c.c_folder').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).page(page, pageSize).cache(600).select();
+        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.folder').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).page(page, pageSize).cache(600).select();
     }
 
     //获取列表分页数据

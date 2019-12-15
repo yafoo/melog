@@ -20,7 +20,7 @@ class Article extends Base {
         article.click++;
         model_article.db.update({click: article.click}, {id: article.id});
 
-        this.assign('title', article.title + ' - ' + cate.c_name + ' - ' + this.site.title);
+        this.assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.title);
         this.assign('description', article.description);
         this.assign('keywords', article.keywords);
 

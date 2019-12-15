@@ -2,8 +2,8 @@ const Base = require('./base');
 
 class Cate extends Base {
     async cate() {
-        const c_folder = this.ctx.params.cate;
-        const cate = await this.$model.cate.getOne({c_folder});
+        const folder = this.ctx.params.cate;
+        const cate = await this.$model.cate.getOne({folder});
         if(!cate) {
             await this.next();
             return;
@@ -13,11 +13,11 @@ class Cate extends Base {
         if(!list || list.length == 0) {
             return;
         }
-        const pagination = total ? this.$pagination.cate.config({urlIndex: this.$config.utils.urlC(c_folder), urlPage: this.$config.utils.urlC(c_folder) + 'list_${page}.html'}).render(total) : '';
+        const pagination = total ? this.$pagination.cate.config({urlIndex: this.$config.utils.urlC(folder), urlPage: this.$config.utils.urlC(folder) + 'list_${page}.html'}).render(total) : '';
 
-        this.assign('title', cate.c_name + ' - ' + this.site.title);
-        this.assign('description', cate.c_description);
-        this.assign('keywords', cate.c_keywords);
+        this.assign('title', cate.cate_name + ' - ' + this.site.title);
+        this.assign('description', cate.description);
+        this.assign('keywords', cate.keywords);
 
         this.assign('cate', cate);
         this.assign('list', list);
