@@ -1,4 +1,5 @@
 const Base = require('./base');
+const md = require('markdown-it')();
 
 class Article extends Base {
     async article() {
@@ -19,6 +20,9 @@ class Article extends Base {
         //更新点击
         article.click++;
         model_article.db.update({click: article.click}, {id: article.id});
+
+        //markdown
+        article.content = md.render(article.content);
 
         this.assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.title);
         this.assign('description', article.description);

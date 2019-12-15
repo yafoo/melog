@@ -4,7 +4,6 @@
         <div class="container jumbotron">
             <h1>{{article.title}}</h1>
             <p>{{article.description}}</p>
-            <p class="tools-bar">分类: <a href="{{cate.folder | urlC}}">{{cate.cate_name}}</a> 时间: {{article.add_time | dateFormat 'YYYY-mm-dd hh:ii'}} 浏览: {{article.click}}</p>
         </div>
 {{/block}}
 
