@@ -1,5 +1,4 @@
 const {Model} = require('iijs');
-let siteData = null;
 
 class Site extends Model {
     async getList(condition, rows=10, order='id', sort='asc'){
@@ -18,13 +17,8 @@ class Site extends Model {
         return await this.db.delete(condition);
     }
 
-    async getSiteData(){
-        if(!siteData) {
-            siteData = {};
-            const rows = await this.db.field('name,content').select();
-            rows.forEach(item => siteData[item.name] = item.content);
-        }
-        return siteData;
+    async getSite(){
+        return await this.db.cache(600).column('content', 'name');
     }
 }
 

@@ -8,7 +8,7 @@ class Base extends Controller {
             model_article.getNew(),
             model_article.getHot()
         ]);
-        this.site = await this.$model.site.getSiteData();
+        this.site = await this.$model.site.getSite();
         
         this.assign('site', this.site);
         
