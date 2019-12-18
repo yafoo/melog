@@ -26,7 +26,7 @@
     <footer id="footer">
         <div class="container">
             {{if friend}}<p class="friend">友情链接：{{each friend item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</p>{{/if}}
-            <p>{{@site.beian}}</p>
+            <p class="beian">{{@site.beian}}</p>
         </div>
         <div class="copy-right">
             <span>© 2020 <a href="{{site.basehost}}/" target="_blank">{{site.title}}</a></span><span>Powered by <a href="https://me.i-i.me/" target="_blank">melog</a></span>
