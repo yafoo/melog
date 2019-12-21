@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
-    "iijs": "^2.8.1",
+    "iijs": "^2.8.2",
     "markdown-it": "^10.0.0"
   }
 }

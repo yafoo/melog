@@ -17,9 +17,9 @@ class Article extends Base {
             model_article.nextOne(aid)
         ]);
 
-        //更新点击
+        //更新点击(页面及数据库)
         article.click++;
-        model_article.db.update({click: article.click}, {id: article.id});
+        model_article.db.where({id: article.id}).inc('click');
 
         //markdown
         article.content = md.render(article.content);
