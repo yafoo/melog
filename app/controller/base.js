@@ -8,9 +8,12 @@ class Base extends Controller {
             model_article.getNew(),
             model_article.getHot()
         ]);
+
         this.site = await this.$model.site.getSite();
-        
         this.assign('site', this.site);
+
+        const flink = await this.$model.link.getFooter();
+        this.assign('flink', flink);
         
         this.assign('title', this.site.title + ' - ' + this.site.description);
         this.assign('description', this.site.description);

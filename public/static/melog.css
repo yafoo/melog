@@ -82,6 +82,9 @@ ul>li {list-style: none;}
 #footer .container .friend>*+* {
     margin-left: 10px;
 }
+#footer .container .beian>*+a {
+    margin-left: 10px;
+}
 #footer .copy-right {
     padding:7px 0;
     line-height: 2;
