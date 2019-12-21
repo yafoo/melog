@@ -26,7 +26,7 @@ class Cate extends Model {
     }
 
     async getNav(rows){
-        return await this.db.limit(rows).order('cate_sort', 'asc').cache(600).select();
+        return await this.db.order('cate_sort', 'asc').limit(rows).cache(600).select();
     }
 }
 

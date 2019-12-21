@@ -10,7 +10,7 @@
 {{block 'content'}}
 <div class="container row">
     <main class="main">
-        <div>分类: <a href="{{cate.folder | urlC}}">{{cate.cate_name}}</a> 时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} 浏览: {{article.click}}</div>
+        <div>分类: <a href="{{cate.folder | urlC}}">{{cate.cate_name}}</a> &nbsp;时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} &nbsp;浏览: {{article.click}}</div>
         <article class="content">
             {{@article.content}}
         </article>
