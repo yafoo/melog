@@ -20,4 +20,6 @@ $(function(){
     $('#go-top').click(function(){
         $('html,body').animate({scrollTop:'0px'}, 200);
     });
+
+    hljs.initHighlightingOnLoad();
 });

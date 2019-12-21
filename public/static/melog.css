@@ -194,6 +194,12 @@ ul>li {list-style: none;}
 .content>* {
     margin: 1em 0;
 }
+.content>blockquote+blockquote,
+.content>blockquote+pre,
+.content>pre+pre,
+.content>pre+blockquote {
+    margin-top: 1.3em;
+}
 .content h1, .content h2 {
     padding-bottom: .3em;
     border-bottom: 1px solid #eee;
@@ -221,9 +227,11 @@ ul>li {list-style: none;}
     overflow: auto;
 }
 .content pre code {
+    padding: 0;
     color: inherit;
     overflow-wrap: normal;
     word-break: normal;
+    background: inherit;
 }
 .content table {
     width: 100%;
