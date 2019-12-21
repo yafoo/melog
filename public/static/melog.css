@@ -191,19 +191,18 @@ ul>li {list-style: none;}
     overflow: hidden;
 }
 .content>* {
-    margin: 0.6em 0;
+    margin: 1em 0;
 }
 .content h1, .content h2 {
     padding-bottom: .3em;
     border-bottom: 1px solid #eee;
 }
 .content blockquote {
-    padding: .8em;
+    padding: .8em 1em;
     border-left: 4px solid #ccc;
     background-color: #f3f3f3;
 }
 .content hr {
-    margin: 1em 0;
     border: 1px solid #eee;
 }
 .content code {
@@ -214,7 +213,7 @@ ul>li {list-style: none;}
     color: #46bc99;
 }
 .content pre {
-    padding: .6em;
+    padding: .8em 1em;
     max-height: 35em;
     line-height: 1.4;
     background-color: #f3f3f3;
