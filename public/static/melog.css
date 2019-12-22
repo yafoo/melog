@@ -235,6 +235,7 @@ ul>li {list-style: none;}
     overflow-wrap: normal;
     word-break: normal;
     background: inherit;
+    overflow-x: initial;
 }
 .content table {
     width: 100%;
