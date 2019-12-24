@@ -26,11 +26,15 @@ class Link extends Model {
     }
 
     async getFriend(rows){
-        return await this.db.where({pid: 1}).order('sort', 'asc').limit(rows).cache(600).select();
+        return await this.getChild(1, rows);
     }
 
     async getFooter(rows){
-        return await this.db.where({pid: 2}).order('sort', 'asc').limit(rows).cache(600).select();
+        return await this.getChild(2, rows);
+    }
+
+    async getChild(pid=0, rows){
+        return await this.db.where({pid}).order('sort', 'asc').limit(rows).cache(600).select();
     }
 }
 
