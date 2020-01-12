@@ -1,6 +1,6 @@
 const {Controller} = require('iijs');
 
-class Admin extends Controller {
+class Index extends Controller {
     async _init() {
         this.$service.cookie.set('id', '1000');
         this.$service.cookie.set('name', encodeURIComponent('中文'));
@@ -13,4 +13,4 @@ class Admin extends Controller {
     }
 }
 
-module.exports = Admin;
+module.exports = Index;
