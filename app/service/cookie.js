@@ -5,7 +5,7 @@ const cookieEncode = randomString(16);
 class Cookie extends C {
     constructor(...args) {
         super(...args);
-        this.cookieEncode = this.ctx.$root.config.cookie.cookieEncode || cookieEncode;
+        this.cookieEncode = this.ctx.$.config.cookie.cookieEncode || cookieEncode;
     }
 
     set(key, value, options) {
