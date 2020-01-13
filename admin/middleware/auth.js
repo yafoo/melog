@@ -30,7 +30,7 @@ class Auth extends Middleware {
             if(this.ctx.params.controller == 'index' && this.ctx.params.action == 'login') {
                 await this.next();
             } else {
-                this.redirect('/admin/index/login');
+                this.redirect('index/login');
             }
         }
     }
