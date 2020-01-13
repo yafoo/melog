@@ -6,7 +6,7 @@ class Cate extends Base {
         const cate = await this.$model.cate.getOne({folder});
         if(!cate) {
             await this.next();
-            return;
+            return false;
         }
 
         const [total, list] = await this.$model.article.getPageList({cate_id: cate.id});

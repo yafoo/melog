@@ -1,9 +1,9 @@
 const {Controller} = require('iijs');
 
 class Index extends Controller {
-    async _init() {
-        this.$service.cookie.set('id', '1000');
-        this.$service.cookie.set('name', encodeURIComponent('中文'));
+    async index() {
+        const admin_auth = this.$service.cookie.get('admin_auth');
+        this.display(admin_auth);
     }
 
     async login() {
