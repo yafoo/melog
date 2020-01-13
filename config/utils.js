@@ -13,11 +13,6 @@ function randomString(len) {
 　　return pwd;
 }
 
-const node_md5 = require('crypto');
-function md5(value) {
-　　return node_md5.createHash('md5').update(value).digest('hex');
-}
-
-module.exports = {dateFormat, urlC, urlA, randomString, md5,
+module.exports = {dateFormat, urlC, urlA, randomString,
     view_filter: {dateFormat, urlC, urlA}
 }

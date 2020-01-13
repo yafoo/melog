@@ -1,5 +1,5 @@
-const {Cookie: C} = require('iijs');
-const {randomString, md5} = require('../../config/utils');
+const {Cookie: C, utils} = require('iijs');
+const {randomString} = require('../../config/utils');
 const cookieEncode = randomString(16);
 
 class Cookie extends C {
@@ -25,7 +25,7 @@ class Cookie extends C {
     }
 
     encode(value) {
-        return md5(this.cookieEncode + value).substr(0, 16);
+        return utils.md5(this.cookieEncode + value).substr(0, 16);
     }
 }
 
