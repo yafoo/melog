@@ -1,6 +1,21 @@
 const Base = require('./base');
 
 class Cate extends Base {
+    async _init() {
+        if(this.ctx.APP == 'admin') {
+            await this.next();
+            return false;
+        }
+
+        const navArr = await this.$model.cate.getNavArr();
+        if(!~navArr.indexOf(this.ctx.params.cate)) {
+            await this.next();
+            return false;
+        }
+
+        super._init();
+    }
+
     async cate() {
         const folder = this.ctx.params.cate;
         const cate = await this.$model.cate.getOne({folder});

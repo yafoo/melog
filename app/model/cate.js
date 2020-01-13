@@ -28,6 +28,10 @@ class Cate extends Model {
     async getNav(rows){
         return await this.db.order('cate_sort', 'asc').limit(rows).cache(600).select();
     }
+
+    async getNavArr(){
+        return await this.db.cache(600).column('folder');
+    }
 }
 
 module.exports = Cate;
