@@ -5,7 +5,7 @@ class Cate extends Base {
         // admin跳过
         if(this.ctx.APP == 'admin') {
             await this.next();
-            return false;
+            return 'exit';
         }
 
         // 栏目不存在跳过
@@ -13,7 +13,7 @@ class Cate extends Base {
         if(!~CateArr.indexOf(this.ctx.params.cate)) {
             this.ctx.params = {};
             await this.next();
-            return false;
+            return 'exit';
         }
 
         await super._init();
