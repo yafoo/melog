@@ -1,36 +1,22 @@
 const {Model} = require('iijs');
 
 class Cate extends Model {
-    async getList(condition, rows=10, order='id', sort='desc'){
-        return await this.db.where(condition).order(order, sort).limit(rows).select();
+    // 获取一个分类
+    async getCate(condition) {
+        return await this.db.where(condition).cache(600).find();
     }
 
-    async getOne(condition){
-        return await this.db.where(condition).find();
-    }
-
-    async getOneByID(id){
-        return await this.getOne({id});
-    }
-
-    async add(data){
-        return await this.db.insert(data);
-    }
-
-    async update(data, condition){
-        return await this.db.update(data, condition);
-    }
-
-    async delete(condition){
-        return await this.db.delete(condition);
-    }
-
-    async getNav(rows){
+    // 顶部导航
+    async getCateList(rows) {
         return await this.db.order('cate_sort', 'asc').limit(rows).cache(600).select();
     }
 
-    async getNavArr(){
-        return await this.db.cache(600).column('folder');
+    // 分类数组
+    async getCateArr() {
+        const rows = await this.getCateList();
+        return rows.reduce((arr, cate) => {
+            return arr.concat(cate.folder);
+        }, []);
     }
 }
 

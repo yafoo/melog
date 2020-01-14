@@ -14,5 +14,5 @@ function randomString(len) {
 }
 
 module.exports = {dateFormat, urlC, urlA, randomString,
-    view_filter: {dateFormat, urlC, urlA}
+    view_filter: {dateFormat, urlC, urlA, Date}
 }

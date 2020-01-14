@@ -2,33 +2,29 @@ const Base = require('./base');
 
 class Cate extends Base {
     async _init() {
+        // admin跳过
         if(this.ctx.APP == 'admin') {
             await this.next();
             return false;
         }
 
-        const navArr = await this.$model.cate.getNavArr();
-        if(!~navArr.indexOf(this.ctx.params.cate)) {
+        // 栏目不存在跳过
+        const CateArr = await this.$model.cate.getCateArr();
+        if(!~CateArr.indexOf(this.ctx.params.cate)) {
+            this.ctx.params = {};
             await this.next();
             return false;
         }
 
-        super._init();
+        await super._init();
     }
 
     async cate() {
         const folder = this.ctx.params.cate;
-        const cate = await this.$model.cate.getOne({folder});
-        if(!cate) {
-            await this.next();
-            return false;
-        }
+        const cate = await this.$model.cate.getCate({folder});
 
         const [total, list] = await this.$model.article.getPageList({cate_id: cate.id});
-        if(!list || list.length == 0) {
-            return;
-        }
-        const pagination = total ? this.$pagination.cate.config({urlIndex: this.$config.utils.urlC(folder), urlPage: this.$config.utils.urlC(folder) + 'list_${page}.html'}).render(total) : '';
+        const pagination = total ? this.$pagination.cate.render(total) : '';
 
         this.assign('title', cate.cate_name + ' - ' + this.site.title);
         this.assign('description', cate.description);

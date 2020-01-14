@@ -1,19 +1,24 @@
 const {Controller} = require('iijs');
+const pjson = require('../../package.json');
 
 class Base extends Controller {
     async _init() {
-        const nav = await this.$model.cate.getNav();
+        const nav = await this.$model.cate.getCateList();
         const model_article = this.$model.article;
+
+        // 最新、热门列表
         const [latest, hot] = await Promise.all([
             model_article.getNew(),
             model_article.getHot()
         ]);
 
         this.site = await this.$model.site.getSite();
+        this.site.VERSION = pjson.version;
+        this.site.APP_TIME = this.ctx.APP_TIME;
         this.assign('site', this.site);
 
-        const flink = await this.$model.link.getFooter();
-        this.assign('flink', flink);
+        const flinks = await this.$model.link.flinks();
+        this.assign('flinks', flinks);
         
         this.assign('title', this.site.title + ' - ' + this.site.description);
         this.assign('description', this.site.description);

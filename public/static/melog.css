@@ -79,8 +79,8 @@ ul>li {list-style: none;}
     margin-bottom: 15px;
     line-height: 1.8;
 }
-#footer .container .friend>*+*,
-#footer .container .flink>*+* {
+#footer .container .friends>*+*,
+#footer .container .flinks>*+* {
     margin-left: 10px;
 }
 #footer .copy-right {

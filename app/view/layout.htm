@@ -26,12 +26,12 @@
     {{block 'content'}}{{/block}}
     <footer id="footer">
         <div class="container">
-            {{if friend}}<p class="friend">友情链接：{{each friend item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</p>{{/if}}
-            {{if flink}}<p class="flink">关于：{{each flink item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</p>{{/if}}
+            {{if friends}}<p class="friends">友情链接：{{each friends item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</p>{{/if}}
+            {{if flinks}}<p class="flinks">关于：{{each flinks item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</p>{{/if}}
             {{if site.beian}}<p class="beian">{{@site.beian}}</p>{{/if}}
         </div>
         <div class="copy-right">
-            <span>© 2020 <a href="{{site.basehost}}/" target="_blank">{{site.title}}</a></span><span>Powered by <a href="https://me.i-i.me/melog/" target="_blank">melog</a></span>
+            <span>© 2020 <a href="{{site.basehost}}/" target="_blank">{{site.title}}</a></span><span>Powered by <a href="https://me.i-i.me/melog/" target="_blank">melog</a> · {{site.VERSION}} · {{new Date() - site.APP_TIME}}ms</span>
         </div>
     </footer>
     <div id="go-top"></div>
