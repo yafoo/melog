@@ -14,7 +14,7 @@ class Base extends Controller {
         this.site.APP_TIME = this.ctx.APP_TIME;
         this.assign('site', this.site);
         
-        this.assign('title', '管理中心 - ' + this.site.title);
+        this.assign('title', '管理中心');
         this.assign('description', this.site.description);
         this.assign('keywords', this.site.keywords);
     }

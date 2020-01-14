@@ -2,8 +2,15 @@ const {utils} = require('iijs');
 const Base = require('./base');
 
 class Article extends Base {
+    async index() {
+        const [total, list] = await this.$model.article.getListWithCate();
+        const pagination = total ? this.$$pagination.render(total) : '';
+        this.assign('list', list);
+        this.assign('pagination', pagination);
+        await this.fetch();
+    }
     async add() {
-        const cate_list = await this.$model.cate.getNav({user_id: this.user_id});
+        const cate_list = await this.$model.cate.getNav();
         const id = parseInt(this.ctx.query.id);
         let article = {};
         if(id) {
@@ -24,16 +31,16 @@ class Article extends Base {
         const aid = data.id;
         if(aid) {
             delete data.id;
-            const result = await this.$modle.article.update(data, {id: aid});
+            const result = await this.$model.article.update(data, {id: aid});
             if(result) {
-                this.success('保存成功！', 'index/index');
+                this.success('保存成功！', 'index');
             } else {
                 this.error('保存失败！');
             }
         } else {
-            const result = await this.$modle.article.add(data);
+            const result = await this.$model.article.add(data);
             if(result) {
-                this.success('新增成功！', 'index/index');
+                this.success('新增成功！', 'index');
             } else {
                 this.error('保存失败！');
             }

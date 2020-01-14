@@ -3,17 +3,76 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{title}} - {{site.name}}</title>
+    <title>{{title}} - {{site.title}}</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
+    <style>
+        .layui-nav .layui-nav-item a{padding: 0 10px;}
+        .layui-table th, .layui-table td{white-space:nowrap;}
+        /* pagination */
+        .page {
+            display: flex;
+            padding: 15px 0;
+        }
+        .page li {
+            margin-right: 6px;
+        }
+        .page li a {
+            display: block;
+            border: 1px solid #ccc;
+            transition: border-color .2s;
+            min-width: 36px;
+            height: 36px;
+            line-height: 34px;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .page li:hover a {
+            border: 1px solid #46bc99;
+            color: #46bc99;
+        }
+        .page li.active a {
+            border: 1px solid #46bc99;
+            background-color: #46bc99;
+            color: #fff;
+        }
+        .pagination .info {
+            display: none;
+        }
+        .page li.prev, .page li.next {
+            display: none;
+        }
+        @media screen and (min-width: 961px) {
+            .container {
+                width: 960px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+            .row .aside {
+                width: 280px;
+                margin-left: 30px;
+            }
+            .page li.prev, .page li.next {
+                display: block;
+            }
+            .pagination .info {
+                display: inline;
+            }
+        }
+        </style>
     {{block 'css'}}{{/block}}
 </head>
 <body>
 {{if user}}
-<ul class="layui-nav" style="margin-bottom: 10px;">
-    <li class="layui-nav-item"><a href="{{url('index/index')}}">文章列表</a></li>
-    <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
-    <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>
-</ul>
+<header>
+    <ul class="layui-nav" style="margin-bottom: 10px; border-radius: 0px;">
+        <li class="layui-nav-item layui-this"><a href="{{url('index/index')}}">{{site.title}}</a></li>
+        <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
+        <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
+        <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>
+    </ul>
+</header>
 {{/if}}
 <div class="main" style="margin: 0 10px;">
     {{block 'main'}}{{/block}}

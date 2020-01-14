@@ -8,7 +8,7 @@
 {{/block}}
 
 {{block 'main'}}
-<form method="post" class="layui-form">
+<form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="id" value="{{article.id}}">
     <input type="hidden" name="user_id" value="{{article.user_id || user.user_id}}">
     <div class="layui-tab">
@@ -18,7 +18,7 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <textarea placeholder="请输入内容" class="layui-textarea" style="height: 400px;">{{@article.content}}</textarea>
+                <textarea placeholder="请输入内容" name="content" class="layui-textarea" style="height: 400px;">{{@article.content || ''}}</textarea>
             </div>
             <div class="layui-tab-item">
                 <div class="layui-form-item">
@@ -31,14 +31,9 @@
                     <label class="layui-form-label">栏目</label>
                     <div class="layui-input-block">
                         <select name="cate_id" lay-verify="required">
-                            <option value=""></option>
-                            <option value="0">北京</option>
-                            <option value="1">上海</option>
-                            <option value="2">广州</option>
-                            <option value="3">深圳</option>
-                            <option value="4">杭州</option>
+                            {{each cate_list item}}
+                            <option value="{{item.id}}" {{(item.id == article.cate_id) && 'selected'}}>{{item.cate_name}}</option>{{/each}}
                         </select>
-                        <input type="text" name="cate_id" lay-verify="required" lay-verType="tips" class="layui-input" value="{{article.cate_id}}">
                     </div>
                 </div>
                 <div class="layui-form-item">
