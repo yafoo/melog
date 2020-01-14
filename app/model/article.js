@@ -13,8 +13,8 @@ class Article extends Model {
 
     // 栏目文章列表及分页
     async getPageList(condition){
-        const page = this.$pagination.cate.page()._page;
-        const pageSize = this.$pagination.cate._pageSize;
+        const page = this.$pagination.cate.curPage;
+        const pageSize = this.$pagination.cate.options.pageSize;
         const [total, list] = await Promise.all([
             this.db.where(condition).cache(600).count('id'),
             this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').page(page, pageSize).cache(600).select()

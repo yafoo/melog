@@ -13,7 +13,7 @@
         <div class="list">
             {{each list item}}
             <dl class="list-item">
-                <dt><h3 class="title"><a href="{{item.id | urlA}}">{{item.title}}</a></h3></dt>
+                <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
                 <dd>
                     {{item.description}}
                 </dd>

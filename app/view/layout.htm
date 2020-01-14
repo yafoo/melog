@@ -18,7 +18,7 @@
                 <div class="navbar-menu">☰</div>
             </div>
             <ul class="navbar-item">{{each nav item}}
-                <li><a href="{{item.folder | urlC}}">{{item.cate_name}}</a></li>{{/each}}
+                <li><a href="{{url(':cate', {cate: item.folder})}}">{{item.cate_name}}</a></li>{{/each}}
             </ul>
         </nav>
         {{block 'header'}}{{/block}}

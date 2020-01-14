@@ -1,7 +1,6 @@
 const {utils} = require('iijs');
 const dateFormat = (value, format) => utils.date.format(format, value);
-const urlC = (folder) => `/${folder}/`;
-const urlA = (id) => `/article/${id}.html`;
+
 function randomString(len) {
 　　len = len || 32;
 　　var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -13,6 +12,6 @@ function randomString(len) {
 　　return pwd;
 }
 
-module.exports = {dateFormat, urlC, urlA, randomString,
-    view_filter: {dateFormat, urlC, urlA, Date}
+module.exports = {dateFormat, randomString,
+    view_filter: {dateFormat, Date}
 }

@@ -1,9 +1,9 @@
 const {Pagination} = require('iijs');
 
 class Cate extends Pagination {
-    config(opts) {
-        super.config({
-            pageQuery: 'params',
+    init(opts) {
+        super.init({
+            pageType: 'params',
             pageKey: 'page',
             pageSize: 10,
             urlIndex: this.$$url.build(':cate'),

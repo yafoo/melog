@@ -4,7 +4,7 @@
             <dt><h3 class="title">最新博文</h3><span class="extra"></span></dt>
             <dd>
                 <ul>{{each latest item}}
-                    <li><a href="{{item.id | urlA}}">{{item.title}}</a></li>{{/each}}
+                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
                 </ul>
             </dd>
         </dl>
@@ -13,7 +13,7 @@
             <dt><h3 class="title">热点博文</h3><span class="extra"></span></dt>
             <dd>
                 <ul>{{each hot item}}
-                    <li><a href="{{item.id | urlA}}">{{item.title}}</a></li>{{/each}}
+                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
                 </ul>
             </dd>
         </dl>

@@ -13,12 +13,12 @@
         <div class="list">
             {{each list item}}
             <dl class="list-item">
-                <dt><h3 class="title"><a href="{{item.id | urlA}}">{{item.title}}</a></h3></dt>
+                <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
                 <dd>
                     {{item.description}}
                 </dd>
                 <ul>
-                    <li>分类: <a href="{{item.folder | urlC}}">{{item.cate_name}}</a></li>
+                    <li>分类: <a href="{{url(':cate', {cate: item.folder})}}">{{item.cate_name}}</a></li>
                     <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
                     <li>浏览: {{item.click}}</li>
                 </ul>

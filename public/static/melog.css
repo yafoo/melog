@@ -59,6 +59,13 @@ ul>li {list-style: none;}
 .jumbotron {
     padding-bottom: 20px;
 }
+.jumbotron a {
+    border-bottom: dotted 1px #a9dfbf;
+}
+.jumbotron a:hover {
+    color: #fff;
+    border-bottom: solid 1px #fff;
+}
 
 /* footer */
 #footer {

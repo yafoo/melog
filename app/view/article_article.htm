@@ -3,21 +3,21 @@
 {{block 'header'}}
         <div class="container jumbotron">
             <h1>{{article.title}}</h1>
-            <p>{{article.description}}</p>
+            <p>分类: <a href="{{url(':cate', {cate: cate.folder})}}">{{cate.cate_name}}</a> &nbsp;时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} &nbsp;浏览: {{article.click}}<br>
+                作者: {{article.writer}} &nbsp;来源: <a href="{{article.source_link || url(':article', {id: article.id})}}">{{article.source}}</a> &nbsp;关键词: {{article.keywords}}</p>
         </div>
 {{/block}}
 
 {{block 'content'}}
 <div class="container row">
     <main class="main">
-        <div>分类: <a href="{{cate.folder | urlC}}">{{cate.cate_name}}</a> &nbsp;时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} &nbsp;浏览: {{article.click}}</div>
         <article class="content">
             {{@article.content}}
         </article>
         <hr class="hr">
         <ul class="prevnext">
-            {{if prevOne}}<li>上一篇: <a href="{{prevOne.id | urlA}}">{{prevOne.title}}</a></li>{{/if}}
-            {{if nextOne}}<li>下一篇: <a href="{{nextOne.id | urlA}}">{{nextOne.title}}</a></li>{{/if}}
+            {{if prevOne}}<li>上一篇: <a href="{{url(':article', {id: prevOne.id})}}">{{prevOne.title}}</a></li>{{/if}}
+            {{if nextOne}}<li>下一篇: <a href="{{url(':article', {id: nextOne.id})}}">{{nextOne.title}}</a></li>{{/if}}
         </ul>
     </main>
     {{include './aside.htm'}}
