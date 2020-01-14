@@ -1,0 +1,88 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+.layui-table th, .layui-table td{white-space:nowrap;}
+/* pagination */
+.page {
+    display: flex;
+    padding: 15px 0;
+}
+.page li {
+    margin-right: 6px;
+}
+.page li a {
+    display: block;
+    border: 1px solid #ccc;
+    transition: border-color .2s;
+    min-width: 36px;
+    height: 36px;
+    line-height: 34px;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+.page li:hover a {
+    border: 1px solid #46bc99;
+    color: #46bc99;
+}
+.page li.active a {
+    border: 1px solid #46bc99;
+    background-color: #46bc99;
+    color: #fff;
+}
+.pagination .info {
+    display: none;
+}
+.page li.prev, .page li.next {
+    display: none;
+}
+@media screen and (min-width: 961px) {
+    .container {
+        width: 960px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .row .aside {
+        width: 280px;
+        margin-left: 30px;
+    }
+    .page li.prev, .page li.next {
+        display: block;
+    }
+    .pagination .info {
+        display: inline;
+    }
+}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<div style="overflow-x: auto;">
+    <table class="layui-table" style="width: auto;">
+        <thead>
+            <tr><th>标题</th><th>栏目</th><th>点击</th><th>时间</th><th>编辑</th></tr> 
+        </thead>
+        <tbody>
+            {{each list item}}
+            <tr>
+                <td><div style="width: 150px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></div></td>
+                <td>{{item.cate_name}}</td>
+                <td>{{item.click}}</td>
+                <td>{{item.add_time | dateFormat 'YYYY-mm-dd'}}</td>
+                <td><a href="{{url('article/add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a></td>
+            </tr>{{/each}}
+        </tbody>
+    </table>
+</div>
+{{@pagination}}
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form;
+    });
+</script>
+{{/block}}

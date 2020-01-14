@@ -9,10 +9,6 @@ class Article extends Model {
         return await this.db.where(condition).find();
     }
 
-    async getOneByID(id){
-        return await this.getOne({id});
-    }
-
     async add(data){
         return await this.db.insert(data);
     }
@@ -25,18 +21,13 @@ class Article extends Model {
         return await this.db.delete(condition);
     }
 
-    //获取文章及分类属性
-    async getListWithCate(condition, rows=10, page, pageSize){
-        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.folder').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).page(page, pageSize).cache(600).select();
-    }
-
-    //获取列表分页数据
-    async getPageList(condition){
-        const page = this.$pagination.cate.page()._page;
-        const pageSize = this.$pagination.cate._pageSize;
+    // 获取文章及分类属性
+    async getListWithCate(condition){
+        const page = this.$$pagination.curPage;
+        const pageSize = this.$$pagination.options.pageSize;
         const [total, list] = await Promise.all([
             this.db.where(condition).cache(600).count('id'),
-            this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').page(page, pageSize).cache(600).select()
+            this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.folder').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').page(page, pageSize).cache(60).select()
         ]);
         return [total, list];
     }

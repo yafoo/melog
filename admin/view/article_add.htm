@@ -1,0 +1,97 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+.layui-form-label{width: 60px;}
+.layui-input-block{margin-left: 90px;}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form method="post" class="layui-form">
+    <input type="hidden" name="id" value="{{article.id}}">
+    <input type="hidden" name="user_id" value="{{article.user_id || user.user_id}}">
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">文章内容</li>
+            <li>文章设置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <textarea placeholder="请输入内容" class="layui-textarea" style="height: 400px;">{{@article.content}}</textarea>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="required" lay-verType="tips" class="layui-input" value="{{article.title}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">栏目</label>
+                    <div class="layui-input-block">
+                        <select name="cate_id" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">北京</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
+                        <input type="text" name="cate_id" lay-verify="required" lay-verType="tips" class="layui-input" value="{{article.cate_id}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">作者</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="writer" class="layui-input" value="{{article.writer || '雨思'}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="source" class="layui-input" value="{{article.source || 'me'}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">来源链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="source_link" class="layui-input" value="{{article.source_link}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="keywords" class="layui-input" value="{{article.keywords}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">简介</label>
+                    <div class="layui-input-block">
+                        <textarea name="description" placeholder="请输入内容" class="layui-textarea">{{article.description}}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">点击</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="click" class="layui-input" value="{{article.click}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'element'], function(){
+        var form = layui.form
+        ,element = layui.element;
+    });
+</script>
+{{/block}}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{title}} - {{site.name}}</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
+    {{block 'css'}}{{/block}}
+</head>
+<body>
+{{if user}}
+<ul class="layui-nav" style="margin-bottom: 10px;">
+    <li class="layui-nav-item"><a href="{{url('index/index')}}">文章列表</a></li>
+    <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
+    <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>
+</ul>
+{{/if}}
+<div class="main" style="margin: 0 10px;">
+    {{block 'main'}}{{/block}}
+</div>
+<script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+{{block 'js'}}{{/block}}
+</body>
+</html>
