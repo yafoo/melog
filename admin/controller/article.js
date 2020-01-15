@@ -31,15 +31,17 @@ class Article extends Base {
         const aid = data.id;
         if(aid) {
             delete data.id;
+            data.update_time = Math.round(new Date() / 1000);
             const result = await this.$model.article.update(data, {id: aid});
-            if(result) {console.log(result);
+            if(result) {
                 this.success('保存成功！', 'index');
             } else {
                 this.error('保存失败！');
             }
         } else {
+            data.add_time = Math.round(new Date() / 1000);
             const result = await this.$model.article.add(data);
-            if(result) {console.log(result);
+            if(result) {
                 this.success('新增成功！', 'index');
             } else {
                 this.error('保存失败！');
