@@ -12,8 +12,8 @@
                 <td><div style="width: 100%; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></div></td>
                 <td>{{item.cate_name}}</td>
                 <td>{{item.click}}</td>
-                <td>{{item.add_time | dateFormat 'YYYY-mm-dd'}}</td>
-                <td><a href="{{url('article/add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a></td>
+                <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
+                <td><a href="{{url('article/add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('article/delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
@@ -23,8 +23,27 @@
 
 {{block 'js'}}
 <script>
-    layui.use(['form'], function(){
+    layui.use(['form', 'layer'], function(){
         var form = layui.form;
+        var layer = layui.layer;
+
+        $('a.layui-btn-danger').each(function(){
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function () {
+                layer.confirm("确定删除吗？", function(index){
+                    layer.close(index);
+                    $.get(url, function(re){
+                        if(re.state){
+                            layer.msg(re.msg, function(){
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
     });
 </script>
 {{/block}}

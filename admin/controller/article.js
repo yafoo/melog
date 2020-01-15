@@ -48,6 +48,22 @@ class Article extends Base {
             }
         }
     }
+
+    async delete() {
+        const id = parseInt(this.ctx.query.id);
+        const article = await this.$model.article.getOne({id});
+        if(!article) {
+            this.error('文章不存在！');
+        }
+
+        const result = await this.$model.article.delete({id});
+
+        if(result) {
+            this.success('删除成功！', 'index');
+        } else {
+            this.error('删除失败！');
+        }
+    }
 }
 
 module.exports = Article;
