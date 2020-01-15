@@ -20,6 +20,11 @@ class User extends Model {
     async delete(condition){
         return await this.db.delete(condition);
     }
+
+    // 加密密码
+    passmd5(password, salt){
+        return utils.md5(salt + utils.md5(salt + utils.md5(password + salt) + salt));
+    }
 }
 
 module.exports = User;

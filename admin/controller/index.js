@@ -17,7 +17,7 @@ class Index extends Base {
             }
 
             const user = await this.$model.user.getUser({email});
-            if(!user || (user.password != this.passmd5(password, user.salt))) {
+            if(!user || (user.password != this.$model.user.passmd5(password, user.salt))) {
                 this.error('账号或密码错误！');
             } else {
                 this.$service.cookie.set('user', user.user_id);
@@ -36,11 +36,6 @@ class Index extends Base {
 
     async register() {
         this.error('注册功能未开放！');
-    }
-
-    // 加密密码
-    passmd5(password, salt){
-        return utils.md5(salt + utils.md5(salt + utils.md5(password + salt) + salt));
     }
 }
 
