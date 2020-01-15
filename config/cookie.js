@@ -1,3 +1,3 @@
 module.exports = {
-    cookieEncode: 'sdHU98hc8gf'
+    cookieEncode: 'sdHU98hc8Gf'
 };
