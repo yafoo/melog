@@ -34,6 +34,10 @@ class Index extends Base {
         this.success('退出成功！', 'index')
     }
 
+    async register() {
+        this.error('注册功能未开放！');
+    }
+
     // 加密密码
     passmd5(password, salt){
         return utils.md5(salt + utils.md5(salt + utils.md5(password + salt) + salt));
