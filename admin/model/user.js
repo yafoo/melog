@@ -23,6 +23,7 @@ class User extends Model {
 
     // 加密密码
     passmd5(password, salt){
+        const utils = this.$$utils;
         return utils.md5(salt + utils.md5(salt + utils.md5(password + salt) + salt));
     }
 }
