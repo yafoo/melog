@@ -32,14 +32,14 @@ class Article extends Base {
         if(aid) {
             delete data.id;
             const result = await this.$model.article.update(data, {id: aid});
-            if(result) {
+            if(result) {console.log(result);
                 this.success('保存成功！', 'index');
             } else {
                 this.error('保存失败！');
             }
         } else {
             const result = await this.$model.article.add(data);
-            if(result) {
+            if(result) {console.log(result);
                 this.success('新增成功！', 'index');
             } else {
                 this.error('保存失败！');

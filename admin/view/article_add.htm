@@ -1,9 +1,105 @@
 {{extend './layout.htm'}}
 
 {{block 'css'}}
+<link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
 <style>
+.layui-tab-content{padding: 10px 0;}
 .layui-form-label{width: 60px;}
 .layui-input-block{margin-left: 90px;}
+#article {
+    display: flex;
+}
+#article>* {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+}
+@media screen and (min-width: 450px) {
+    #article>*::-webkit-scrollbar{width:6px;}
+    #article>*::-webkit-scrollbar-thumb{background-color:#ddd;cursor: pointer;}
+}
+
+
+/* content markdown */
+.content {
+    overflow: hidden;
+}
+.content>* {
+    margin: 1em 0;
+}
+.content>blockquote+blockquote,
+.content>blockquote+pre,
+.content>pre+pre,
+.content>pre+blockquote {
+    margin-top: 1.3em;
+}
+.content h1, .content h2 {
+    padding-bottom: .3em;
+    border-bottom: 1px solid #eee;
+}
+.content blockquote {
+    padding: .8em 1em;
+    border-left: 4px solid #ccc;
+    background-color: #f3f3f3;
+}
+.content hr {
+    border: 1px solid #eee;
+}
+.content code {
+    color: #f63;
+    word-break: break-word;
+}
+.content a {
+    color: #46bc99;
+}
+.content pre {
+    padding: .8em 1em;
+    max-height: 35em;
+    line-height: 1.4;
+    background-color: #f3f3f3;
+    overflow: auto;
+}
+.content pre code {
+    padding: 0;
+    color: inherit;
+    overflow-wrap: normal;
+    word-break: normal;
+    background: inherit;
+    overflow-x: initial;
+}
+.content table {
+    width: 100%;
+    border-collapse:collapse;
+}
+.content table th, .content table td {
+    border: 1px solid #eee;
+    padding: 0.5em;
+}
+.content table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+.content li {
+    margin: 0.6em 0 0.6em 20px;
+    list-style: inherit;
+}
+.content p {
+    line-height: 1.8;
+}
+.content img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+/* 手机预览 */
+.content {
+    overflow: hidden;
+    padding: 0 10px;
+}
+.content>*:first-child {
+    margin-top: 0;
+}
 </style>
 {{/block}}
 
@@ -11,16 +107,14 @@
 <form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="id" value="{{article.id}}">
     <input type="hidden" name="user_id" value="{{article.user_id || user.user_id}}">
-    <div class="layui-tab">
+    <div class="layui-tab" lay-filter="demo">
         <ul class="layui-tab-title">
-            <li class="layui-this">文章内容</li>
-            <li>文章设置</li>
+            <li class="layui-this">文章信息</li>
+            <li lay-id="article">文章内容</li>
+            <li class="pre-button">预览</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <textarea placeholder="请输入内容" name="content" class="layui-textarea" style="height: 400px;">{{@article.content || ''}}</textarea>
-            </div>
-            <div class="layui-tab-item">
                 <div class="layui-form-item">
                     <label class="layui-form-label">标题</label>
                     <div class="layui-input-block">
@@ -70,9 +164,17 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">点击</label>
                     <div class="layui-input-block">
-                        <input type="text" name="click" class="layui-input" value="{{article.click}}">
+                        <input type="text" name="click" class="layui-input" value="{{article.click || 0}}">
                     </div>
                 </div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="article">
+                    <textarea placeholder="请输入内容" name="content" class="layui-textarea" id="mdedit">{{@article.content || ''}}</textarea>
+                </div>
+            </div>
+            <div class="layui-tab-item" id="preview">
+                <div class="content" id="mdview"></div>
             </div>
         </div>
     </div>
@@ -83,10 +185,87 @@
 {{/block}}
 
 {{block 'js'}}
+<script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 <script>
     layui.use(['form', 'element'], function(){
         var form = layui.form
         ,element = layui.element;
+
+        var md = window.markdownit();
+        var auto = false;
+        var changed = true;
+        var timer = null;
+
+        // 内容变化
+        $('#mdedit').on('keyup', function(){
+            changed = true;
+            if(auto) {
+                timer && clearTimeout(timer);
+                timer = setTimeout(preview, 200);
+            }
+        });
+
+        // TAB切换
+        element.on('tab(demo)', function(elem){
+            if(elem.index == 2) {
+                if($(window).width() <= 450) {
+                    changed && preview();
+                } else {
+                    auto ? autoClose() : autoOpen();
+                    element.tabChange('demo', 'article')
+                }
+            }
+        });
+
+        // 初始化高度
+        $('#article').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30);
+        // 首次解析渲染
+        preview();
+
+        // 左右滚动同步
+        $("#mdedit").hover(function(){
+            syncScroll($(this), $("#mdview"));
+        });
+        $("#mdview").hover(function(){
+            syncScroll($(this), $("#mdedit"));
+        });
+
+        // pc自动开启预览
+        if($(window).width() > 450) {
+            autoOpen();
+        }
+
+
+        function autoOpen() {
+            auto = true;
+            $('#mdview').appendTo('#article');
+            preview();
+        }
+
+        function autoClose() {
+            auto = false;
+            $('#mdview').appendTo('#preview');
+        }
+
+        function preview() {
+            changed = false;
+            $('#mdview').html(md.render($('#mdedit').val()));
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        }
+
+        function syncScroll($scroll, $sync) {
+            if(!auto) return;
+            
+            $sync.off('scroll');
+            $scroll.off('scroll').on('scroll', function(){
+                var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
+                var height = percentage * ($sync.get(0).scrollHeight - $sync.get(0).offsetHeight);
+                $sync.scrollTop(height);
+            });
+        }
     });
 </script>
 {{/block}}
