@@ -6,7 +6,7 @@
     <title>{{title}} - {{site.title}}</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
     <style>
-        .layui-nav .layui-nav-item a{padding: 0 10px;}
+        .layui-nav, .layui-nav .layui-nav-item a{padding: 0 10px;}
         .layui-table th, .layui-table td{white-space:nowrap;}
         /* pagination */
         .page {
@@ -67,7 +67,7 @@
 {{if user}}
 <header>
     <ul class="layui-nav" style="margin-bottom: 10px; border-radius: 0px;">
-        <li class="layui-nav-item layui-this"><a href="{{url('index/index')}}" title="{{site.title}}"><img src="/favicon.ico" width="30px" /></a></li>
+        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.title}}"><img src="/favicon.ico" width="30px" /></a></li>
         <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
         <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
         <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>
