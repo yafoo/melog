@@ -9,6 +9,7 @@ class Article extends Base {
         this.assign('pagination', pagination);
         await this.fetch();
     }
+    
     async add() {
         const cate_list = await this.$model.cate.getNav();
         const id = parseInt(this.ctx.query.id);
