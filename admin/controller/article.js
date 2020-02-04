@@ -30,8 +30,8 @@ class Article extends Base {
 
         const data = this.ctx.request.body;
         const aid = data.id;
+        delete data.id;
         if(aid) {
-            delete data.id;
             data.update_time = Math.round(new Date() / 1000);
             const result = await this.$model.article.update(data, {id: aid});
             if(result) {
@@ -54,7 +54,7 @@ class Article extends Base {
         const id = parseInt(this.ctx.query.id);
         const article = await this.$model.article.getOne({id});
         if(!article) {
-            this.error('文章不存在！');
+            return this.error('文章不存在！');
         }
 
         const result = await this.$model.article.delete({id});
