@@ -1,8 +1,54 @@
 {{extend './layout.htm'}}
 
+{{block 'css'}}
+<style>
+.site-box {
+    font-size: 0;
+}
+.site-box a {
+    display: inline-block;
+    vertical-align: middle;
+    width: 120px;
+    margin-left: 20px;
+    margin-top: 20px;
+    padding: 30px 10px;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    line-height: 22px;
+    font-size: 14px;
+}
+</style>
+{{/block}}
+
 {{block 'main'}}
-<div style="overflow-x: auto;">
-    <h1 style="line-height: 200px; text-align: center;">Hello melog !</h1>
+<div>
+    <ul class="site-box">
+        <a style="background-color: #009688;" href="{{url('article/index')}}">
+            文章
+        </a>
+        <a style="background-color: #5FB878;" href="{{url('cate/index')}}">
+            分类
+        </a>
+        <a style="background-color: #393D49;" href="{{url('link/index')}}">
+            链接
+        </a>
+        <a style="background-color: #1E9FFF;" href="{{url('user/index')}}">
+            账号
+        </a>
+        <a style="background-color: #FFB800;" href="{{url('setting/index')}}">
+            系统
+        </a>
+        <a style="background-color: #FF5722;" class="layui-hide">
+            #FF5722
+        </a>
+        <a style="background-color: #01AAED;" class="layui-hide">
+            #01AAED
+        </a>
+        <a style="background-color: #2F4056;" class="layui-hide">
+            #2F4056
+        </a>
+    </ul>
 </div>
 {{/block}}
 

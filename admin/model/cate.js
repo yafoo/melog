@@ -9,10 +9,6 @@ class Cate extends Model {
         return await this.db.where(condition).find();
     }
 
-    async getOneByID(id){
-        return await this.getOne({id});
-    }
-
     async add(data){
         return await this.db.insert(data);
     }
