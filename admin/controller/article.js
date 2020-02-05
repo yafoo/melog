@@ -11,7 +11,7 @@ class Article extends Base {
     }
     
     async add() {
-        const cate_list = await this.$model.cate.getNav();
+        const cate_list = await this.$model.cate.getCate();
         const id = parseInt(this.ctx.query.id);
         let article = {};
         if(id) {

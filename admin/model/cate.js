@@ -21,12 +21,8 @@ class Cate extends Model {
         return await this.db.delete(condition);
     }
 
-    async getNav(rows){
+    async getCate(rows){
         return await this.db.order('cate_sort', 'asc').limit(rows).select();
-    }
-
-    async getNavArr(){
-        return await this.db.column('folder');
     }
 }
 
