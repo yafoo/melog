@@ -1,8 +1,8 @@
 const {Model} = require('iijs');
 
 class Site extends Model {
-    async getList(condition, rows=10, order='id', sort='asc'){
-        return await this.db.where(condition).order(order, sort).limit(rows).select();
+    async getList(condition, order='id', sort='asc'){
+        return await this.db.where(condition).order(order, sort).select();
     }
 
     async add(data){

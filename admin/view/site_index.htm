@@ -1,0 +1,84 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
+<style>
+.layui-tab-content{padding: 10px 0 0;}
+.layui-form-label{width: 90px;}
+.layui-input-block{margin-left: 120px;}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form method="post" class="layui-form">
+    <div class="layui-tab" lay-filter="demo">
+        <ul class="layui-tab-title">
+            <li class="layui-this">站点设置</li>
+            <li>其他</li>
+            <li>自定义</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                {{each list item}}
+                {{if item.class == 'web'}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{{item.title}}</label>
+                    <div class="layui-input-block">
+                        {{if item.type == 'input'}}
+                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        {{else}}
+                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+            </div>
+            <div class="layui-tab-item">
+                {{each list item}}
+                {{if item.class == 'other'}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{{item.title}}</label>
+                    <div class="layui-input-block">
+                        {{if item.type == 'input'}}
+                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        {{else}}
+                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+            </div>
+            <div class="layui-tab-item">
+                {{each list item}}
+                {{if item.class == 'self'}}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{{item.title}}</label>
+                    <div class="layui-input-block">
+                        {{if item.type == 'input'}}
+                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        {{else}}
+                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'element'], function(){
+        var form = layui.form
+        ,element = layui.element;
+    });
+</script>
+{{/block}}
