@@ -3,7 +3,7 @@ const Base = require('./base');
 
 class Article extends Base {
     async index() {
-        const [total, list] = await this.$model.article.getListWithCate();
+        const [total, list] = await this.$model.article.getArticleList();
         const pagination = total ? this.$$pagination.render(total) : '';
         this.assign('list', list);
         this.assign('pagination', pagination);

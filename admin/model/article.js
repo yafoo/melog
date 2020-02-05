@@ -21,8 +21,8 @@ class Article extends Model {
         return await this.db.delete(condition);
     }
 
-    // 获取文章及分类属性
-    async getListWithCate(condition){
+    // 后台文章列表
+    async getArticleList(condition){
         const page = this.$$pagination.curPage;
         const pageSize = this.$$pagination.options.pageSize;
         const [total, list] = await Promise.all([
