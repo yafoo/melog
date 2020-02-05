@@ -20,6 +20,11 @@ class Site extends Model {
     async getAdminAlias(){
         return await this.db.cache(600).where({name: 'admin_alias'}).value('content');
     }
+
+    // 获取站点设置
+    async getConfig(){
+        return await this.db.cache(600).column('content', 'name');
+    }
 }
 
 module.exports = Site;

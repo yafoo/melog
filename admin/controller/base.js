@@ -9,7 +9,7 @@ class Base extends Controller {
             this.assign('user', this.user);
         }
 
-        this.site = await this.$app.model.site.getSite();
+        this.site = await this.$model.site.getConfig();
         this.site.VERSION = pjson.version;
         this.site.APP_TIME = this.ctx.APP_TIME;
         this.assign('site', this.site);

@@ -12,7 +12,7 @@ class Base extends Controller {
             model_article.getHot()
         ]);
 
-        this.site = await this.$model.site.getSite();
+        this.site = await this.$admin.model.site.getConfig();
         this.site.VERSION = pjson.version;
         this.site.APP_TIME = this.ctx.APP_TIME;
         this.assign('site', this.site);
