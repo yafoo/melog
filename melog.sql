@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50637
 File Encoding         : 65001
 
-Date: 2020-02-04 18:40:42
+Date: 2020-02-05 18:39:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -123,16 +123,16 @@ CREATE TABLE `melog_site` (
 -- ----------------------------
 -- Records of melog_site
 -- ----------------------------
-INSERT INTO `melog_site` VALUES ('1', 'web', 'input', 'basehost', '网站根网址', 'http://localhost');
-INSERT INTO `melog_site` VALUES ('30', 'web', 'input', 'admin_alias', '后台目录别名', 'admin');
+INSERT INTO `melog_site` VALUES ('1', 'web', 'input', 'basehost', '网站根网址', 'http://127.0.0.1:3001');
+INSERT INTO `melog_site` VALUES ('2', 'web', 'input', 'admin_alias', '后台目录别名', 'admin');
 INSERT INTO `melog_site` VALUES ('3', 'web', 'input', 'title', '网站名字', 'melog');
-INSERT INTO `melog_site` VALUES ('4', 'web', 'input', 'upload', '文件上传目录', '/upload');
+INSERT INTO `melog_site` VALUES ('4', 'other', 'input', 'upload', '文件上传目录', '/upload');
 INSERT INTO `melog_site` VALUES ('5', 'web', 'input', 'keywords', '关键词', 'melog,简单,轻量,iijs');
 INSERT INTO `melog_site` VALUES ('6', 'web', 'textarea', 'description', '网站简介', '一个基于iijs构建的简单轻量级blog系统');
 INSERT INTO `melog_site` VALUES ('7', 'web', 'textarea', 'beian', '网站备案信息', '<a href=\"http://www.miibeian.gov.cn/\" target=\"_blank\">京ICP备11008151号</a> <span>京公网安备11010802014853</span>');
 INSERT INTO `melog_site` VALUES ('15', 'other', 'input', 'img_width', '图片限制宽度', '800');
 INSERT INTO `melog_site` VALUES ('16', 'other', 'input', 'img_height', '图片限制高度', '2000');
-INSERT INTO `melog_site` VALUES ('19', 'other', 'input', 'list_rows', '列表页显示行数', '10');
+INSERT INTO `melog_site` VALUES ('19', 'other', 'input', 'list_rows', '列表显示行数', '10');
 INSERT INTO `melog_site` VALUES ('22', 'self', 'input', 'keyname', '自定义参数', 'keyvalue');
 
 -- ----------------------------
