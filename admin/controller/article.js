@@ -1,4 +1,3 @@
-const {utils} = require('iijs');
 const Base = require('./base');
 
 class Article extends Base {
