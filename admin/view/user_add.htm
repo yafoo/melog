@@ -57,7 +57,7 @@
         var form = layui.form;
         var layer = layui.layer;
 
-        form.on('submit(*)', function(data){
+        form.on('submit()', function(data){
             var formdata = data.field;
             if(formdata.password && formdata.user_id && formdata.password != formdata.password2) {
                 layer.msg('两次输入密码不一致！');
