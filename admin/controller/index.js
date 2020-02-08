@@ -15,7 +15,7 @@ class Index extends Base {
                 this.error('密码不能为空！');
             }
 
-            const user = await this.$model.user.getUser({email});
+            const user = await this.$model.user.getOne({email});
             if(!user || (user.password != this.$model.user.passmd5(password, user.salt))) {
                 this.error('账号或密码错误！');
             } else {
