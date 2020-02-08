@@ -1,0 +1,51 @@
+{{extend './layout.htm'}}
+
+{{block 'main'}}
+<div style="overflow-x: auto;">
+    <table class="layui-table">
+        <thead>
+            <tr><th>ID</th><th>昵称</th><th>本名</th><th>账号</th><th>编辑</th></tr> 
+        </thead>
+        <tbody>
+            {{each list item}}
+            <tr>
+                <td>{{item.user_id}}</td>
+                <td>{{item.nick_name}}</td>
+                <td>{{item.true_name}}</td>
+                <td>{{item.email}}</td>
+                <td><a href="{{url('add', {user_id: item.user_id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {user_id: item.user_id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+            </tr>{{/each}}
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center;">
+    <a href="{{url('add')}}" class="layui-btn">新增用户</a>
+</div>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $('a.layui-btn-danger').each(function(){
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function () {
+                layer.confirm("确定删除吗？", function(index){
+                    layer.close(index);
+                    $.get(url, function(re){
+                        if(re.state){
+                            layer.msg(re.msg, function(){
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
+    });
+</script>
+{{/block}}

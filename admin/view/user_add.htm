@@ -1,0 +1,69 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+.layui-form-label{width: 60px;}
+.layui-input-block{margin-left: 90px;}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form method="post" action="{{url('save')}}" class="layui-form">
+    <input type="hidden" name="user_id" value="{{user.user_id}}">
+    <div class="layui-tab-item layui-show">
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="email" lay-verify="required|email" lay-verType="tips" placeholder="请输入邮箱" class="layui-input" value="{{user.email}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" name="nick_name" class="layui-input" value="{{user.nick_name}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">本名</label>
+            <div class="layui-input-block">
+                <input type="text" name="true_name" class="layui-input" value="{{user.true_name}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" class="layui-input" value="">
+            </div>
+        </div>
+        {{if user.user_id}}
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码确认</label>
+            <div class="layui-input-block">
+                <input type="password" name="password2" class="layui-input" value="">
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="layui-form-item" style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+
+        form.on('submit(*)', function(data){
+            var formdata = data.field;
+            if(formdata.password && formdata.user_id && formdata.password != formdata.password2) {
+                layer.msg('两次输入密码不一致！');
+                return false;
+            }
+        });
+    });
+</script>
+{{/block}}
