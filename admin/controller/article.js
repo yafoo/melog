@@ -53,7 +53,7 @@ class Article extends Base {
         const id = parseInt(this.ctx.query.id);
         const article = await this.$model.article.getOne({id});
         if(!article) {
-            return this.error('文章不存在！');
+            return this.error('数据不存在！');
         }
 
         const result = await this.$model.article.delete({id});

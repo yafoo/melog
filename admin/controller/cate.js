@@ -47,7 +47,7 @@ class Cate extends Base {
         const id = parseInt(this.ctx.query.id);
         const cate = await this.$model.cate.getOne({id});
         if(!cate) {
-            return this.error('分类不存在！');
+            return this.error('数据不存在！');
         }
 
         const result = await this.$model.cate.delete({id});

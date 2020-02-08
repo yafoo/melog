@@ -60,7 +60,7 @@ class User extends Base {
 
         const user = await this.$model.user.getOne({user_id});
         if(!user) {
-            return this.error('用户不存在！');
+            return this.error('数据不存在！');
         }
 
         const result = await this.$model.user.delete({user_id});
