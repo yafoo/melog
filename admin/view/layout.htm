@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
     <style>
         .layui-nav, .layui-nav .layui-nav-item a{padding: 0 10px;}
-        .layui-table th, .layui-table td{white-space:nowrap;}
+        .layui-table{margin-top: 0;}
+        .layui-table th, .layui-table td{white-space: nowrap;}
+        
         /* pagination */
         .page {
             display: flex;
@@ -66,7 +68,7 @@
 <body>
 {{if user}}
 <header>
-    <ul class="layui-nav" style="margin-bottom: 10px; border-radius: 0px;">
+    <ul class="layui-nav" style="border-radius: 0;">
         <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.title}}"><i class="layui-icon layui-icon-app" style="font-size: 20px;"></i></a></li>
         <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
         <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
@@ -74,7 +76,7 @@
     </ul>
 </header>
 {{/if}}
-<div class="main" style="margin: 0 10px;">
+<div class="main" style="margin: 10px;">
     {{block 'main'}}{{/block}}
 </div>
 <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
