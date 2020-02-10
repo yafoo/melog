@@ -1,12 +1,5 @@
 {{extend './layout.htm'}}
 
-{{block 'css'}}
-<style>
-.layui-form-label{width: 60px;}
-.layui-input-block{margin-left: 90px;}
-</style>
-{{/block}}
-
 {{block 'main'}}
 <form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="user_id" value="{{user.user_id}}">
@@ -45,7 +38,7 @@
         {{/if}}
     </div>
 
-    <div class="layui-form-item" style="text-align: center;">
+    <div style="text-align: center;">
         <button class="layui-btn" lay-submit>提交</button>
     </div>
 </form>

@@ -4,11 +4,12 @@
 <div style="overflow-x: auto;">
     <table class="layui-table">
         <thead>
-            <tr><th>标题</th><th>栏目</th><th>点击</th><th>时间</th><th>编辑</th></tr> 
+            <tr><th>ID</th><th>标题</th><th>栏目</th><th>点击</th><th>时间</th><th>编辑</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
             <tr>
+                <td>{{item.id}}</td>
                 <td><div style="width: 100%; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></div></td>
                 <td>{{item.cate_name}}</td>
                 <td>{{item.click}}</td>
