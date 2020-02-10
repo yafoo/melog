@@ -17,7 +17,7 @@ class Base extends Controller {
         this.site.APP_TIME = this.ctx.APP_TIME;
         this.assign('site', this.site);
 
-        const flinks = await this.$model.link.flinks();
+        const flinks = await this.$admin.model.link.getFlinks();
         this.assign('flinks', flinks);
         
         this.assign('title', this.site.title + ' - ' + this.site.description);

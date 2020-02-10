@@ -1,0 +1,68 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+    .layui-table td:nth-child(1),
+    .layui-table td:nth-child(3) {
+        text-align: center;
+    }
+    .layui-table img {
+        width: 20px;
+        height: 20px;
+    }
+    .layui-table i {
+        font-size: 20px;
+    }
+</style>
+{{/block}}
+
+{{block 'main'}}
+<div style="overflow-x: auto;">
+    <table class="layui-table">
+        <thead>
+            <tr><th>ID</th><th>链接文字</th><th>图标</th><th>链接</th><th>排序</th><th>编辑</th></tr> 
+        </thead>
+        <tbody>
+            {{each list item}}
+            <tr>
+                <td>{{item.id}}</td>
+                <td><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;<%}%>├─ {{item.title}}</td>
+                <td>{{@~item.icon.indexOf('/') ? '<img src="'+item.icon+'">' : ~item.icon.indexOf('layui-icon') ? '<i class="layui-icon '+item.icon+'"></i>' : item.icon}}</td>
+                <td>{{item.url}}</td>
+                <td>{{item.sort}}</td>
+                <td><a href="{{url('add', {pid: item.id})}}" class="layui-btn layui-btn-sm">新增</a><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+            </tr>{{/each}}
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center;">
+    <a href="{{url('add')}}" class="layui-btn">新增链接</a>
+</div>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $('a.layui-btn-danger').each(function(){
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function () {
+                layer.confirm("确定删除吗？", function(index){
+                    layer.close(index);
+                    $.get(url, function(re){
+                        if(re.state){
+                            layer.msg(re.msg, function(){
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
+    });
+</script>
+{{/block}}
