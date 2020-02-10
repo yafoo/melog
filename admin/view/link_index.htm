@@ -26,7 +26,7 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;<%}%>├─ {{item.title}}</td>
+                <td><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;&nbsp;<%}%>├─ {{item.title}}</td>
                 <td>{{@~item.icon.indexOf('/') ? '<img src="'+item.icon+'">' : ~item.icon.indexOf('layui-icon') ? '<i class="layui-icon '+item.icon+'"></i>' : item.icon}}</td>
                 <td>{{item.url}}</td>
                 <td>{{item.sort}}</td>
