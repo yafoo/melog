@@ -30,7 +30,7 @@
                 <td>{{@~item.icon.indexOf('/') ? '<img src="'+item.icon+'">' : ~item.icon.indexOf('layui-icon') ? '<i class="layui-icon '+item.icon+'"></i>' : item.icon}}</td>
                 <td>{{item.url}}</td>
                 <td>{{item.sort}}</td>
-                <td><a href="{{url('add', {pid: item.id})}}" class="layui-btn layui-btn-sm">新增</a><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('add', {pid: item.id})}}" class="layui-btn layui-btn-sm">新增</a><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
