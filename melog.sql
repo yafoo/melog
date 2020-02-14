@@ -11,7 +11,7 @@
  Target Server Version : 50637
  File Encoding         : 65001
 
- Date: 14/02/2020 17:23:02
+ Date: 14/02/2020 17:53:38
 */
 
 SET NAMES utf8mb4;
@@ -156,6 +156,6 @@ CREATE TABLE `melog_user`  (
 -- ----------------------------
 -- Records of melog_user
 -- ----------------------------
-INSERT INTO `melog_user` VALUES (1, 'melog', '', 'melog@i-i.me', '', 'DjHFkjkj');
+INSERT INTO `melog_user` VALUES (1, 'melog', '', 'melog@i-i.me', '5b9e018e16920c57b631725adde60524', 'lEVzte3E');
 
 SET FOREIGN_KEY_CHECKS = 1;

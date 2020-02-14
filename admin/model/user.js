@@ -25,6 +25,8 @@ class User extends Model {
         if(user_data.password) {
             user_data.salt = randomString(8);
             user_data.password = this.passmd5(user_data.password, user_data.salt);
+        } else {
+            delete user_data.password;
         }
         
         return await this.db.update(user_data, condition);

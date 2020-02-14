@@ -26,12 +26,13 @@ class User extends Base {
         const data = this.ctx.request.body;
         const user_id = data.user_id;
         delete data.user_id;
-        if(user_id) {
-            if(data.password != data.password2) {
-                return this.error('两次输入密码不一致！');
-            }
-            delete data.password2;
 
+        if(data.password != data.password2) {
+            return this.error('两次输入密码不一致！');
+        }
+        delete data.password2;
+
+        if(user_id) {
             const result = await this.$model.user.update(data, {user_id});
             if(result) {
                 this.success('保存成功！', 'index');

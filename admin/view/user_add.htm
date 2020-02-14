@@ -28,14 +28,12 @@
                 <input type="password" name="password" class="layui-input" value="">
             </div>
         </div>
-        {{if user.user_id}}
         <div class="layui-form-item">
             <label class="layui-form-label">密码确认</label>
             <div class="layui-input-block">
                 <input type="password" name="password2" class="layui-input" value="">
             </div>
         </div>
-        {{/if}}
     </div>
 
     <div style="text-align: center;">
@@ -52,7 +50,7 @@
 
         form.on('submit()', function(data){
             var formdata = data.field;
-            if(formdata.password && formdata.user_id && formdata.password != formdata.password2) {
+            if(formdata.password != formdata.password2) {
                 layer.msg('两次输入密码不一致！');
                 return false;
             }
