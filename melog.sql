@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : iime
+ Source Server         : melog
  Source Server Type    : MySQL
  Source Server Version : 50637
- Source Host           : 47.52.152.250:3306
- Source Schema         : iime
+ Source Host           : 39.104.127.25:3306
+ Source Schema         : melog
 
  Target Server Type    : MySQL
  Target Server Version : 50637
  File Encoding         : 65001
 
- Date: 10/02/2020 21:24:33
+ Date: 14/02/2020 16:43:24
 */
 
 SET NAMES utf8mb4;
@@ -156,6 +156,6 @@ CREATE TABLE `melog_user`  (
 -- ----------------------------
 -- Records of melog_user
 -- ----------------------------
-INSERT INTO `melog_user` VALUES (1, 'melog', '', 'admin@qq.com', 'b0e8d2c4717b8fc3921a1bbbb449e1c0', 'DjHFkjkj');
+INSERT INTO `melog_user` VALUES (1, 'melog', '', 'admin@i-i.com', '', 'DjHFkjkj');
 
 SET FOREIGN_KEY_CHECKS = 1;
