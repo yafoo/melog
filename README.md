@@ -43,7 +43,7 @@ node server.js
 ## 访问首页
 
 ```
-http://127.0.0.1:3000
+http://127.0.0.1:3003
 ```
 
 ## 使用手册
@@ -54,7 +54,7 @@ http://127.0.0.1:3000
 
 ```
 location / {
-    proxy_pass       http://127.0.0.1:3000;
+    proxy_pass       http://127.0.0.1:3003;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
