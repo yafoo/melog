@@ -20,14 +20,14 @@
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 {{each list item}}
-                {{if item.class == 'web'}}
+                {{if item.group == 'web'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.title}}</label>
+                    <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        <input type="text" name="{{item.sname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
                         {{else}}
-                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        <textarea name="{{item.sname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
@@ -36,14 +36,14 @@
             </div>
             <div class="layui-tab-item">
                 {{each list item}}
-                {{if item.class == 'other'}}
+                {{if item.group == 'other'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.title}}</label>
+                    <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        <input type="text" name="{{item.sname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
                         {{else}}
-                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        <textarea name="{{item.sname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
@@ -52,14 +52,14 @@
             </div>
             <div class="layui-tab-item">
                 {{each list item}}
-                {{if item.class == 'self'}}
+                {{if item.group == 'self'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.title}}</label>
+                    <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.name}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.content}}">
+                        <input type="text" name="{{item.sname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
                         {{else}}
-                        <textarea name="{{item.name}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.content}}</textarea>
+                        <textarea name="{{item.sname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>

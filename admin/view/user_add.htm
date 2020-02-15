@@ -2,7 +2,7 @@
 
 {{block 'main'}}
 <form method="post" action="{{url('save')}}" class="layui-form">
-    <input type="hidden" name="user_id" value="{{user.user_id}}">
+    <input type="hidden" name="id" value="{{user.id}}">
     <div class="layui-tab-item layui-show">
         <div class="layui-form-item">
             <label class="layui-form-label">账号</label>
@@ -13,13 +13,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">昵称</label>
             <div class="layui-input-block">
-                <input type="text" name="nick_name" class="layui-input" value="{{user.nick_name}}">
+                <input type="text" name="uname" class="layui-input" value="{{user.uname}}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">本名</label>
             <div class="layui-input-block">
-                <input type="text" name="true_name" class="layui-input" value="{{user.true_name}}">
+                <input type="text" name="tname" class="layui-input" value="{{user.tname}}">
             </div>
         </div>
         <div class="layui-form-item">

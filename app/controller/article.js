@@ -26,7 +26,7 @@ class Article extends Base {
         // markdown
         article.content = md.render(article.content);
 
-        this.assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.title);
+        this.assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.webname);
         this.assign('description', article.description);
         this.assign('keywords', article.keywords);
 

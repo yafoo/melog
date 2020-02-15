@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{title}} - {{site.title}}</title>
+    <title>{{title}} - {{site.webname}}</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
     <style>
         .layui-nav, .layui-nav .layui-nav-item a{padding: 0 10px;}
@@ -71,7 +71,7 @@
 {{if user}}
 <header>
     <ul class="layui-nav" style="border-radius: 0;">
-        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.title}}"><i class="layui-icon layui-icon-app" style="font-size: 20px;"></i></a></li>
+        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}"><i class="layui-icon layui-icon-app" style="font-size: 20px;"></i></a></li>
         <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
         <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
         <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>

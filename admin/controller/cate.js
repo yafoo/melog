@@ -2,7 +2,7 @@ const Base = require('./base');
 
 class Cate extends Base {
     async index() {
-        const list = await this.$model.cate.getList(undefined, 100, 'cate_sort', 'asc');
+        const list = await this.$model.cate.getList(undefined, 100, 'sort', 'asc');
         this.assign('list', list);
         await this.fetch();
     }

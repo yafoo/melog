@@ -5,7 +5,7 @@ class Base extends Controller {
     async _init() {
         this.user_id = this.$service.cookie.get('user');
         if(this.user_id) {
-            this.user = await this.$model.user.getOne({user_id: this.user_id});
+            this.user = await this.$model.user.getOne({id: this.user_id});
             this.assign('user', this.user);
         }
 

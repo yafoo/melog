@@ -10,7 +10,7 @@
                 <select name="pid" lay-verify="required">
                     <option value="0">顶级分类</option>
                     {{each link_list item}}
-                    <option value="{{item.id}}" {{(item.id == link.pid || item.id == pid) && 'selected'}}><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;&nbsp;<%}%>├─{{item.title}}</option>{{/each}}
+                    <option value="{{item.id}}" {{(item.id == link.pid || item.id == pid) && 'selected'}}><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;&nbsp;<%}%>├─{{item.lname}}</option>{{/each}}
                 </select>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">链接文字</label>
             <div class="layui-input-block">
-                <input type="text" name="title" class="layui-input" value="{{link.title}}">
+                <input type="text" name="lname" class="layui-input" value="{{link.lname}}">
             </div>
         </div>
         <div class="layui-form-item">

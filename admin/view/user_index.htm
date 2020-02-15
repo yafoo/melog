@@ -9,11 +9,11 @@
         <tbody>
             {{each list item}}
             <tr>
-                <td>{{item.user_id}}</td>
-                <td>{{item.nick_name}}</td>
-                <td>{{item.true_name}}</td>
+                <td>{{item.id}}</td>
+                <td>{{item.uname}}</td>
+                <td>{{item.tname}}</td>
                 <td>{{item.email}}</td>
-                <td><a href="{{url('add', {user_id: item.user_id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {user_id: item.user_id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>

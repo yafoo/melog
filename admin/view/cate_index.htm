@@ -11,8 +11,8 @@
             <tr>
                 <td>{{item.id}}</td>
                 <td>{{item.cate_name}}</td>
-                <td>{{item.folder}}</td>
-                <td>{{item.cate_sort}}</td>
+                <td>{{item.cate_dir}}</td>
+                <td>{{item.sort}}</td>
                 <td><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>

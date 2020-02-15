@@ -18,12 +18,12 @@ class Site extends Model {
     }
     
     async getAdminAlias(){
-        return await this.db.cache(600).where({name: 'admin_alias'}).value('content');
+        return await this.db.cache(600).where({sname: 'admin_alias'}).value('value');
     }
 
     // 获取站点设置
     async getConfig(){
-        return await this.db.cache(600).column('content', 'name');
+        return await this.db.cache(600).column('value', 'sname');
     }
 }
 

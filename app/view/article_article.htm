@@ -3,8 +3,8 @@
 {{block 'header'}}
         <div class="container jumbotron">
             <h1>{{article.title}}</h1>
-            <p>分类: <a href="{{url(':cate', {cate: cate.folder})}}">{{cate.cate_name}}</a> &nbsp;时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} &nbsp;浏览: {{article.click}}<br>
-                作者: {{article.writer}} &nbsp;来源: <a href="{{article.source_link || url(':article', {id: article.id})}}">{{article.source}}</a> &nbsp;关键词: {{article.keywords}}</p>
+            <p>分类: <a href="{{url(':cate', {cate: cate.cate_dir})}}">{{cate.cate_name}}</a> &nbsp;时间: {{article.add_time | dateFormat 'YYYY-mm-dd HH:ii'}} &nbsp;浏览: {{article.click}}<br>
+                作者: {{article.writer}} &nbsp;来源: <a href="{{article.source_url || url(':article', {id: article.id})}}">{{article.source}}</a> &nbsp;关键词: {{article.keywords}}</p>
         </div>
 {{/block}}
 

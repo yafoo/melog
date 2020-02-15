@@ -22,7 +22,7 @@ class Cate extends Model {
     }
 
     async getCate(rows){
-        return await this.db.order('cate_sort', 'asc').limit(rows).select();
+        return await this.db.order('sort', 'asc').limit(rows).select();
     }
 }
 

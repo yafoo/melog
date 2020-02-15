@@ -20,7 +20,7 @@ class Base extends Controller {
         const flinks = await this.$admin.model.link.getFlinks();
         this.assign('flinks', flinks);
         
-        this.assign('title', this.site.title + ' - ' + this.site.description);
+        this.assign('title', this.site.webname + ' - ' + this.site.description);
         this.assign('description', this.site.description);
         this.assign('keywords', this.site.keywords);
         this.assign('nav', nav);

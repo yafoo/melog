@@ -104,7 +104,7 @@
 {{block 'main'}}
 <form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="id" value="{{article.id}}">
-    <input type="hidden" name="user_id" value="{{article.user_id || user.user_id}}">
+    <input type="hidden" name="user_id" value="{{article.user_id || user.id}}">
     <div class="layui-tab" lay-filter="demo">
         <ul class="layui-tab-title">
             <li class="layui-this">文章信息</li>
@@ -143,7 +143,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">来源链接</label>
                     <div class="layui-input-block">
-                        <input type="text" name="source_link" class="layui-input" value="{{article.source_link}}">
+                        <input type="text" name="source_url" class="layui-input" value="{{article.source_url}}">
                     </div>
                 </div>
                 <div class="layui-form-item">

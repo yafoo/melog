@@ -2,7 +2,7 @@
 
 {{block 'header'}}
         <div class="container jumbotron">
-            <h1>{{site.title}}</h1>
+            <h1>{{site.webname}}</h1>
             <p>{{site.description}}</p>
         </div>
 {{/block}}
@@ -18,7 +18,7 @@
                     {{item.description}}
                 </dd>
                 <ul>
-                    <li>分类: <a href="{{url(':cate', {cate: item.folder})}}">{{item.cate_name}}</a></li>
+                    <li>分类: <a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a></li>
                     <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
                     <li>浏览: {{item.click}}</li>
                 </ul>

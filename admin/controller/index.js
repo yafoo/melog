@@ -19,7 +19,7 @@ class Index extends Base {
             if(!user || (user.password != this.$model.user.passmd5(password, user.salt))) {
                 this.error('账号或密码错误！');
             } else {
-                this.$service.cookie.set('user', user.user_id);
+                this.$service.cookie.set('user', user.id);
                 this.success('登录成功！', 'index');
             }
         } else {
