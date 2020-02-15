@@ -11,7 +11,7 @@
  Target Server Version : 50637
  File Encoding         : 65001
 
- Date: 15/02/2020 16:02:42
+ Date: 15/02/2020 17:22:51
 */
 
 SET NAMES utf8mb4;
@@ -156,6 +156,7 @@ CREATE TABLE `melog_user`  (
   `salt` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '加盐',
   `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `login_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
   `is_lock` tinyint(1) NOT NULL DEFAULT -5 COMMENT '账号锁定',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
@@ -163,6 +164,6 @@ CREATE TABLE `melog_user`  (
 -- ----------------------------
 -- Records of melog_user
 -- ----------------------------
-INSERT INTO `melog_user` VALUES (1, 'melog', '', 'melog@i-i.me', '5b9e018e16920c57b631725adde60524', 'lEVzte3E', 0, 0, -5);
+INSERT INTO `melog_user` VALUES (1, 'melog', '', 'melog@i-i.me', '5b9e018e16920c57b631725adde60524', 'lEVzte3E', 0, 0, 1581758534, -5);
 
 SET FOREIGN_KEY_CHECKS = 1;

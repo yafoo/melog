@@ -15,6 +15,7 @@ class User extends Model {
 
         user_data.salt = randomString(8);
         user_data.password = this.passmd5(user_data.password, user_data.salt);
+        user_data.add_time = Math.round(new Date() / 1000);
 
         return await this.db.insert(user_data);
     }
@@ -28,12 +29,47 @@ class User extends Model {
         } else {
             delete user_data.password;
         }
+        user_data.update_time = Math.round(new Date() / 1000);
         
         return await this.db.update(user_data, condition);
     }
 
     async delete(condition){
         return await this.db.delete(condition);
+    }
+
+    async lock(id){
+        return await this.db.inc('is_lock', {id});
+    }
+
+    async login(email, password){
+        const user = await this.getOne({email});
+
+        if(!user) {
+            return '账号或密码错误！';
+        }
+
+        if(this.is_lock(user)) {
+            return '账号已被锁定，请联系管理员！';
+        }
+
+        if(user.password != this.passmd5(password, user.salt)) {
+            await this.lock(user.id);
+            return '账号或密码错误！';
+        }
+
+        await this.db.update({is_lock: -5, login_time: Math.round(new Date() / 1000)}, {id: user.id});
+        this.$service.cookie.set('user', user.id);
+        return true;
+    }
+
+    async logout(){
+        this.$service.cookie.delete('user');
+        return true;
+    }
+
+    is_lock(user){
+        return user.is_lock > 1;
     }
 
     // 加密密码

@@ -15,11 +15,10 @@ class Index extends Base {
                 this.error('密码不能为空！');
             }
 
-            const user = await this.$model.user.getOne({email});
-            if(!user || (user.password != this.$model.user.passmd5(password, user.salt))) {
-                this.error('账号或密码错误！');
+            const msg = await this.$model.user.login(email, password);
+            if(msg !== true) {
+                this.error(msg);
             } else {
-                this.$service.cookie.set('user', user.id);
                 this.success('登录成功！', 'index');
             }
         } else {
@@ -29,7 +28,7 @@ class Index extends Base {
     }
 
     async logout() {
-        this.$service.cookie.delete('user');
+        await this.$model.user.logout();
         this.success('退出成功！', 'index')
     }
 
