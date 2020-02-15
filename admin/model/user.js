@@ -39,7 +39,7 @@ class User extends Model {
     }
 
     async lock(id){
-        return await this.db.inc('is_lock', {id});
+        return await this.db.where({id}).inc('is_lock');
     }
 
     async login(email, password){
@@ -55,7 +55,7 @@ class User extends Model {
 
         if(user.password != this.passmd5(password, user.salt)) {
             await this.lock(user.id);
-            return '账号或密码错误！';
+            return user.is_lock < -2 ? '账号或密码错误！' : '密码剩余次数：' + (1 - user.is_lock);
         }
 
         await this.db.update({is_lock: -5, login_time: Math.round(new Date() / 1000)}, {id: user.id});
@@ -69,7 +69,7 @@ class User extends Model {
     }
 
     is_lock(user){
-        return user.is_lock > 1;
+        return user.is_lock > 0;
     }
 
     // 加密密码
