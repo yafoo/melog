@@ -15,17 +15,22 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>标题</th><th>栏目</th><th>点击</th><th>时间</th><th>编辑</th></tr> 
+            <tr><th>ID</th><th>文章标题</th><th>昵称</th><th>邮箱</th><th>主页</th><th>IP</th><th>时间</th><th>编辑</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
             <tr>
-                <td>{{item.id}}</td>
-                <td><div style="width: 100%; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></div></td>
-                <td>{{item.cate_name}}</td>
-                <td>{{item.click}}</td>
+                <td rowspan="2">{{item.id}}</td>
+                <td><div style="width: 100%; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.article_id})}}" target="blank">{{item.title}}</a></div></td>
+                <td>{{item.uname}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.url}}</td>
+                <td>{{item.ip}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td rowspan="2"><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+            </tr>
+            <tr>
+                <td colspan="6">{{item.pid ? '回复：' : '评论：'}}{{item.content}}</td>
             </tr>{{/each}}
         </tbody>
     </table>

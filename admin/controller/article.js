@@ -2,8 +2,14 @@ const Base = require('./base');
 
 class Article extends Base {
     async index() {
-        const [total, list] = await this.$model.article.getArticleList();
+        const condition = {};
+        const keys = this.ctx.query.keys;
+        if(keys !== undefined) {
+            condition['concat(a.title, a.writer)'] = ['like', '%' + keys + '%'];
+        }
+        const [total, list] = await this.$model.article.getArticleList(condition);
         const pagination = total ? this.$$pagination.render(total) : '';
+        this.assign('keys', keys);
         this.assign('list', list);
         this.assign('pagination', pagination);
         await this.fetch();

@@ -19,7 +19,38 @@
             {{if prevOne}}<li>上一篇: <a href="{{url(':article', {id: prevOne.id})}}">{{prevOne.title}}</a></li>{{/if}}
             {{if nextOne}}<li>下一篇: <a href="{{url(':article', {id: nextOne.id})}}">{{nextOne.title}}</a></li>{{/if}}
         </ul>
+        <hr class="hr">
+        <div class="comment">
+            <h3 class="comment_title">评论</h3>
+            <form class="comment_form" action="{{url('comment/post')}}">
+                <input type="hidden" name="article_id" value="{{article.id}}" />
+                <input type="hidden" name="pid" value="0" />
+                <div class="comment_input">
+                    <input type="text" name="uname" placeholder="昵称(必填)" />
+                    <input type="email" name="email" placeholder="邮箱(必填)" />
+                    <input type="url" name="url" placeholder="网址(选填)" />
+                </div>
+                <div class="comment_area">
+                    <textarea name="content" placeholder="写点什么吧"></textarea>
+                </div>
+                <div class="comment_button">
+                    <span class="comment_submit">提交</span><span class="comment_cancel">取消回复</span>
+                </div>
+            </form>
+            <div class="comment_list" data-url="{{url('comment/list', {id: article.id})}}">
+                <div class="comment_item">
+                    <div class="comment_face" data-id="[id]" data-uname="[uname]">[face]<span>@</span></div>
+                    <div class="comment_body">
+                        <div class="comment_user"><a href="[url]">[uname]</a> &nbsp;<span>[add_time]</span></div>
+                        <div class="comment_content">[content]</div>
+                        [reply]
+                    </div>
+                </div>
+            </div>
+            <div class="comment_load">加载更多评论</div>
+        </div>
     </main>
     {{include './aside.htm'}}
 </div>
+<script src="https://cdn.jsdelivr.net/npm/jdenticon@2.2.0"></script>
 {{/block}}

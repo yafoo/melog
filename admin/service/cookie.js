@@ -1,10 +1,10 @@
-const {Cookie: C, utils} = require('iijs');
-const {randomString} = require('../../config/utils');
-const cookieEncode = randomString(16);
+const {Cookie: LibCookie, utils} = require('iijs');
+let cookieEncode = '';
 
-class Cookie extends C {
+class Cookie extends LibCookie {
     constructor(...args) {
         super(...args);
+        cookieEncode || (cookieEncode = this.$utils.randomString(16));
         this.cookieEncode = this.ctx.$.config.cookie.cookieEncode || cookieEncode;
     }
 

@@ -1,5 +1,4 @@
 const {Model} = require('iijs');
-const {randomString} = require('../../config/utils');
 
 class User extends Model {
     async getList(condition, rows=10, order='id', sort='asc'){
@@ -13,7 +12,7 @@ class User extends Model {
     async add(data){
         const user_data = {...data};
 
-        user_data.salt = randomString(8);
+        user_data.salt = this.$utils.randomString(8);
         user_data.password = this.passmd5(user_data.password, user_data.salt);
         user_data.add_time = Math.round(new Date() / 1000);
 
@@ -24,7 +23,7 @@ class User extends Model {
         const user_data = {...data};
 
         if(user_data.password) {
-            user_data.salt = randomString(8);
+            user_data.salt = this.$utils.randomString(8);
             user_data.password = this.passmd5(user_data.password, user_data.salt);
         } else {
             delete user_data.password;

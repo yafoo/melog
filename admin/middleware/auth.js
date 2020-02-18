@@ -15,6 +15,8 @@ class Auth extends Middleware {
         } else if(this.ctx.params.app == admin_alias) {
             admin_auth != 1 && this.$service.cookie.set('admin_auth', 1);
             this.redirect('index/index');
+        } else if(this.ctx.params.app != 'admin') {
+            await this.next();
         }
     }
 

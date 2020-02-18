@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
     <style>
         .layui-nav, .layui-nav .layui-nav-item a{padding: 0 10px;}
-        .layui-table{margin-top: 0;}
-        .layui-table th, .layui-table td{white-space: nowrap;}
         .layui-form-label{width: 60px;}
         .layui-input-block{margin-left: 90px;}
+        .table-wrap{margin: 10px 0; overflow-x: auto;}
+        .table-wrap .layui-table{margin: 0;}
+        .table-wrap .layui-table th, .table-wrap .layui-table td{white-space: nowrap;}
+        .table-tools .layui-form-item {margin-bottom: 0;}
         
         /* pagination */
+        .pagination {
+            margin: 10px 0;
+        }
         .page {
             display: flex;
-            margin-bottom: 10px;
         }
         .page li {
             margin-right: 6px;
@@ -42,7 +46,8 @@
             color: #fff;
         }
         .pagination .info {
-            display: none;
+            display: block;
+            margin-top: 10px;
         }
         .page li.prev, .page li.next {
             display: none;
@@ -60,8 +65,13 @@
             .page li.prev, .page li.next {
                 display: block;
             }
+            .pagination {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
             .pagination .info {
-                display: inline;
+                margin-top: 0;
             }
         }
         </style>

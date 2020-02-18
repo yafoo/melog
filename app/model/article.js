@@ -2,8 +2,8 @@ const {Model} = require('iijs');
 
 class Article extends Model {
     // 获取一篇文章
-    async getArticle(condition){
-        return await this.db.where(condition).find();
+    async getArticle(condition, fields=''){
+        return await this.db.field(fields).where(condition).find();
     }
 
     // 首页文章列表
