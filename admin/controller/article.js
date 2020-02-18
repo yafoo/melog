@@ -25,6 +25,14 @@ class Article extends Base {
 
         this.assign('cate_list', cate_list);
         this.assign('article', article);
+
+        const comment_option = [
+            {value: 0, name: '默认'},
+            {value: 1, name: '开启'},
+            {value: -1, name: '关闭'}
+        ];
+        this.assign('comment_option', comment_option);
+
         await this.fetch();
     }
 
@@ -62,11 +70,13 @@ class Article extends Base {
             return this.error('数据不存在！');
         }
 
-        const result = await this.$model.article.delete({id});
-
-        if(result) {
+        try {
+            await this.db.startTrans(async () => {
+                await this.$model.article.delete({id});
+                await this.$model.comment.delete({article_id: article.id});
+            });
             this.success('删除成功！', 'index');
-        } else {
+        } catch (e) {
             this.error('删除失败！');
         }
     }

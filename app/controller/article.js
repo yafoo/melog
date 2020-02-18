@@ -34,6 +34,8 @@ class Article extends Base {
         this.assign('article', article);
         this.assign('prevOne', prevOne);
         this.assign('nextOne', nextOne);
+
+        this.assign('is_comment', this.site.is_comment + article.is_comment >= 1);
         
         await this.fetch();
     }

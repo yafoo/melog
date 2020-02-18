@@ -41,8 +41,12 @@ class Comment extends Model {
         }
     }
 
+    async delete(condition){
+        return await this.db.delete(condition);
+    }
+
     // 删除评论
-    async delete(id) {
+    async delComment(id) {
         const comment = await this.getOne({id});
         if(!comment) {
             return '数据不存在！';

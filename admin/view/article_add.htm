@@ -158,7 +158,15 @@
                         <textarea name="description" placeholder="请输入内容" class="layui-textarea">{{article.description}}</textarea>
                     </div>
                 </div>
-
+                <div class="layui-form-item">
+                    <label class="layui-form-label">评论</label>
+                    <div class="layui-input-block">
+                        <select name="is_comment" lay-verify="required">
+                            {{each comment_option item}}
+                            <option value="{{item.value}}" {{(item.value == article.is_comment) && 'selected'}}>{{item.name}}</option>{{/each}}
+                        </select>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">点击</label>
                     <div class="layui-input-block">

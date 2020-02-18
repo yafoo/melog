@@ -17,7 +17,7 @@ class Comment extends Base {
 
     async delete() {
         const id = parseInt(this.ctx.query.id);
-        const result = await this.$model.comment.delete(id);
+        const result = await this.$model.comment.delComment(id);
 
         if(result === true) {
             this.success('删除成功！', 'index');
