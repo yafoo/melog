@@ -24,12 +24,13 @@ function tips(msg, time, callback) {
 }
 
 function htmlEscape(text){
-    return text.replace(/[<>"&]/g, function(match, pos, originalText){
+    return text.replace(/[<>&"\n]/g, function(match){
         switch(match){
             case "<": return "&lt;";
             case ">": return "&gt;";
             case "&": return "&amp;";
             case "\"": return "&quot;";
+            case "\n": return "<br>";
         }
     });
 }
