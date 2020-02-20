@@ -45,4 +45,16 @@ function toTree(list, pid=0, level=0) {
     return arr;
 }
 
-module.exports = {randomString, toTreeArray, toTree}
+/**
+ * @getIP
+ * @desc 获取用户 ip 地址
+ * @param {Object} req - 请求
+ */
+function getIP(req) {
+    return req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
+        req.connection.remoteAddress || // 判断 connection 的远程 IP
+        req.socket.remoteAddress || // 判断后端的 socket 的 IP
+        req.connection.socket.remoteAddress;
+}
+
+module.exports = {randomString, toTreeArray, toTree, getIP}

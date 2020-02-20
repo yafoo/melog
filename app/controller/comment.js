@@ -62,7 +62,7 @@ class Comment extends Controller {
         }
         data.user_id = this.$service.cookie.get('user') || 0;
 
-        data.ip = this.ctx.ip;
+        data.ip = this.$utils.getIP(this.ctx.req);
         data.add_time = Math.round(new Date() / 1000);
 
         const result = await this.$admin.model.comment.add(data);
