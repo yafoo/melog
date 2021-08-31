@@ -1,4 +1,4 @@
-const {app} = require('iijs');
+const {app} = require('jj.js');
 
 //server
 app.run(3003, '127.0.0.1', function(err){

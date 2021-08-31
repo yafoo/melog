@@ -1,13 +1,16 @@
 const Base = require('./base');
 
-class Index extends Base {
+class Index extends Base
+{
     async index() {
+        // 首页列表
         const list = await this.$model.article.getIndexList();
-        const friends = await this.$admin.model.link.getFriends();
+        // 友情链接
+        const friend_links = await this.$admin.model.link.getFriendLinks();
         
-        this.assign('list', list);
-        this.assign('friends', friends);
-        await this.fetch();
+        this.$assign('list', list);
+        this.$assign('friend_links', friend_links);
+        await this.$fetch();
     }
 }
 

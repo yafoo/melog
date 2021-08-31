@@ -1,6 +1,7 @@
-const {Middleware} = require('iijs');
+const {Middleware} = require('jj.js');
 
-class Auth extends Middleware {
+class Auth extends Middleware
+{
     async index() {
         await this.alias();
     }
@@ -12,11 +13,11 @@ class Auth extends Middleware {
 
         if(admin_auth == 1 && this.ctx.params.app == 'admin') {
             await this.login();
-        } else if(this.ctx.params.app == admin_alias) {
+        } else if(this.ctx.params.app === admin_alias) {
             admin_auth != 1 && this.$service.cookie.set('admin_auth', 1);
-            this.redirect('index/index');
+            this.$redirect('index/index');
         } else if(this.ctx.params.app != 'admin') {
-            await this.next();
+            await this.$next();
         }
     }
 
@@ -24,17 +25,19 @@ class Auth extends Middleware {
     async login() {
         if(this.$service.cookie.get('user')) {
             if(this.ctx.params.controller == 'index' && this.ctx.params.action == 'login') {
-                this.redirect('index/index');
+                this.$redirect('index/index');
             } else {
+                // 清理params
                 this.ctx.params = {};
-                await this.next();
+                await this.$next();
             }
         } else {
             if(this.ctx.params.controller == 'index' && this.ctx.params.action == 'login') {
+                // 清理params
                 this.ctx.params = {};
-                await this.next();
+                await this.$next();
             } else {
-                this.redirect('index/login');
+                this.$redirect('index/login');
             }
         }
     }

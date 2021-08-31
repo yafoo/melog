@@ -1,11 +1,12 @@
-const {Cookie: LibCookie, utils} = require('iijs');
+const {Cookie: LibCookie} = require('jj.js');
 let cookieEncode = '';
 
-class Cookie extends LibCookie {
+class Cookie extends LibCookie
+{
     constructor(...args) {
         super(...args);
         cookieEncode || (cookieEncode = this.$utils.randomString(16));
-        this.cookieEncode = this.ctx.$.config.cookie.cookieEncode || cookieEncode;
+        this.cookieEncode = this.$config.cookie.cookieEncode || cookieEncode;
     }
 
     set(key, value, options) {
@@ -25,7 +26,7 @@ class Cookie extends LibCookie {
     }
 
     encode(value) {
-        return utils.md5(this.cookieEncode + value).substr(0, 16);
+        return this.$utils.md5(this.cookieEncode + value).substr(0, 16);
     }
 }
 

@@ -1,6 +1,7 @@
-const {Model} = require('iijs');
+const {Model} = require('jj.js');
 
-class Cate extends Model {
+class Cate extends Model
+{
     // 获取一个分类
     async getCate(condition) {
         return await this.db.where(condition).cache(600).find();

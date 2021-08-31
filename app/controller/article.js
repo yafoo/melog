@@ -1,7 +1,8 @@
 const Base = require('./base');
 const md = require('markdown-it')();
 
-class Article extends Base {
+class Article extends Base
+{
     async article() {
         const aid = parseInt(this.ctx.params.id);
         const model_article = this.$model.article;
@@ -26,18 +27,18 @@ class Article extends Base {
         // markdown
         article.content = md.render(article.content);
 
-        this.assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.webname);
-        this.assign('description', article.description);
-        this.assign('keywords', article.keywords);
+        this.$assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.webname);
+        this.$assign('description', article.description);
+        this.$assign('keywords', article.keywords);
 
-        this.assign('cate', cate);
-        this.assign('article', article);
-        this.assign('prevOne', prevOne);
-        this.assign('nextOne', nextOne);
+        this.$assign('cate', cate);
+        this.$assign('article', article);
+        this.$assign('prevOne', prevOne);
+        this.$assign('nextOne', nextOne);
 
-        this.assign('is_comment', this.site.is_comment + article.is_comment >= 1);
+        this.$assign('is_comment', this.site.is_comment + article.is_comment >= 1);
         
-        await this.fetch();
+        await this.$fetch();
     }
 }
 

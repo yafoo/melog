@@ -1,10 +1,11 @@
-const {Model} = require('iijs');
+const {Model} = require('jj.js');
 
-class Comment extends Model {
+class Comment extends Model
+{
     // 后台评论管理
-    async getCommentList(condition){
-        const page = this.$$pagination.curPage;
-        const pageSize = this.$$pagination.options.pageSize;
+    async getCommentList(condition) {
+        const page = this.$pagination.curPage;
+        const pageSize = this.$pagination.options.pageSize;
         const [total, list] = await Promise.all([
             this.db.table('comment comment').where(condition).cache(60).count('id'),
             this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').page(page, pageSize).select()
@@ -13,7 +14,7 @@ class Comment extends Model {
     }
 
     // 文章评论列表
-    async getPageList(article_id, page=1){
+    async getPageList(article_id, page=1) {
         const comment_ids = await this.db.where({article_id, pid: 0}).order('id', 'desc').page(page, 10).column('id');
         if(!comment_ids.length) {
             return [];
@@ -21,18 +22,22 @@ class Comment extends Model {
         return await this.db.field('id,pid,article_id,user_id,uname,url,content,add_time').where({comment_id: ['in', comment_ids]}).order('id', 'asc').limit(100).select();
     }
 
-    async getOne(condition){
+    async getOne(condition) {
         return await this.db.where(condition).find();
     }
 
     // 新增评论
-    async add(data){
+    async add(data) {
+        if(!data.add_time) {
+            data.add_time = this.$utils.time();
+        }
         try {
             await this.db.startTrans(async () => {
                 const result = await this.db.insert(data);
                 data.comment_id || await this.db.update({comment_id: result.insertId}, {id: result.insertId});
                 const comment_total = await this.db.where({article_id: data.article_id}).count();
-                // 框架不完美，此处需写 $admin.model
+                // 框架不完美，此处需写 this.$admin.model
+                // this.$model 写法，在前台调用时会定位到前台model
                 this.$admin.model.article.updateComment(data.article_id, comment_total);
             });
             return true;
@@ -41,7 +46,7 @@ class Comment extends Model {
         }
     }
 
-    async delete(condition){
+    async delete(condition) {
         return await this.db.delete(condition);
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "melog",
-  "version": "1.0.0",
-  "description": "一个基于iijs构建的简单轻量级blog系统",
+  "version": "2.0.0",
+  "description": "一个基于jj.js构建的简单轻量级blog系统",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/yafoo/melog.git"
   },
   "keywords": [
-    "iijs",
+    "jj.js",
     "blog",
     "simple",
     "lightweight"
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
-    "iijs": "^3.4.4",
-    "markdown-it": "^10.0.0"
+    "jj.js": "^0.2.2",
+    "markdown-it": "^12.2.0"
   }
 }

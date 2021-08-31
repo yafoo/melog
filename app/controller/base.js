@@ -1,7 +1,8 @@
-const {Controller} = require('iijs');
+const {Controller} = require('jj.js');
 const pjson = require('../../package.json');
 
-class Base extends Controller {
+class Base extends Controller
+{
     async _init() {
         const nav = await this.$model.cate.getCateList();
         const model_article = this.$model.article;
@@ -12,20 +13,20 @@ class Base extends Controller {
             model_article.getHot()
         ]);
 
+        // 站点配置
         this.site = await this.$admin.model.site.getConfig();
-        this.site.VERSION = pjson.version;
-        this.site.APP_TIME = this.ctx.APP_TIME;
-        this.assign('site', this.site);
+        this.$assign('site', this.site);
 
-        const flinks = await this.$admin.model.link.getFlinks();
-        this.assign('flinks', flinks);
+        // 底部链接
+        const foot_links = await this.$admin.model.link.getFootLinks();
+        this.$assign('foot_links', foot_links);
         
-        this.assign('title', this.site.webname + ' - ' + this.site.description);
-        this.assign('description', this.site.description);
-        this.assign('keywords', this.site.keywords);
-        this.assign('nav', nav);
-        this.assign('latest', latest);
-        this.assign('hot', hot);
+        this.$assign('title', this.site.webname + ' - ' + this.site.description);
+        this.$assign('description', this.site.description);
+        this.$assign('keywords', this.site.keywords);
+        this.$assign('nav', nav);
+        this.$assign('latest', latest);
+        this.$assign('hot', hot);
     }
 }
 

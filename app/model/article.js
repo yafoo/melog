@@ -1,8 +1,9 @@
-const {Model} = require('iijs');
+const {Model} = require('jj.js');
 
-class Article extends Model {
+class Article extends Model
+{
     // 获取一篇文章
-    async getArticle(condition, fields=''){
+    async getArticle(condition, fields='') {
         return await this.db.field(fields).where(condition).find();
     }
 
@@ -12,7 +13,7 @@ class Article extends Model {
     }
 
     // 栏目文章列表及分页
-    async getPageList(condition){
+    async getPageList(condition) {
         const page = this.$pagination.cate.curPage;
         const pageSize = this.$pagination.cate.options.pageSize;
         const [total, list] = await Promise.all([
@@ -23,12 +24,12 @@ class Article extends Model {
     }
 
     // 最新文章
-    async getNew(rows=8){
+    async getNew(rows=8) {
         return await this.db.field('id,title,click').order('id', 'desc').limit(rows).cache(600).select();
     }
 
     // 热点文章
-    async getHot(rows=8){
+    async getHot(rows=8) {
         return await this.db.field('id,title,click').order('click', 'desc').limit(rows).cache(600).select();
     }
 

@@ -2,7 +2,7 @@
 
 ![melog](https://me.i-i.me/static/images/melog_360.png "melog")
 
-melog，一个基于iijs(nodejs)构建的简单轻量级blog系统。代码极简，无需编译，方便二次开发。
+melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极简，无需编译，方便二次开发。
 
 项目地址：[https://github.com/yafoo/melog](https://github.com/yafoo/melog "https://github.com/yafoo/melog")
 
