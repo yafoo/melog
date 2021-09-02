@@ -6,6 +6,8 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 项目地址：[https://github.com/yafoo/melog](https://github.com/yafoo/melog "https://github.com/yafoo/melog")
 
+码云镜像：[https://gitee.com/yafu/melog](https://gitee.com/yafu/melog "https://gitee.com/yafu/melog")
+
 文档地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
 
 ## 安装
@@ -17,13 +19,13 @@ npm i
 
 ## 运行
 
-修改配置
+### 修改配置
 
 ```javascript
-// config/app.js
-app_debug: false, //关闭调试模式
+// config/app.js(关闭调试模式)
+app_debug: false,
 
-// config/db.js
+// config/db.js(配置数据库)
 type      : 'mysql', // 数据库类型
 host      : '127.0.0.1', // 服务器地址
 database  : 'melog', // 数据库名
@@ -34,7 +36,11 @@ charset   : 'utf8', // 数据库编码默认采用utf8
 prefix    : 'melog_' // 数据库表前缀
 ```
 
-执行程序
+### 导入数据库
+
+将根目录下`melog.sql`文件导入数据库。
+
+### 运行程序
 
 ```bash
 node server.js
@@ -45,6 +51,12 @@ node server.js
 ```
 http://127.0.0.1:3003
 ```
+
+## 访问后台
+
+后台地址：`http://127.0.0.1:3003/admin`  
+默认账号：`melog@i-i.me`  
+默认密码：`123456`
 
 ## 使用手册
 
@@ -65,6 +77,6 @@ location / {
 }
 ```
 
-### License
+## License
 
 [MIT](LICENSE)
