@@ -1,4 +1,4 @@
-# melog
+## melog
 
 ![melog](https://me.i-i.me/static/images/melog_360.png "melog")
 
@@ -21,11 +21,15 @@ npm i
 
 ### 修改配置
 
-```javascript
-// config/app.js(关闭调试模式)
-app_debug: false,
+修改`/config/app.js`文件，关闭调试模式
 
-// config/db.js(配置数据库)
+```javascript
+app_debug: false,
+```
+
+修改`/config/db.js`文件，配置数据库
+
+```
 type      : 'mysql', // 数据库类型
 host      : '127.0.0.1', // 服务器地址
 database  : 'melog', // 数据库名
@@ -36,7 +40,7 @@ charset   : 'utf8', // 数据库编码默认采用utf8
 prefix    : 'melog_' // 数据库表前缀
 ```
 
-### 导入数据库
+### 导入数据
 
 将根目录下`melog.sql`文件导入数据库。
 
@@ -58,9 +62,13 @@ http://127.0.0.1:3003
 默认账号：`melog@i-i.me`  
 默认密码：`123456`
 
-## 使用手册
+## 其他
 
-使用手册：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
+### 使用手册
+[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
+
+### jj.js MVC框架
+[https://github.com/yafoo/jj.js](https://github.com/yafoo/jj.js "https://github.com/yafoo/jj.js")
 
 ### Nginx代理设置
 
