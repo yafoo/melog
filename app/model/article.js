@@ -20,7 +20,8 @@ class Article extends Model
             this.db.where(condition).cache(600).count('id'),
             this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').page(page, pageSize).cache(600).select()
         ]);
-        return [total, list];
+        const pagination = total ? this.$pagination.cate.render(total) : '';
+        return [list, pagination];
     }
 
     // 最新文章
@@ -41,6 +42,17 @@ class Article extends Model
     // 下一篇
     async nextOne(cur_id, condition) {
         return await this.db.field('id,title').where({id: ['<', cur_id]}).where(condition).order('id', 'desc').cache(600).find();
+    }
+
+    // 搜索文章列表及分页
+    async getSearchList(condition, pageSize=10) {
+        const page = this.$pagination.search.curPage;
+        const [total, list] = await Promise.all([
+            this.db.table('article a').where(condition).cache(600).count('id'),
+            this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').page(page, pageSize).cache(600).select()
+        ]);
+        const pagination = total ? this.$pagination.search.init({pageSize}).render(total) : '';
+        return [list, pagination];
     }
 }
 

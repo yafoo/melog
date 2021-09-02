@@ -8,8 +8,7 @@ class Article extends Base
         if(keyword !== undefined) {
             condition['concat(a.title, a.writer)'] = ['like', '%' + keyword + '%'];
         }
-        const [total, list] = await this.$model.article.getArticleList(condition);
-        const pagination = total ? this.$pagination.render(total) : '';
+        const [list, pagination] = await this.$model.article.getArticleList(condition);
         this.$assign('keyword', keyword);
         this.$assign('list', list);
         this.$assign('pagination', pagination);

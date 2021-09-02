@@ -36,7 +36,8 @@ class Article extends Model
             this.db.table('article a').where(condition).cache(60).count('id'),
             this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').page(page, pageSize).select()
         ]);
-        return [total, list];
+        const pagination = total ? this.$pagination.render(total) : '';
+        return [list, pagination];
     }
 
     // 更新评论总数

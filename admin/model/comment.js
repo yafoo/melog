@@ -10,7 +10,8 @@ class Comment extends Model
             this.db.table('comment comment').where(condition).cache(60).count('id'),
             this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').page(page, pageSize).select()
         ]);
-        return [total, list];
+        const pagination = total ? this.$pagination.render(total) : '';
+        return [list, pagination];
     }
 
     // 文章评论列表

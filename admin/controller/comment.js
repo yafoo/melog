@@ -8,8 +8,7 @@ class Comment extends Base
         if(keyword !== undefined) {
             condition['concat(comment.uname, comment.email, comment.url, comment.content, comment.ip)'] = ['like', '%' + keyword + '%'];
         }
-        const [total, list] = await this.$model.comment.getCommentList(condition);
-        const pagination = total ? this.$pagination.render(total) : '';
+        const [list, pagination] = await this.$model.comment.getCommentList(condition);
         this.$assign('keyword', keyword);
         this.$assign('list', list);
         this.$assign('pagination', pagination);

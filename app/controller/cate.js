@@ -23,9 +23,7 @@ class Cate extends Base
     async cate() {
         const cate_dir = this.ctx.params.cate;
         const cate = await this.$model.cate.getCate({cate_dir});
-
-        const [total, list] = await this.$model.article.getPageList({cate_id: cate.id});
-        const pagination = total ? this.$pagination.cate.render(total) : '';
+        const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id});
 
         this.$assign('title', cate.cate_name + ' - ' + this.site.webname);
         this.$assign('description', cate.description);
@@ -33,7 +31,6 @@ class Cate extends Base
 
         this.$assign('cate', cate);
         this.$assign('list', list);
-
         this.$assign('pagination', pagination);
         
         await this.$fetch();

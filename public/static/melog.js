@@ -1,4 +1,4 @@
-jQuery.prototype.serializeObject=function(){  
+jQuery.prototype.serializeObject = function() {  
     var obj=new Object();  
     $.each(this.serializeArray(),function(index,param){  
         if(!(param.name in obj)){  
@@ -23,7 +23,7 @@ function tips(msg, time, callback) {
     }, time);
 }
 
-function htmlEscape(text){
+function htmlEscape(text) {
     return text.replace(/[<>&"\n]/g, function(match){
         switch(match){
             case "<": return "&lt;";
@@ -58,9 +58,9 @@ function format(fmt, date) {
     return fmt;
 }
 
-$(function(){
+$(function() {
     // 顶部导航
-    $(".navbar-menu").click(function(){
+    $(".navbar-menu").click(function() {
         if($(".navbar-item").height() == 0) {
             $(".navbar-item").height($(".navbar-item").children().length * 41);
         } else {
@@ -68,8 +68,17 @@ $(function(){
         }
     });
 
+    // 侧边搜索
+    $(".s-button").click(function() {
+        if(!$(".s-input").val()) {
+            tips('请输入关键词！');
+        } else {
+            $(".s-form").submit();
+        }
+    });
+
     // 评论
-    var $form = $(".comment_form");
+    var $form = $(".comment-form");
     if($form.length) {
         // 发表评论
         $(".comment_submit").click(function(){
@@ -96,14 +105,14 @@ $(function(){
         });
 
         // 取消回复
-        $(".comment_cancel").click(function(){
+        $(".cancel").click(function(){
             $("input[name=pid]").val(0);
             $(this).hide();
-            $(".comment_title").after($(".comment_form"));
+            $(".comment .title").after($(".comment-form"));
         });
 
         // 加载更多评论
-        $(".comment_load").click(function(){
+        $(".comment-more").click(function(){
             if($(this).data('more') == 'none') {
                 return tips('没有更多了！');
             }
@@ -117,34 +126,34 @@ $(function(){
         function getComment() {
             getComment.page || (getComment.page = 0);
             getComment.page++;
-            $(".comment_load").text('评论加载中..').data('more', 'loading');
-            $.get($(".comment_list").data("url") + '&page=' + getComment.page, function(re){
-                $(".comment_load").text('加载更多评论').data('more', '');
+            $(".comment-more").text('评论加载中..').data('more', 'loading');
+            $.get($(".comment-list").data("url") + '&page=' + getComment.page, function(re){
+                $(".comment-more").text('加载更多评论').data('more', '');
                 if(!re.state) {
                     return tips(re.msg);
                 }
                 var list = re.data;
                 if(list.length == 0) {
-                    $(".comment_load").text('没有更多评论了！').data('more', 'none');
+                    $(".comment-more").text('没有更多评论了！').data('more', 'none');
                 }
                 list = $('<div>' + parseComment(list) + '</div>');
-                list.find(".comment_face").click(function(){
+                list.find(".face").click(function(){
                     $("input[name=pid]").val($(this).data('id'));
-                    $(".comment_cancel").show();
-                    $(this).parent().after($(".comment_form"));
+                    $(".cancel").show();
+                    $(this).parent().after($(".comment-form"));
                     tips('回复 ' + $(this).data('uname') + ' 的评论', 1000);
                 });
-                list.children().appendTo(".comment_list");
+                list.children().appendTo(".comment-list");
             }).error(function () {
                 getComment.page--;
-                $(".comment_load").text('加载更多评论').data('more', '');
+                $(".comment-more").text('加载更多评论').data('more', '');
                 tips('请求出错了！');
             });
         }
 
         // 解析评论模板
         function parseComment(list) {
-            parseComment.HTML || (parseComment.HTML = $(".comment_list").html(), $(".comment_list").html(''));
+            parseComment.HTML || (parseComment.HTML = $(".comment-list").html(), $(".comment-list").html(''));
             var html = '';
             list.forEach(item => {
                 html += parseComment.HTML.replace(/\[(.*?)\]/g, function(match, pos){
@@ -165,7 +174,7 @@ $(function(){
     
     // 返回顶部
     var showGoTop = $('#footer').offset().top - $(window).height() + +$('#footer').css('margin-top').replace(/[^0-9]/g, '');
-    $(window).scroll(function(e){
+    $(window).scroll(function(e) {
         if($(this).scrollTop() > 200){
             $('#go-top').fadeIn(400);
             $(this).scrollTop() > showGoTop ? $('#go-top').addClass('go-top') : $('#go-top').removeClass('go-top');
@@ -173,7 +182,7 @@ $(function(){
             $('#go-top').stop().fadeOut(400);
         }
     });
-    $('#go-top').click(function(){
+    $('#go-top').click(function() {
         $('html,body').animate({scrollTop:'0px'}, 200);
     });
 
