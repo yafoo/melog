@@ -3,13 +3,22 @@ const Base = require('./base');
 class Article extends Base
 {
     async index() {
-        const condition = {};
+        const cate_id = this.ctx.query.cate_id;
         const keyword = this.ctx.query.keyword;
+        const condition = {};
+        
+        if(cate_id > 0) {
+            condition['a.cate_id'] = cate_id;
+        }
         if(keyword !== undefined) {
             condition['concat(a.title, a.writer)'] = ['like', '%' + keyword + '%'];
         }
+        const cate_list = await this.$model.cate.getCate();
         const [list, pagination] = await this.$model.article.getArticleList(condition);
+
+        this.$assign('cate_id', cate_id);
         this.$assign('keyword', keyword);
+        this.$assign('cate_list', cate_list);
         this.$assign('list', list);
         this.$assign('pagination', pagination);
         await this.$fetch();

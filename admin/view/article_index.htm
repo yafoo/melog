@@ -1,15 +1,21 @@
 {{extend './layout.htm'}}
 
 {{block 'main'}}
-<form class="table-tools">
-    <div class="layui-form-item">
-        <label class="layui-form-label">关键词</label>
-        <div class="layui-input-inline">
-            <input type="text" name="keyword" value="{{keyword}}" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-input-inline">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
-        </div>
+<form class="layui-form table-tools">
+    <div class="layui-input-inline select">
+        <select name="cate_id">
+            <option value="0">栏目</option>
+            {{each cate_list item}}
+            <option value="{{item.id}}" {{(item.id == cate_id) && 'selected'}}>{{item.cate_name}}</option>{{/each}}
+        </select>
+    </div>
+    <div class="sp10"></div>
+    <div class="layui-input-inline input">
+        <input type="text" name="keyword" value="{{keyword}}" autocomplete="off" class="layui-input" placeholder="请输入关键词">
+    </div>
+    <div class="sp5"></div>
+    <div class="layui-input-inline">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
     </div>
 </form>
 <div class="table-wrap">
@@ -21,7 +27,7 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td><div style="width: 100%; max-width: 250px; overflow: hidden; text-overflow: ellipsis;"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></div></td>
+                <td class="title"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></td>
                 <td>{{item.cate_name}}</td>
                 <td>{{item.click}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>

@@ -6,13 +6,20 @@
     <title>{{title}} - {{site.webname}}</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
     <style>
-        .layui-nav, .layui-nav .layui-nav-item a{padding: 0 10px;}
-        .layui-form-label{width: 60px;}
-        .layui-input-block{margin-left: 90px;}
-        .table-wrap{margin: 10px 0; overflow-x: auto;}
-        .table-wrap .layui-table{margin: 0;}
-        .table-wrap .layui-table th, .table-wrap .layui-table td{white-space: nowrap;}
-        .table-tools .layui-form-item {margin-bottom: 0;}
+        .sp5 {width: 5px;}
+        .sp10 {width: 10px;}
+        .layui-nav, .layui-nav .layui-nav-item a {padding: 0 10px;}
+        .layui-form-label {width: 60px;}
+        .layui-input-block {margin-left: 90px;}
+        .table-wrap {margin: 10px 0; overflow-x: auto;}
+        .table-wrap .layui-table {margin: 0;}
+        .table-wrap .layui-table th,
+        .table-wrap .layui-table td {white-space: nowrap;}
+        .table-wrap .layui-table .title {white-space: break-spaces; min-width: 250px;}
+        .table-wrap .layui-table .content {white-space: break-spaces;}
+        .table-tools {display: flex;}
+        .table-tools .select {width: 100px;}
+        .table-tools .input {flex: 1; max-width: 250px;}
         
         /* pagination */
         .pagination {
@@ -53,18 +60,6 @@
             display: none;
         }
         @media screen and (min-width: 961px) {
-            .container {
-                width: 960px;
-                margin-right: auto;
-                margin-left: auto;
-            }
-            .row .aside {
-                width: 280px;
-                margin-left: 30px;
-            }
-            .page li.prev, .page li.next {
-                display: block;
-            }
             .pagination {
                 display: flex;
                 justify-content: space-between;
@@ -72,6 +67,10 @@
             }
             .pagination .info {
                 margin-top: 0;
+            }
+            .pagination .page li.prev,
+            .pagination .page li.next {
+                display: block;
             }
         }
         </style>
@@ -81,7 +80,7 @@
 {{if user}}
 <header>
     <ul class="layui-nav" style="border-radius: 0;">
-        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}"><i class="layui-icon layui-icon-app" style="font-size: 20px;"></i></a></li>
+        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}"><i class="layui-icon layui-icon-home" style="font-size: 20px;"></i></a></li>
         <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
         <li class="layui-nav-item"><a href="{{url('article/add')}}">新增文章</a></li>
         <li class="layui-nav-item" style="float: right;"><a href="{{url('index/logout')}}">退出</a></li>
