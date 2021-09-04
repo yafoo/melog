@@ -3,61 +3,151 @@
 {{block 'css'}}
 <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
 <style>
-.layui-tab-content{padding: 10px 0 0;}
-#article {
+.layui-tab-content {padding: 10px 0 0;}
+.meedit-wrap {
     display: flex;
 }
-#article>* {
+.meedit {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+}
+.meedit-area {
+    flex: 1;
     overflow-y: auto;
 }
-@media screen and (min-width: 450px) {
-    #article>*::-webkit-scrollbar{width:6px;}
-    #article>*::-webkit-scrollbar-thumb{background-color:#ddd;cursor: pointer;}
+.meedit-tool {
+    padding: 3px 5px 5px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    font-size: 0;
+    margin-bottom: -2px;
+}
+.meedit-tool .layui-icon,
+.meedit-tool .meedit-tool-mid {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+.meedit-tool .layui-icon {
+    width: 32px;
+    height: 30px;
+    line-height: 30px;
+    margin: 3px 5px;
+    color: #777;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.meedit-tool .layui-icon:hover,
+.meedit-tool .meedit-tool-active {
+    background-color: #eee;
+    color: #000;
+}
+.meedit-tool .meedit-tool-mid {
+    font-size: 14px;
+    width: 1px;
+    height: 18px;
+    margin: 0 10px;
+    background-color: #d2d2d2;
 }
 
-
-/* content markdown */
-.content {
+.preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.preview-title {
+    height: 43px;
+    line-height: 43px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
     overflow: hidden;
+    border: 1px solid #eee;
+    border-left: 0;
+    border-top-right-radius: 2px;
+    position: relative;
 }
-.content>* {
+.preview-title::after {
+    content: '\e691';
+    font-family: layui-icon!important;
+    font-size: 16px;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    width: 32px;
+    height: 30px;
+    line-height: 30px;
+    margin: 3px 5px;
+    background-color: rgba(0,0,0,0.09);
+    color: #000;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.preview-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 10px;
+}
+.preview-content>*:first-child {
+    margin-top: 6px;
+}
+.preview-content h1,
+.preview-content h2,
+.preview-content h3 {
+    font-weight: bold;
+}
+
+@media screen and (min-width: 450px) {
+    .meedit .meedit-area::-webkit-scrollbar,
+    .preview .preview-content::-webkit-scrollbar {width:6px;}
+    .meedit .meedit-area::-webkit-scrollbar-thumb,
+    .preview .preview-content::-webkit-scrollbar-thumb {background-color:#ddd;cursor: pointer;}
+}
+
+
+/* 前台样式 */
+.preview-content>* {
     margin: 1em 0;
 }
-.content>blockquote+blockquote,
-.content>blockquote+pre,
-.content>pre+pre,
-.content>pre+blockquote {
+.preview-content>blockquote+blockquote,
+.preview-content>blockquote+pre,
+.preview-content>pre+pre,
+.preview-content>pre+blockquote {
     margin-top: 1.3em;
 }
-.content h1, .content h2 {
+.preview-content h1, .preview-content h2 {
     padding-bottom: .3em;
     border-bottom: 1px solid #eee;
 }
-.content blockquote {
+.preview-content blockquote {
     padding: .8em 1em;
     border-left: 4px solid #ccc;
     background-color: #f3f3f3;
 }
-.content hr {
+.preview-content hr {
     border: 1px solid #eee;
 }
-.content code {
+.preview-content code {
     color: #f63;
     word-break: break-word;
 }
-.content a {
+.preview-content a {
     color: #46bc99;
 }
-.content pre {
+.preview-content pre {
     padding: .8em 1em;
     max-height: 35em;
     line-height: 1.4;
     background-color: #f3f3f3;
     overflow: auto;
 }
-.content pre code {
+.preview-content pre code {
     padding: 0;
     color: inherit;
     overflow-wrap: normal;
@@ -65,38 +155,29 @@
     background: inherit;
     overflow-x: initial;
 }
-.content table {
+.preview-content table {
     width: 100%;
     border-collapse:collapse;
 }
-.content table th, .content table td {
+.preview-content table th, .preview-content table td {
     border: 1px solid #eee;
     padding: 0.5em;
 }
-.content table th {
+.preview-content table th {
     background-color: #f9f9f9;
     font-weight: bold;
 }
-.content li {
+.preview-content li {
     margin: 0.6em 0 0.6em 20px;
     list-style: inherit;
 }
-.content p {
+.preview-content p {
     line-height: 1.8;
 }
-.content img {
+.preview-content img {
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
-}
-
-/* 手机预览 */
-.content {
-    overflow: hidden;
-    padding: 0 10px;
-}
-.content>*:first-child {
-    margin-top: 0;
 }
 </style>
 {{/block}}
@@ -108,8 +189,7 @@
     <div class="layui-tab" lay-filter="demo">
         <ul class="layui-tab-title">
             <li class="layui-this">文章信息</li>
-            <li lay-id="article">文章内容</li>
-            <li class="pre-button">预览</li>
+            <li>内容/预览</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -175,12 +255,32 @@
                 </div>
             </div>
             <div class="layui-tab-item">
-                <div id="article">
-                    <textarea placeholder="请输入内容" name="content" class="layui-textarea" id="mdedit">{{@article.content || ''}}</textarea>
+                <div class="meedit-wrap">
+                    <div class="meedit">
+                        <div class="meedit-tool">
+                            <i class="layui-icon meedit-tool-b" title="标题" lay-command="Title" layedit-event="h" style="font-size: 17px; font-weight: bold;">H</i>
+                            <i class="layui-icon meedit-tool-b" title="加粗" lay-command="Bold" layedit-event="b">&#xe62b;</i>
+                            <i class="layui-icon meedit-tool-i" title="斜体" lay-command="italic" layedit-event="i">&#xe644;</i>
+                            <i class="layui-icon meedit-tool-u" title="下划线" lay-command="underline" layedit-event="u">&#xe646;</i>
+                            <span class="meedit-tool-mid"></span>
+                            <i class="layui-icon meedit-tool-link" title="插入链接" lay-command="link" layedit-event="l">&#xe64c;</i>
+                            <i class="layui-icon meedit-tool-face" title="引用" lay-command="at" layedit-event="a">&#xe687;</i>
+                            <i class="layui-icon meedit-tool-image" title="图片" lay-command="image" layedit-event="p">&#xe64a;</i>
+                            <span class="meedit-tool-mid"></span>
+                            <i class="layui-icon meedit-tool-d" title="列表" lay-command="list" layedit-event="l">&#xe66b;</i>
+                            <i class="layui-icon meedit-tool-d" title="代码" lay-command="code" layedit-event="c" style="font-size: 18px;">&#xe64e;</i>
+                            <i class="layui-icon meedit-tool-d" title="表格" lay-command="table" layedit-event="t" style="font-size: 20px;">&#xe62d;</i>
+                            <i class="layui-icon meedit-tool-d" title="帮助" lay-command="help" layedit-event="h">&#xe664;</i>
+                            <span class="meedit-tool-mid"></span>
+                            <i class="layui-icon meedit-tool-preview" title="预览" lay-command="preview" layedit-event="v">&#xe691;</i>
+                        </div>
+                        <textarea class="layui-textarea meedit-area" name="content" placeholder="请输入内容">{{@article.content || ''}}</textarea>
+                    </div>
+                    <div class="preview" style="display: none;">
+                        <div class="preview-title"></div>
+                        <div class="preview-content"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-tab-item" id="preview">
-                <div class="content" id="mdview"></div>
             </div>
         </div>
     </div>
@@ -194,82 +294,76 @@
 <script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.min.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
 <script>
-    layui.use(['form', 'element'], function(){
+    layui.use(['form', 'element'], function() {
         var form = layui.form
         ,element = layui.element;
 
         var md = window.markdownit();
-        var auto = false;
-        var changed = true;
+        var mdEditChanged = false;
         var timer = null;
 
         // 内容变化
-        $('#mdedit').on('keyup', function(){
-            changed = true;
-            if(auto) {
+        $('.meedit-area').on('keyup', function() {
+            mdEditChanged = true;
+            if($('.meedit-tool-preview').hasClass('meedit-tool-active')) {
                 timer && clearTimeout(timer);
-                timer = setTimeout(preview, 200);
+                timer = setTimeout(mdRender, 200);
             }
         });
 
-        // TAB切换
-        element.on('tab(demo)', function(elem){
-            if(elem.index == 2) {
-                if($(window).width() <= 450) {
-                    changed && preview();
-                } else {
-                    auto ? autoClose() : autoOpen();
-                    element.tabChange('demo', 'article')
-                }
+        // 预览
+        $(".meedit-tool-preview").click(function() {
+            if($(this).hasClass('meedit-tool-active')) {
+                $(this).removeClass('meedit-tool-active');
+                $(".preview").hide();
+                $(window).width() <= 450 && $('.meedit').show();
+            } else {
+                $(this).addClass('meedit-tool-active');
+                $(".preview").show();
+                $(window).width() <= 450 && $('.meedit').hide();
+
+                mdRender();
+            }
+        });
+
+        // 关闭预览
+        $('.preview-title').click(function(e) {
+            if(e.offsetX > 15 && e.offsetX <= 15 + 32 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
+                $('.meedit-tool-preview').click();
             }
         });
 
         // 初始化高度
-        $('#article').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30);
-        // 首次解析渲染
-        preview();
+        $('.meedit-wrap').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 58);
 
-        // 左右滚动同步
-        $("#mdedit").hover(function(){
-            syncScroll($(this), $("#mdview"));
-        });
-        $("#mdview").hover(function(){
-            syncScroll($(this), $("#mdedit"));
-        });
-
-        // pc自动开启预览
+        // PC端自动打开预览
         if($(window).width() > 450) {
-            autoOpen();
+            $('.meedit-tool-preview').click();
         }
 
-
-        function autoOpen() {
-            auto = true;
-            $('#mdview').appendTo('#article');
-            preview();
-        }
-
-        function autoClose() {
-            auto = false;
-            $('#mdview').appendTo('#preview');
-        }
-
-        function preview() {
+        function mdRender() {
             changed = false;
-            $('#mdview').html(md.render($('#mdedit').val()));
+            $('.preview-title').html($('input[name=title]').val());
+            $('.preview-content').html(md.render($('.meedit-area').val()));
             $('pre code').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
         }
 
-        function syncScroll($scroll, $sync) {
-            if(!auto) return;
-            
-            $sync.off('scroll');
-            $scroll.off('scroll').on('scroll', function(){
+        // 左右滚动同步
+        $(".meedit-area").hover(function() {
+            syncScroll($(this), $(".preview-content"));
+        });
+        $(".preview-content").hover(function() {
+            syncScroll($(this), $(".meedit-area"));
+        });
+
+        function syncScroll($master, $slave) {
+            $slave.off('scroll');
+            $master.off('scroll').on('scroll', function() {
                 var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
-                var height = percentage * ($sync.get(0).scrollHeight - $sync.get(0).offsetHeight);
-                $sync.scrollTop(height);
+                var height = percentage * ($slave.get(0).scrollHeight - $slave.get(0).offsetHeight);
+                $slave.scrollTop(height);
             });
         }
     });
