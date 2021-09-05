@@ -4,8 +4,10 @@
 <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
 <style>
 .layui-tab-content {padding: 10px 0 0;}
+
 .meedit-wrap {
     display: flex;
+    height: 100%;
 }
 .meedit {
     flex: 1;
@@ -40,7 +42,7 @@
     border-radius: 2px;
 }
 .meedit-tool .layui-icon:hover,
-.meedit-tool .meedit-tool-active {
+.meedit-tool .layui-icon.hover {
     background-color: #eee;
     color: #000;
 }
@@ -52,15 +54,15 @@
     background-color: #d2d2d2;
 }
 
-.preview {
+.meview {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
 }
-.preview-title {
-    height: 43px;
-    line-height: 43px;
+.meview-title {
+    padding: 4px 10px 3px 60px;
+    line-height: 36px;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
@@ -70,7 +72,7 @@
     border-top-right-radius: 2px;
     position: relative;
 }
-.preview-title::after {
+.meview-title::after {
     content: '\e691';
     font-family: layui-icon!important;
     font-size: 16px;
@@ -89,65 +91,65 @@
     cursor: pointer;
     border-radius: 2px;
 }
-.preview-content {
+.meview-content {
     flex: 1;
     overflow-y: auto;
     padding: 0 10px;
 }
-.preview-content>*:first-child {
+.meview-content>*:first-child {
     margin-top: 6px;
 }
-.preview-content h1,
-.preview-content h2,
-.preview-content h3 {
+.meview-content h1,
+.meview-content h2,
+.meview-content h3 {
     font-weight: bold;
 }
 
 @media screen and (min-width: 450px) {
     .meedit .meedit-area::-webkit-scrollbar,
-    .preview .preview-content::-webkit-scrollbar {width:6px;}
+    .meview .meview-content::-webkit-scrollbar {width:6px;}
     .meedit .meedit-area::-webkit-scrollbar-thumb,
-    .preview .preview-content::-webkit-scrollbar-thumb {background-color:#ddd;cursor: pointer;}
+    .meview .meview-content::-webkit-scrollbar-thumb {background-color:#ddd;cursor: pointer;}
 }
 
 
 /* 前台样式 */
-.preview-content>* {
+.meview-content>* {
     margin: 1em 0;
 }
-.preview-content>blockquote+blockquote,
-.preview-content>blockquote+pre,
-.preview-content>pre+pre,
-.preview-content>pre+blockquote {
+.meview-content>blockquote+blockquote,
+.meview-content>blockquote+pre,
+.meview-content>pre+pre,
+.meview-content>pre+blockquote {
     margin-top: 1.3em;
 }
-.preview-content h1, .preview-content h2 {
+.meview-content h1, .meview-content h2 {
     padding-bottom: .3em;
     border-bottom: 1px solid #eee;
 }
-.preview-content blockquote {
+.meview-content blockquote {
     padding: .8em 1em;
     border-left: 4px solid #ccc;
     background-color: #f3f3f3;
 }
-.preview-content hr {
+.meview-content hr {
     border: 1px solid #eee;
 }
-.preview-content code {
+.meview-content code {
     color: #f63;
     word-break: break-word;
 }
-.preview-content a {
+.meview-content a {
     color: #46bc99;
 }
-.preview-content pre {
+.meview-content pre {
     padding: .8em 1em;
     max-height: 35em;
     line-height: 1.4;
     background-color: #f3f3f3;
     overflow: auto;
 }
-.preview-content pre code {
+.meview-content pre code {
     padding: 0;
     color: inherit;
     overflow-wrap: normal;
@@ -155,26 +157,26 @@
     background: inherit;
     overflow-x: initial;
 }
-.preview-content table {
+.meview-content table {
     width: 100%;
     border-collapse:collapse;
 }
-.preview-content table th, .preview-content table td {
+.meview-content table th, .meview-content table td {
     border: 1px solid #eee;
     padding: 0.5em;
 }
-.preview-content table th {
+.meview-content table th {
     background-color: #f9f9f9;
     font-weight: bold;
 }
-.preview-content li {
+.meview-content li {
     margin: 0.6em 0 0.6em 20px;
     list-style: inherit;
 }
-.preview-content p {
+.meview-content p {
     line-height: 1.8;
 }
-.preview-content img {
+.meview-content img {
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
@@ -254,31 +256,31 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tab-item article">
                 <div class="meedit-wrap">
                     <div class="meedit">
                         <div class="meedit-tool">
-                            <i class="layui-icon meedit-tool-b" title="标题" lay-command="Title" layedit-event="h" style="font-size: 17px; font-weight: bold;">H</i>
-                            <i class="layui-icon meedit-tool-b" title="加粗" lay-command="Bold" layedit-event="b">&#xe62b;</i>
-                            <i class="layui-icon meedit-tool-i" title="斜体" lay-command="italic" layedit-event="i">&#xe644;</i>
-                            <i class="layui-icon meedit-tool-u" title="下划线" lay-command="underline" layedit-event="u">&#xe646;</i>
+                            <i class="layui-icon" title="标题" command="title" style="font-size: 17px; font-weight: bold;">H</i>
+                            <i class="layui-icon" title="加粗" command="bold">&#xe62b;</i>
+                            <i class="layui-icon" title="斜体" command="italic">&#xe644;</i>
+                            <i class="layui-icon" title="删除线" command="delete">&#xe64f;</i>
                             <span class="meedit-tool-mid"></span>
-                            <i class="layui-icon meedit-tool-link" title="插入链接" lay-command="link" layedit-event="l">&#xe64c;</i>
-                            <i class="layui-icon meedit-tool-face" title="引用" lay-command="at" layedit-event="a">&#xe687;</i>
-                            <i class="layui-icon meedit-tool-image" title="图片" lay-command="image" layedit-event="p">&#xe64a;</i>
+                            <i class="layui-icon" title="插入链接" command="link">&#xe64c;</i>
+                            <i class="layui-icon" title="引用" command="quote" style="font-size: 18px;">&#xe687;</i>
+                            <i class="layui-icon" title="图片" command="image">&#xe64a;</i>
                             <span class="meedit-tool-mid"></span>
-                            <i class="layui-icon meedit-tool-d" title="列表" lay-command="list" layedit-event="l">&#xe66b;</i>
-                            <i class="layui-icon meedit-tool-d" title="代码" lay-command="code" layedit-event="c" style="font-size: 18px;">&#xe64e;</i>
-                            <i class="layui-icon meedit-tool-d" title="表格" lay-command="table" layedit-event="t" style="font-size: 20px;">&#xe62d;</i>
-                            <i class="layui-icon meedit-tool-d" title="帮助" lay-command="help" layedit-event="h">&#xe664;</i>
+                            <i class="layui-icon" title="列表" command="list">&#xe66b;</i>
+                            <i class="layui-icon" title="代码" command="code" style="font-size: 20px;">&#xe64e;</i>
+                            <i class="layui-icon" title="表格" command="table" style="font-size: 22px;">&#xe62d;</i>
+                            <i class="layui-icon" title="帮助" command="help">&#xe664;</i>
                             <span class="meedit-tool-mid"></span>
-                            <i class="layui-icon meedit-tool-preview" title="预览" lay-command="preview" layedit-event="v">&#xe691;</i>
+                            <i class="layui-icon meedit-tool-view" title="预览" command="view" layedit-event="v">&#xe691;</i>
                         </div>
                         <textarea class="layui-textarea meedit-area" name="content" placeholder="请输入内容">{{@article.content || ''}}</textarea>
                     </div>
-                    <div class="preview" style="display: none;">
-                        <div class="preview-title"></div>
-                        <div class="preview-content"></div>
+                    <div class="meview" style="display: none;">
+                        <div class="meview-title"></div>
+                        <div class="meview-content"></div>
                     </div>
                 </div>
             </div>
@@ -298,53 +300,180 @@
         var form = layui.form
         ,element = layui.element;
 
-        var md = window.markdownit();
-        var mdEditChanged = false;
-        var timer = null;
+        // 初始化高度
+        $('.article').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 60);
+
+        var M = {};
+        M.md = window.markdownit();
+        M.mdEditChanged = false;
+        M.timer = null;
+        M.dom = $('.meedit-area').get(0);
 
         // 内容变化
         $('.meedit-area').on('keyup', function() {
-            mdEditChanged = true;
-            if($('.meedit-tool-preview').hasClass('meedit-tool-active')) {
-                timer && clearTimeout(timer);
-                timer = setTimeout(mdRender, 200);
+            M.mdEditChanged = true;
+            if($('.meedit-tool-view').hasClass('hover')) {
+                M.timer && clearTimeout(M.timer);
+                M.timer = setTimeout(M.mdRender, 200);
             }
         });
 
-        // 预览
-        $(".meedit-tool-preview").click(function() {
-            if($(this).hasClass('meedit-tool-active')) {
-                $(this).removeClass('meedit-tool-active');
-                $(".preview").hide();
-                $(window).width() <= 450 && $('.meedit').show();
-            } else {
-                $(this).addClass('meedit-tool-active');
-                $(".preview").show();
-                $(window).width() <= 450 && $('.meedit').hide();
-
-                mdRender();
+        // 粘贴图片
+        $('.meedit-area').on('paste', function(event) {
+            if (event.clipboardData || event.originalEvent) {
+                var clipboardData = (event.clipboardData || event.originalEvent.clipboardData);
+                if (clipboardData.items) {
+                    var items = clipboardData.items,
+                        len = items.length,
+                        blob = null;
+                    event.preventDefault(); 
+                    for (var i = 0; i < len; i++) {
+                        if (~items[i].type.indexOf("image")) {      
+                            blob = items[i].getAsFile();
+                        }
+                    }
+                    if (blob !== null) {
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            var base64_str = event.target.result;
+                            uploadImgFromPaste(base64_str);
+                        }
+                        reader.readAsDataURL(blob);
+                    }
+                }
             }
         });
 
-        // 关闭预览
-        $('.preview-title').click(function(e) {
-            if(e.offsetX > 15 && e.offsetX <= 15 + 32 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
-                $('.meedit-tool-preview').click();
-            }
+        // 工具栏
+        $('.meedit-tool .layui-icon').click(function() {
+            var command = $(this).attr('command');
+            M['tool_' + command]($(this));
+            M.mdRender();
         });
 
-        // 初始化高度
-        $('.meedit-wrap').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 58);
-
-        // PC端自动打开预览
-        if($(window).width() > 450) {
-            $('.meedit-tool-preview').click();
+        M.tool_begin = function(str) {
+            var len = str.length;
+            var pos = this.dom.caret().begin;
+            var text = this.dom.value;
+            if(pos == 0) {
+                pos = text.length;
+            }
+            for(var i = pos; i >= 0; i--) {
+                if(text[i - 1] == "\n" || i == 0) {
+                    var str1 = text.substr(0, i);
+                    var str2 = text.substr(i);
+                    if(str2.substr(0, len) == str) {
+                        this.dom.value = str1 + str + str2;
+                        this.dom.caret(pos + len);
+                    } else {
+                        this.dom.value = str1 + str + ' ' + str2;
+                        this.dom.caret(pos + len + 1);
+                    }
+                    break;
+                }
+            }
         }
 
-        function mdRender() {
-            changed = false;
-            $('.preview-title').html($('input[name=title]').val());
-            $('.preview-content').html(md.render($('.meedit-area').val()));
+        M.tool_title = function() {
+            this.tool_begin('#');
+        }
+
+        M.tool_quote = function() {
+            this.tool_begin('>');
+        }
+
+        M.tool_list = function() {
+            this.tool_begin('- ');
+        }
+
+        M.tool_wrap = function(str) {
+            var len = str.length;
+            var pos = this.dom.caret();
+            var text = this.dom.value;
+            var str1 = text.substr(0, pos.begin) || '';
+            var str2 = text.substr(pos.begin, pos.end - pos.begin) || '';
+            var str3 = text.substr(pos.end) || '';
+            if(str1.length > len - 1 && str3.length > len - 1 && str1.substr(-len) == str && str3.substr(0, len) == str) {
+                this.dom.value = [str1.substr(0, str1.length - len), str2, str3.substr(len)].join('');
+                this.dom.caret(pos.begin - len, pos.end - len);
+            } else {
+                this.dom.value = [str1, str2, str3].join(str);
+                this.dom.caret(pos.begin + len, pos.end + len);
+            }
+        }
+
+        M.tool_bold = function(tool) {
+            this.tool_wrap('**');
+        }
+
+        M.tool_italic = function(tool) {
+            this.tool_wrap('*');
+        }
+
+        M.tool_delete = function(tool) {
+           this.tool_wrap('~~');
+        }
+
+        M.tool_delete = function(tool) {
+            this.tool_wrap('~~');
+        }
+
+        M.tool_code = function() {
+            this.tool_wrap('`');
+        }
+
+        M.tool_wrap2 = function(left, right) {
+            var len = left.length;
+            var pos = this.dom.caret();
+            var text = this.dom.value;
+            var str1 = text.substr(0, pos.begin) || '';
+            var str2 = text.substr(pos.begin, pos.end - pos.begin) || '';
+            var str3 = text.substr(pos.end) || '';
+            this.dom.value = str1 + left + str2 + right + str3;
+            this.dom.caret(pos.begin + len, pos.end + len);
+        }
+
+        M.tool_link = function() {
+            this.tool_wrap2('[', ']()');
+        }
+
+        M.tool_image = function() {
+            this.tool_wrap2('![', ']()');
+        }
+
+        M.tool_table = function(tool) {
+            console.log('table');
+        }
+
+        M.tool_help = function() {
+            console.log('help');
+        }
+
+        M.tool_view = function(tool) {
+            if(tool.hasClass('hover')) {
+                tool.removeClass('hover');
+                $(".meview").hide();
+                $(window).width() <= 450 && $('.meedit').show();
+            } else {
+                tool.addClass('hover');
+                $(".meview").show();
+                $(window).width() <= 450 && $('.meedit').hide();
+
+                this.mdRender();
+            }
+        }
+
+        // 关闭预览
+        $('.meview-title').click(function(e) {
+            if(e.offsetX > 15 && e.offsetX <= 15 + 32 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
+                $('.meedit-tool-view').click();
+            }
+        });
+
+        M.mdRender = function () {
+            this.mdEditChanged = false;
+            $('.meview-title').html($('input[name=title]').val());
+            $('.meview-content').html(M.md.render($('.meedit-area').val()));
             $('pre code').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
@@ -352,19 +481,55 @@
 
         // 左右滚动同步
         $(".meedit-area").hover(function() {
-            syncScroll($(this), $(".preview-content"));
+            M.syncScroll($(this), $(".meview-content"));
         });
-        $(".preview-content").hover(function() {
-            syncScroll($(this), $(".meedit-area"));
+        $(".meview-content").hover(function() {
+            M.syncScroll($(this), $(".meedit-area"));
         });
 
-        function syncScroll($master, $slave) {
+        M.syncScroll = function($master, $slave) {
             $slave.off('scroll');
             $master.off('scroll').on('scroll', function() {
                 var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
                 var height = percentage * ($slave.get(0).scrollHeight - $slave.get(0).offsetHeight);
                 $slave.scrollTop(height);
             });
+        }
+
+        // 光标位置
+        M.dom.caret = function(begin, end) {
+            if (this.length == 0) return;
+            if (typeof begin == 'number') {
+                end = (typeof end == 'number') ? end : begin;
+                if (this.setSelectionRange) { //现代浏览器
+                    this.setSelectionRange(begin, end);
+                    this.focus();
+                } else if (this.createTextRange) { //IE678
+                    var range = this.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', end);
+                    range.moveStart('character', begin);
+                    range.select();
+                }
+            } else {
+                if (this.setSelectionRange) { //现代浏览器
+                    begin = this.selectionStart;
+                    end = this.selectionEnd;
+                } else if (document.selection && document.selection.createRange) { //IE678
+                    var range = document.selection.createRange();
+                    begin = 0 - range.duplicate().moveStart('character', -this.value.length);
+                    end = begin + range.text.length;
+                }
+                return {
+                    begin: begin,
+                    end: end
+                };
+            }
+        }
+
+        // PC端自动打开预览
+        if($(window).width() > 450) {
+            $('.meedit-tool .layui-icon[command=view]').click();
         }
     });
 </script>
