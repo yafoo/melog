@@ -1,0 +1,145 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+    #upload {
+        position: relative;
+    }
+    #upload span {
+        position: absolute;
+        content: '';
+        display: block;
+        left: 0;
+        top: 0;
+        right: 100%;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    .layui-table tr>*:nth-child(1) {
+        text-align: center;
+    }
+    .layui-table tr>*:nth-child(2) {
+        text-align: center;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .layui-table tr>*:nth-child(7) {
+        text-align: center;
+    }
+    .layui-table img {
+        width: 42px;
+        height: 42px;
+    }
+    .layui-table .btn-use {
+        display: none;
+    }
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form class="table-tools">
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键词</label>
+        <div class="layui-input-inline">
+            <input type="text" name="keys" value="{{keys}}" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
+            <button type="button" class="layui-btn" id="upload">上传图片<span></span></button>
+        </div>
+    </div>
+</form>
+<div class="table-wrap">
+    <table class="layui-table">
+        <thead>
+            <tr><th>ID</th><th>图片</th><th>文件名字</th><th>类型</th><th>大小</th><th>时间</th><th>编辑</th></tr> 
+        </thead>
+        <tbody>
+            {{each list item}}
+            <tr>
+                <td>{{item.id}}</td>
+                <td><a href="/upload/{{item.url.replace('_lit.', '.')}}" target="blank"><img src="/upload/{{item.url}}"></a></td>
+                <td>{{item.title}}</td>
+                <td>{{item.extname}}</td>
+                <td>{{item.size < 1024 ? item.size + 'B' : item.size < 1024 * 1024 ? (item.size/1024).toFixed(1) + 'KB' : (item.size/1024/1024).toFixed(1) + 'MB'}}</td>
+                <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
+                <td><button data-image="/upload/{{item.url.replace('_lit.', '.')}}" class="layui-btn layui-btn-sm btn-use">使用</button><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+            </tr>{{/each}}
+        </tbody>
+    </table>
+</div>
+{{@pagination}}
+{{/block}}
+
+{{block 'js'}}
+<script>
+    $(function(){
+        if(window != parent) {
+            $("header").hide();
+            $(".layui-table tr>*:nth-child(3)").hide();
+            $(".layui-table tr>*:nth-child(4)").hide();
+            $(".layui-table tr>*:nth-child(5)").hide();
+            $(".layui-table tr>*:nth-child(6)").hide();
+            $(".layui-table .btn-use").click(function(){
+                parent.layui.layer.image = $(this).data('image');
+                parent.layui.layer.close(parent.layui.layer.index);
+            }).show();
+        } else {
+            $(".layui-table tr>td:nth-child(5)")
+        }
+    });
+
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upload',
+            url: '{{url("upload")}}',
+            accept: 'images',
+            done: function(res){
+                $("#upload span").css('right', '100%');
+                //如果上传失败
+                if(!res.state){
+                    return layer.msg(res.msg);
+                }
+                //上传成功
+                $('#preview').attr('src', res.data);
+                layer.msg('上传成功！', {time: 600}, function(){
+                    history.go(0);
+                });
+            },
+            error: function(){
+                $("#upload span").css('right', '100%');
+                layer.msg('上传出错了！');
+            },
+            before: function(){
+                $("#upload span").css('right', '100%');
+            },
+            progress: function(n, elem){
+                //获取进度百分比
+                var percent = n + '%';
+                $("#upload span").css('right', percent);
+            }
+        });
+
+        $('a.layui-btn-danger').each(function(){
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function () {
+                layer.confirm("确定删除吗？", function(index){
+                    layer.close(index);
+                    $.get(url, function(re){
+                        if(re.state){
+                            layer.msg(re.msg, function(){
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
+    });
+</script>
+{{/block}}
