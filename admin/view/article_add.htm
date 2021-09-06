@@ -53,6 +53,50 @@
     margin: 0 10px;
     background-color: #d2d2d2;
 }
+.meedit-tool .meedit-tool-table {
+    position: relative;
+}
+.meedit-tool .meedit-tool-table:hover .meedit-table-select {
+    display: block;
+}
+.meedit-tool .meedit-tool-table:hover.no-hover .meedit-table-select {
+    display: none;
+}
+.meedit-table-select {
+    position: absolute;
+    left: 1px;
+    top: 32px;
+    padding: 5px;
+    width: 144px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    z-index: 1;
+    display: none;
+}
+.meedit-table-select-list {
+    cursor: pointer;
+}
+.meedit-table-select-row {
+    display: flex;
+}
+.meedit-table-select-item {
+    width: 14px;
+    height: 14px;
+    margin: 1px;
+    background-color: #f7f7f7;
+    border: 1px solid #f0f0f0;
+}
+.meedit-table-select-item.hover {
+    background-color: #46bc99;
+    border: 1px solid #3fa98a;
+}
+.meedit-table-select-tips {
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 3px;
+}
 
 .meview {
     flex: 1;
@@ -265,14 +309,17 @@
                             <i class="layui-icon" title="斜体" command="italic">&#xe644;</i>
                             <i class="layui-icon" title="删除线" command="delete">&#xe64f;</i>
                             <span class="meedit-tool-mid"></span>
-                            <i class="layui-icon" title="插入链接" command="link">&#xe64c;</i>
                             <i class="layui-icon" title="引用" command="quote" style="font-size: 18px;">&#xe687;</i>
-                            <i class="layui-icon" title="图片" command="image">&#xe64a;</i>
-                            <span class="meedit-tool-mid"></span>
                             <i class="layui-icon" title="列表" command="list">&#xe66b;</i>
                             <i class="layui-icon" title="代码" command="code" style="font-size: 20px;">&#xe64e;</i>
-                            <i class="layui-icon" title="表格" command="table" style="font-size: 22px;">&#xe62d;</i>
-                            <i class="layui-icon" title="帮助" command="help">&#xe664;</i>
+                            <span class="meedit-tool-mid"></span>
+                            <i class="layui-icon" title="插入链接" command="link">&#xe64c;</i>
+                            <i class="layui-icon" title="图片" command="image">&#xe64a;</i>
+                            <i class="layui-icon meedit-tool-table" title="表格" command="table" style="font-size: 22px; border-bottom: 2px solid #fff; margin-bottom: 1px;">&#xe62d;</i>
+                            <span class="meedit-tool-mid"></span>
+                            <i class="layui-icon" title="撤销" command="cancel" style="font-weight: bold; transform: rotateY(180deg);">&#xe666;</i>
+                            <i class="layui-icon" title="恢复" command="recover" style="font-weight: bold;">&#xe666;</i>
+                            <i class="layui-icon" title="帮助" command="help" style="font-weight: bold;">&#xe664;</i>
                             <span class="meedit-tool-mid"></span>
                             <i class="layui-icon meedit-tool-view" title="预览" command="view" layedit-event="v">&#xe691;</i>
                         </div>
@@ -309,6 +356,25 @@
         M.timer = null;
         M.dom = $('.meedit-area').get(0);
 
+        M.data = [M.dom.value];
+        M.dataIndex = 0;
+        M.save = function() {
+            if(this.data[this.dataIndex] == this.dom.value) {
+                return;
+            }
+
+            if(this.data.length > this.dataIndex + 1) {
+                this.data.length = this.dataIndex + 1;
+            }
+
+            this.data.push(this.dom.value);
+            if(this.dataIndex == 9) {
+                this.data.shift();
+            } else {
+                this.dataIndex++;
+            }
+        }
+
         // 内容变化
         $('.meedit-area').on('keyup', function() {
             M.mdEditChanged = true;
@@ -316,6 +382,7 @@
                 M.timer && clearTimeout(M.timer);
                 M.timer = setTimeout(M.mdRender, 200);
             }
+            M.save();
         });
 
         // 粘贴图片
@@ -326,9 +393,8 @@
                     var items = clipboardData.items,
                         len = items.length,
                         blob = null;
-                    event.preventDefault(); 
                     for (var i = 0; i < len; i++) {
-                        if (~items[i].type.indexOf("image")) {      
+                        if (~items[i].type.indexOf("image")) {
                             blob = items[i].getAsFile();
                         }
                     }
@@ -336,19 +402,85 @@
                         var reader = new FileReader();
                         reader.onload = function (event) {
                             var base64_str = event.target.result;
-                            uploadImgFromPaste(base64_str);
+                            M.upload(base64_str, function(image) {
+                                M.tool_wrap2('![', '](' + image + ')');
+                            });
                         }
                         reader.readAsDataURL(blob);
+                        event.preventDefault();
                     }
                 }
             }
         });
 
+        M.url = "{url('upload/base64')}";
+        M.upload = function(base64_str, callback) {
+            $.ajax({
+                url: this.url,
+                type: 'POST',
+                data: {file: base64_str},
+                success: function(res) {
+                    if(res.state) {
+                        callback(res.data.url);
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                },
+                error: function() {
+                    layer.msg('上传出错了！');
+                }
+            });
+        }
+
         // 工具栏
-        $('.meedit-tool .layui-icon').click(function() {
+        $('.meedit-tool .layui-icon').click(function(e) {
             var command = $(this).attr('command');
-            M['tool_' + command]($(this));
-            M.mdRender();
+            M['tool_' + command]($(this), e);
+        });
+
+        $('.meedit-tool-table').append(
+            '<div class="meedit-table-select">'
+                + '<div class="meedit-table-select-list">'
+                + (function(){
+                    var arr = [];
+                    for(var i = 0; i < 10; i++) {
+                        arr.push('<div class="meedit-table-select-row">');
+                        for(var j = 0; j < 8; j++) {
+                            arr.push('<div class="meedit-table-select-item" row="' + i + '" col="' + j + '"></div>');
+                        }
+                        arr.push('</div>');
+                    }
+                    return arr.join("\n");
+                })()
+                + '</div>'
+                + '<div class="meedit-table-select-tips">'
+                + '</div>'
+            + '</div>'
+        );
+
+        $('.meedit-table-select-item').on('mouseover', function(e) {
+            var row = parseInt($(this).attr('row')) + 1;
+            var col = parseInt($(this).attr('col')) + 1;
+            
+            $('.meedit-table-select-row').each(function(i) {
+                $(this).children().each(function(j) {
+                    if(i < row && j < col) {
+                        $(this).addClass('hover');
+                    } else {
+                        $(this).removeClass('hover');
+                    }
+                });
+            });
+
+            $('.meedit-table-select-tips').text(row + '行' + col + '列');
+        });
+
+        $('.meedit-table-select').on('mouseout', function(e) {
+            var event = window.event || e;
+            var obj = event.toElement || event.relatedTarget;
+            if(!this.contains(obj)) {
+                $('.meedit-table-select-item').removeClass('hover');
+            }
         });
 
         M.tool_begin = function(str) {
@@ -372,6 +504,8 @@
                     break;
                 }
             }
+            this.mdRender();
+            this.save();
         }
 
         M.tool_title = function() {
@@ -393,28 +527,30 @@
             var str1 = text.substr(0, pos.begin) || '';
             var str2 = text.substr(pos.begin, pos.end - pos.begin) || '';
             var str3 = text.substr(pos.end) || '';
-            if(str1.length > len - 1 && str3.length > len - 1 && str1.substr(-len) == str && str3.substr(0, len) == str) {
+            if(str1.length > len - 1 && str3.length > len - 1 && str1.substr(-len) == str && str3.substr(0, len) == str && str != '`') {
                 this.dom.value = [str1.substr(0, str1.length - len), str2, str3.substr(len)].join('');
                 this.dom.caret(pos.begin - len, pos.end - len);
             } else {
                 this.dom.value = [str1, str2, str3].join(str);
                 this.dom.caret(pos.begin + len, pos.end + len);
             }
+            this.mdRender();
+            this.save();
         }
 
-        M.tool_bold = function(tool) {
+        M.tool_bold = function() {
             this.tool_wrap('**');
         }
 
-        M.tool_italic = function(tool) {
+        M.tool_italic = function() {
             this.tool_wrap('*');
         }
 
-        M.tool_delete = function(tool) {
+        M.tool_delete = function() {
            this.tool_wrap('~~');
         }
 
-        M.tool_delete = function(tool) {
+        M.tool_delete = function() {
             this.tool_wrap('~~');
         }
 
@@ -423,6 +559,7 @@
         }
 
         M.tool_wrap2 = function(left, right) {
+            right || (right = '');
             var len = left.length;
             var pos = this.dom.caret();
             var text = this.dom.value;
@@ -430,7 +567,13 @@
             var str2 = text.substr(pos.begin, pos.end - pos.begin) || '';
             var str3 = text.substr(pos.end) || '';
             this.dom.value = str1 + left + str2 + right + str3;
-            this.dom.caret(pos.begin + len, pos.end + len);
+            if(str2.length) {
+                this.dom.caret(pos.begin + len + str2.length + 2);
+            } else {
+                this.dom.caret(pos.begin + len, pos.end + len);
+            }
+            this.mdRender();
+            this.save();
         }
 
         M.tool_link = function() {
@@ -441,21 +584,62 @@
             this.tool_wrap2('![', ']()');
         }
 
-        M.tool_table = function(tool) {
-            console.log('table');
+        M.tool_table = function($target, e) {
+            var $item = $(e.target);
+            if(!$item.hasClass('meedit-table-select-item')) {
+                return;
+            }
+            var row = parseInt($item.attr('row')) + 1;
+            var col = parseInt($item.attr('col')) + 1;
+            var str = "\n";
+            for(var i = -2; i < row; i++) {
+                str += '|';
+                for(var j = 0; j < col; j++) {
+                    str += i == -1 ? '--|' : '  |';
+                }
+                str += "\n";
+            }
+            this.tool_wrap2(str);
+            $target.addClass('no-hover');
+            setTimeout(function() {
+                $target.removeClass('no-hover');
+            }, 100);
+        }
+
+        M.tool_cancel = function() {
+            if(this.dataIndex == 0) {
+                return;
+            }
+
+            this.dataIndex--;
+            this.dom.value = this.data[this.dataIndex];
+            this.mdRender();
+        }
+
+        M.tool_recover = function() {
+            if(this.dataIndex == this.data.length - 1) {
+                return;
+            }
+
+            this.dataIndex++;
+            this.dom.value = this.data[this.dataIndex];
+            this.mdRender();
         }
 
         M.tool_help = function() {
-            console.log('help');
+            layer.open({
+                title: '关于',
+                content: 'Meedit V1.0'
+            });
         }
 
-        M.tool_view = function(tool) {
-            if(tool.hasClass('hover')) {
-                tool.removeClass('hover');
+        M.tool_view = function($target) {
+            if($target.hasClass('hover')) {
+                $target.removeClass('hover');
                 $(".meview").hide();
                 $(window).width() <= 450 && $('.meedit').show();
             } else {
-                tool.addClass('hover');
+                $target.addClass('hover');
                 $(".meview").show();
                 $(window).width() <= 450 && $('.meedit').hide();
 
@@ -472,7 +656,7 @@
 
         M.mdRender = function () {
             this.mdEditChanged = false;
-            $('.meview-title').html($('input[name=title]').val());
+            $('.meview-title').html($('input[name=title]').val() || '内容预览');
             $('.meview-content').html(M.md.render($('.meedit-area').val()));
             $('pre code').each(function(i, block) {
                 hljs.highlightBlock(block);

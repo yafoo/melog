@@ -80,6 +80,10 @@ class Upload extends Base {
             this.error('删除失败！');
         }
     }
+
+    async base64() {
+        this.$success({url: 'https://upload.jianshu.io/users/upload_avatars/6860761/b343643c-5ced-4421-ab58-1274e7bfe704?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96/format/webp'});
+    }
 }
 
 module.exports = Upload;
