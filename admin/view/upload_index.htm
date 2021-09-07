@@ -86,7 +86,7 @@
                 parent.layui.layer.image = $(this).data('image');
                 parent.layui.layer.close(parent.layui.layer.index);
             }).show();
-            $(".table-wrap").css({height: '200px'});
+            $('<style>.table-wrap{height:200px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}</style>').appendTo($('head'));
         } else {
             $(".layui-table tr>td:nth-child(5)")
         }
@@ -108,7 +108,11 @@
                 //上传成功
                 $('#preview').attr('src', res.data);
                 layer.msg('上传成功！', {time: 600}, function() {
-                    history.go(0);
+                    if(window != parent && typeof parent.insert_image == 'function') {
+                        parent.insert_image(image);
+                    } else {
+                        history.go(0);
+                    }
                 });
             },
             error: function() {
@@ -129,14 +133,14 @@
         $('a.layui-btn-danger').each(function() {
             var url = $(this).attr('href');
             $(this).attr('href', 'javascript:;').click(function() {
-                layer.confirm("确定删除吗？", function(index){
+                layer.confirm("确定删除吗？", function(index) {
                     layer.close(index);
-                    $.get(url, function(re){
-                        if(re.state){
-                            layer.msg(re.msg, function(){
+                    $.get(url, function(re) {
+                        if(re.state) {
+                            layer.msg(re.msg, function() {
                                 history.go(0);
                             });
-                        }else{
+                        } else {
                             layer.msg(re.msg);
                         }
                     });
@@ -147,7 +151,11 @@
         // 使用图片
         $('.btn-use').click(function() {
             var image = $(this).data('image');
-            typeof parent.use_image == 'function' && parent.use_image(image);
+            if(typeof parent.insert_image == 'function') {
+                parent.insert_image(image);
+            } else {
+                layer.msg('父窗口insert_image函数未定义！');
+            }
         });
 
     });

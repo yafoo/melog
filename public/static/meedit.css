@@ -1,0 +1,220 @@
+@media screen and (min-width: 450px) {
+    .meedit .meedit-area::-webkit-scrollbar,
+    .meview .meview-content::-webkit-scrollbar {width:6px;}
+    .meedit .meedit-area::-webkit-scrollbar-thumb,
+    .meview .meview-content::-webkit-scrollbar-thumb {background-color:#ddd;cursor: pointer;}
+}
+
+.meedit-wrap {
+    display: flex;
+    height: 100%;
+}
+.meedit {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.meedit-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-y: overlay;
+}
+.meedit-tool {
+    padding: 3px 5px 5px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    font-size: 0;
+    margin-bottom: -2px;
+}
+.meedit-tool .layui-icon,
+.meedit-tool .meedit-tool-mid {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+.meedit-tool .layui-icon {
+    width: 32px;
+    height: 30px;
+    line-height: 30px;
+    margin: 3px 5px;
+    color: #777;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.meedit-tool .layui-icon:hover,
+.meedit-tool .layui-icon.hover {
+    background-color: #eee;
+    color: #000;
+}
+.meedit-tool .meedit-tool-mid {
+    font-size: 14px;
+    width: 1px;
+    height: 18px;
+    margin: 0 10px;
+    background-color: #d2d2d2;
+}
+.meedit-tool .meedit-tool-table {
+    position: relative;
+}
+.meedit-tool .meedit-tool-table:hover .meedit-table-select {
+    display: block;
+}
+.meedit-tool .meedit-tool-table:hover.no-hover .meedit-table-select {
+    display: none;
+}
+.meedit-table-select {
+    position: absolute;
+    left: 1px;
+    top: 32px;
+    padding: 5px;
+    width: 144px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    z-index: 1;
+    display: none;
+}
+.meedit-table-select-list {
+    cursor: pointer;
+}
+.meedit-table-select-row {
+    display: flex;
+}
+.meedit-table-select-item {
+    width: 14px;
+    height: 14px;
+    margin: 1px;
+    background-color: #f7f7f7;
+    border: 1px solid #f0f0f0;
+}
+.meedit-table-select-item.hover {
+    background-color: #46bc99;
+    border: 1px solid #3fa98a;
+}
+.meedit-table-select-tips {
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 3px;
+}
+
+.meview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.meview-title {
+    padding: 4px 10px 3px 60px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+    border: 1px solid #eee;
+    border-left: 0;
+    border-top-right-radius: 2px;
+    position: relative;
+}
+.meview-title::after {
+    content: '\e691';
+    font-family: layui-icon!important;
+    font-size: 16px;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    top: 3px;
+    left: 10px;
+    width: 32px;
+    height: 30px;
+    line-height: 30px;
+    margin: 3px 5px;
+    background-color: rgba(0,0,0,0.09);
+    color: #000;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.meview-content {
+    flex: 1;
+    padding: 0 10px;
+    overflow-y: auto;
+    overflow-y: overlay;
+}
+.meview-content>* {
+    margin: 1em 0;
+}
+.meview-content>*:first-child {
+    margin-top: 6px;
+}
+.meview-content>blockquote+blockquote,
+.meview-content>blockquote+pre,
+.meview-content>pre+pre,
+.meview-content>pre+blockquote {
+    margin-top: 1.3em;
+}
+.meview-content h1, .meview-content h2 {
+    padding-bottom: .3em;
+    border-bottom: 1px solid #eee;
+}
+.meview-content h1,
+.meview-content h2,
+.meview-content h3 {
+    font-weight: bold;
+}
+.meview-content blockquote {
+    padding: .8em 1em;
+    border-left: 4px solid #ccc;
+    background-color: #f3f3f3;
+}
+.meview-content hr {
+    border: 1px solid #eee;
+}
+.meview-content code {
+    color: #f63;
+    word-break: break-word;
+}
+.meview-content a {
+    color: #46bc99;
+}
+.meview-content pre {
+    padding: .8em 1em;
+    max-height: 35em;
+    line-height: 1.4;
+    background-color: #f3f3f3;
+    overflow: auto;
+}
+.meview-content pre code {
+    padding: 0;
+    color: inherit;
+    overflow-wrap: normal;
+    word-break: normal;
+    background: inherit;
+    overflow-x: initial;
+}
+.meview-content table {
+    width: 100%;
+    border-collapse:collapse;
+}
+.meview-content table th, .meview-content table td {
+    border: 1px solid #eee;
+    padding: 0.5em;
+}
+.meview-content table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+.meview-content li {
+    margin: 0.6em 0 0.6em 20px;
+    list-style: inherit;
+}
+.meview-content p {
+    line-height: 1.8;
+}
+.meview-content img {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
