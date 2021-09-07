@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
-    "jj.js": "^0.2.3",
+    "jimp": "^0.16.1",
+    "jj.js": "^0.2.4",
     "markdown-it": "^12.2.0"
   }
 }

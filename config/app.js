@@ -11,7 +11,7 @@ const app = {
 
     static_dir: './public', //静态文件目录，相对于应用根目录，为空或false时，关闭静态访问
 
-    koa_body: {} //koa-body配置参数，为false时，关闭koa-body
+    koa_body: {multipart: true, formidable: {keepExtensions: true, maxFieldsSize: 10 * 1024 * 1024}} //koa-body配置参数，为false时，关闭koa-body
 }
 
 module.exports = app;

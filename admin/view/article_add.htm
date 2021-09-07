@@ -399,29 +399,29 @@
                         }
                     }
                     if (blob !== null) {
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            var base64_str = event.target.result;
-                            M.upload(base64_str, function(image) {
-                                M.tool_wrap2('![', '](' + image + ')');
-                            });
-                        }
-                        reader.readAsDataURL(blob);
+                        M.upload_image(blob, function(image) {
+                            M.tool_wrap_image(image);
+                        });
                         event.preventDefault();
                     }
                 }
             }
         });
 
-        M.url = "{url('upload/base64')}";
-        M.upload = function(base64_str, callback) {
+        M.upload_url = "{{url('upload/upload')}}";
+        M.upload_image = function(blob, callback) {
+            var data = new FormData();
+            data.append('file', blob);
             $.ajax({
-                url: this.url,
+                url: this.upload_url,
                 type: 'POST',
-                data: {file: base64_str},
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
                 success: function(res) {
                     if(res.state) {
-                        callback(res.data.url);
+                        callback(res.data);
                     } else {
                         layer.msg(res.msg);
                     }
@@ -558,7 +558,7 @@
             this.tool_wrap('`');
         }
 
-        M.tool_wrap2 = function(left, right) {
+        M.tool_wrap_str = function(left, right) {
             right || (right = '');
             var len = left.length;
             var pos = this.dom.caret();
@@ -577,11 +577,27 @@
         }
 
         M.tool_link = function() {
-            this.tool_wrap2('[', ']()');
+            this.tool_wrap_str('[', ']()');
+        }
+
+        window.iframe_callback = function(image) {
+            layer.closeAll();
+            M.tool_wrap_image(image);
         }
 
         M.tool_image = function() {
-            this.tool_wrap2('![', ']()');
+            layer.open({
+                type: 2,
+                title: '插入图片',
+                shadeClose: true,
+                shade: 0.2,
+                area: ['360px', '405px'],
+                content: "{{url('upload/index')}}"
+            });
+        }
+
+        M.tool_wrap_image = function(image) {
+            this.tool_wrap_str('![', '](' + image + ')');
         }
 
         M.tool_table = function($target, e) {
@@ -599,7 +615,7 @@
                 }
                 str += "\n";
             }
-            this.tool_wrap2(str);
+            this.tool_wrap_str(str);
             $target.addClass('no-hover');
             setTimeout(function() {
                 $target.removeClass('no-hover');

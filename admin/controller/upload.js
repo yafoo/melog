@@ -1,18 +1,20 @@
 const Base = require('./base');
+const {utils} = require('jj.js');
 
-class Upload extends Base {
+class Upload extends Base
+{
     async index() {
         const condition = {};
-        const keys = this.ctx.query.keys;
-        if(keys !== undefined) {
-            condition['concat(user_id,title,url)'] = ['like', '%' + keys + '%'];
+        const keyword = this.ctx.query.keyword;
+        if(keyword !== undefined) {
+            condition['title'] = ['like', '%' + keyword + '%'];
         }
-        const [total, list] = await this.$model.upload.getPageList(condition);
-        const pagination = total ? this.$$pagination.render(total) : '';
-        this.assign('keys', keys);
-        this.assign('list', list);
-        this.assign('pagination', pagination);
-        await this.fetch();
+        const [list, pagination] = await this.$model.upload.getPageList(condition);
+
+        this.$assign('keyword', keyword);
+        this.$assign('list', list);
+        this.$assign('pagination', pagination);
+        await this.$fetch();
     }
 
     async upload() {
@@ -22,43 +24,61 @@ class Upload extends Base {
 
         const size = parseInt(this.site.limit_size);
         const cfg_upload = this.site.upload;
-        const result = await this.$$upload.file('file').validate({size}).save(this.$.config.app.static_dir + cfg_upload);
+        const upload_dir = this.$config.app.static_dir + cfg_upload;
+        const result = await this.$upload.file('file').validate({size}).save(upload_dir);
+
         if(result) {
-            const filepath = result.filepath;
+            const img_path = result.filepath;
             const jimp = require('jimp');
-            const image = await jimp.read(filepath);
-            const cfg_width = parseInt(this.site.img_width);
-            const cfg_height = parseInt(this.site.img_height);
-            if(image.getWidth() > cfg_width || image.getHeight() > cfg_height) {
+            const image = await jimp.read(img_path);
+            const cfg_width = parseInt(this.site.img_width) || 0;
+            const cfg_height = parseInt(this.site.img_height) || 0;
+
+            // 限制图片大小
+            if((cfg_width && image.getWidth() > cfg_width) || (cfg_height && image.getHeight() > cfg_height)) {
                 if(image.getWidth() > this.site.img_width && image.getWidth() / image.getHeight() > cfg_width / cfg_height) {
                     await image.resize(cfg_width, jimp.AUTO);
                 } else {
                     await image.resize(jimp.AUTO, cfg_height);
                 }
-                await image.writeAsync(filepath);
+                await image.writeAsync(img_path);
             }
-            const lit_filepath = filepath.replace('.' + result.extname, '_lit.' + result.extname);
-            const lit_img_width = parseInt(this.site.thumb);
-            await image.resize(lit_img_width, jimp.AUTO);
-            await image.writeAsync(lit_filepath);
 
-            const stats = await this.$$utils.fs.stat(filepath);
+            // 生成缩略图
+            let thumb_path = img_path;
+            const thumb_width = parseInt(this.site.thumb_width) || 0;
+            const thumb_height = parseInt(this.site.thumb_height) || 0;
+            if((thumb_width && image.getWidth() > thumb_width) || (thumb_height && image.getHeight() > thumb_height)) {
+                thumb_path = thumb_path.replace('.' + result.extname, '_lit.' + result.extname);
+                await image.resize(thumb_width, thumb_height);
+                await image.writeAsync(thumb_path);
+            }
+
+            // 图片信息
+            const stats = await utils.fs.stat(img_path);
             const data = {};
             data.user_id = this.user_id;
             data.title = result.name.replace('.' + result.extname, '');
             data.extname = result.extname;
-            data.url = result.savename.replace('.' + data.extname, '_lit.' + data.extname);
+            data.image = data.thumb = '/' + result.savename;
+            if(thumb_path != img_path) {
+                data.thumb = data.image.replace('.' + data.extname, '_lit.' + data.extname);
+            }
             data.size = stats.size;
             
             if(await this.$model.upload.add(data)) {
-                this.success('上传成功！', cfg_upload + '/' + data.url);
+                this.$success('上传成功！', cfg_upload + data.image);
             } else {
-                await this.$$utils.fs.unlink(filepath);
-                await this.$$utils.fs.unlink(lit_filepath);
-                this.error('文件保存失败！', 'index');
+                if(utils.fs.isFileSync(img_path)) {
+                    await utils.fs.unlink(img_path);
+                }
+                if(thumb_path != img_path && utils.fs.isFileSync(thumb_path)) {
+                    await utils.fs.unlink(thumb_path);
+                }
+                this.$error('文件保存失败！', 'index');
             }
         } else {
-            this.error(this.$$upload.getError(), 'index');
+            this.$error(this.$upload.getError(), 'index');
         }
     }
 
@@ -66,23 +86,26 @@ class Upload extends Base {
         const id = parseInt(this.ctx.query.id);
         const file = await this.$model.upload.getOne({id});
         if(!file) {
-            return this.error('数据不存在！');
+            return this.$error('数据不存在！');
         }
 
         try {
-            const lit_filepath = this.$.$map.path + this.$.config.app.static_dir + this.site.upload + '/' + file.url;
-            const filepath = lit_filepath.replace('_lit.', '.');
-            await this.$$utils.fs.unlink(filepath);
-            await this.$$utils.fs.unlink(lit_filepath);
-            await this.$model.upload.delete({id});
-            this.success('删除成功！', 'index');
-        } catch(e) {
-            this.error('删除失败！');
-        }
-    }
+            const upload_dir = this.ctx._.__node.path + this.$config.app.static_dir + this.site.upload;
+            const img_path = upload_dir + file.image;
+            const thumb_path = upload_dir + file.thumb;
 
-    async base64() {
-        this.$success({url: 'https://upload.jianshu.io/users/upload_avatars/6860761/b343643c-5ced-4421-ab58-1274e7bfe704?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96/format/webp'});
+            if(utils.fs.isFileSync(img_path)) {
+                await utils.fs.unlink(img_path);
+            }
+            if(thumb_path != img_path && utils.fs.isFileSync(thumb_path)) {
+                await utils.fs.unlink(thumb_path);
+            }
+
+            await this.$model.upload.delete({id});
+            this.$success('删除成功！', 'index');
+        } catch(e) {
+            this.$error('删除失败！');
+        }
     }
 }
 
