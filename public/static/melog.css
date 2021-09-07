@@ -237,6 +237,9 @@ ul>li {list-style: none;}
 .content>* {
     margin: 1em 0;
 }
+.content>*:first-child {
+    margin-top: 10px;
+}
 .content>blockquote+blockquote,
 .content>blockquote+pre,
 .content>pre+pre,

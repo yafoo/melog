@@ -12,14 +12,14 @@ class Article extends Model
 
     async add(data) {
         if(!data.add_time) {
-            data.add_time = this.utils.time();
+            data.add_time = this.$utils.time();
         }
         return await this.db.insert(data);
     }
 
     async update(data, condition) {
         if(!data.update_time) {
-            data.update_time = this.utils.time();
+            data.update_time = this.$utils.time();
         }
         return await this.db.update(data, condition);
     }

@@ -82,9 +82,13 @@
             $(".layui-table tr>*:nth-child(4)").hide();
             $(".layui-table tr>*:nth-child(5)").hide();
             $(".layui-table tr>*:nth-child(6)").hide();
-            $(".layui-table .btn-use").click(function(){
-                parent.layui.layer.image = $(this).data('image');
-                parent.layui.layer.close(parent.layui.layer.index);
+            $(".layui-table .btn-use").click(function() {
+                var image = $(this).data('image');
+                if(typeof parent.insert_image == 'function') {
+                    parent.insert_image(image);
+                } else {
+                    layer.msg('父窗口insert_image函数未定义！');
+                }
             }).show();
             $('<style>.table-wrap{height:200px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}</style>').appendTo($('head'));
         } else {
@@ -101,15 +105,17 @@
             accept: 'images',
             done: function(res) {
                 $("#upload span").css('right', '100%');
+
                 //如果上传失败
                 if(!res.state) {
                     return layer.msg(res.msg);
                 }
+                
                 //上传成功
                 $('#preview').attr('src', res.data);
                 layer.msg('上传成功！', {time: 600}, function() {
                     if(window != parent && typeof parent.insert_image == 'function') {
-                        parent.insert_image(image);
+                        parent.insert_image(res.data);
                     } else {
                         history.go(0);
                     }
@@ -146,16 +152,6 @@
                     });
                 });
             });
-        });
-
-        // 使用图片
-        $('.btn-use').click(function() {
-            var image = $(this).data('image');
-            if(typeof parent.insert_image == 'function') {
-                parent.insert_image(image);
-            } else {
-                layer.msg('父窗口insert_image函数未定义！');
-            }
         });
 
     });
