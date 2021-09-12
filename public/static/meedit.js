@@ -214,6 +214,7 @@
     M.upload_image = function(blob, callback) {
         var data = new FormData();
         data.append('file', blob);
+        layer.load();
         $.ajax({
             url: this.options.upload_server,
             type: 'POST',
@@ -230,6 +231,9 @@
             },
             error: function() {
                 layer.msg('上传出错了！');
+            },
+            complete: function() {
+                layer.closeAll();
             }
         });
     }
