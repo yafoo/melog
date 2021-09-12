@@ -25,6 +25,16 @@ class Site extends Base
             await this.$fetch();
         }
     }
+
+    async clear() {
+        try {
+            this.$cache.delete();
+            this.$db.cache.delete();
+            this.$success('清理成功！');
+        } catch(e) {
+            this.$error('程序出错！');
+        }
+    }
 }
 
 module.exports = Site;
