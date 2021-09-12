@@ -4,11 +4,9 @@ class Cate extends Pagination
 {
     init(opts) {
         super.init({
-            pageType: 'params',
-            pageKey: 'page',
-            pageSize: 10,
-            urlIndex: this.$url.build(':cate'),
-            urlPage: this.$url.build(':cate_page', {page: '${page}'}),
+            key_origin: 'params',
+            url_index: ':cate',
+            url_page: ':cate_page',
             ...opts
         });
         return this;

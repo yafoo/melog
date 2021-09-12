@@ -4,14 +4,7 @@ class Comment extends Model
 {
     // 后台评论管理
     async getCommentList(condition) {
-        const page = this.$pagination.curPage;
-        const pageSize = this.$pagination.options.pageSize;
-        const [total, list] = await Promise.all([
-            this.db.table('comment comment').where(condition).cache(60).count('id'),
-            this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').page(page, pageSize).select()
-        ]);
-        const pagination = total ? this.$pagination.render(total) : '';
-        return [list, pagination];
+        return await this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').pagination();
     }
 
     // 文章评论列表

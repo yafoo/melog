@@ -2,26 +2,24 @@ const {Model} = require('jj.js');
 
 class Article extends Model
 {
-    // 获取一篇文章
-    async getArticle(condition, fields='') {
-        return await this.db.field(fields).where(condition).find();
-    }
-
     // 首页文章列表
-    async getIndexList(condition, rows=10, page, pageSize){
-        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).page(page, pageSize).cache(600).select();
+    async getIndexList(condition, rows=10){
+        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).cache(600).select();
     }
 
     // 栏目文章列表及分页
     async getPageList(condition) {
-        const page = this.$pagination.cate.curPage;
-        const pageSize = this.$pagination.cate.options.pageSize;
-        const [total, list] = await Promise.all([
-            this.db.where(condition).cache(600).count('id'),
-            this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').page(page, pageSize).cache(600).select()
-        ]);
-        const pagination = total ? this.$pagination.cate.render(total) : '';
-        return [list, pagination];
+        return await this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').cache(600).pagination(this.$pagination.cate);
+    }
+
+    // 搜索文章列表及分页
+    async getSearchList(condition, pageSize=10) {
+        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').cache(600).pagination(undefined, pageSize);
+    }
+
+    // 获取一篇文章
+    async getArticle(condition, fields) {
+        return await this.db.field(fields).where(condition).find();
     }
 
     // 最新文章
@@ -42,17 +40,6 @@ class Article extends Model
     // 下一篇
     async nextOne(cur_id, condition) {
         return await this.db.field('id,title').where({id: ['<', cur_id]}).where(condition).order('id', 'desc').cache(600).find();
-    }
-
-    // 搜索文章列表及分页
-    async getSearchList(condition, pageSize=10) {
-        const page = this.$pagination.search.curPage;
-        const [total, list] = await Promise.all([
-            this.db.table('article a').where(condition).cache(600).count('id'),
-            this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').page(page, pageSize).cache(600).select()
-        ]);
-        const pagination = total ? this.$pagination.search.init({pageSize}).render(total) : '';
-        return [list, pagination];
     }
 }
 

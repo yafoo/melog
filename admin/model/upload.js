@@ -20,13 +20,7 @@ class Upload extends Model
 
     // 后台分页列表
     async getPageList(condition) {
-        const page = this.$pagination.curPage;
-        const pageSize = this.$pagination.options.pageSize;
-        const [total, list] = await Promise.all([
-            this.db.where(condition).count('id'),
-            this.db.where(condition).order('id', 'desc').page(page, pageSize).select()
-        ]);
-        const pagination = total ? this.$pagination.render(total) : '';
+        const [list, pagination] = await this.db.where(condition).order('id', 'desc').pagination();
         
         if(list && list.length) {
             const site_config = await this.$model.site.getConfig();

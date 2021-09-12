@@ -1,3 +1,4 @@
+const Renderer = require('markdown-it/lib/renderer');
 const Base = require('./base');
 
 class Search extends Base
@@ -19,6 +20,7 @@ class Search extends Base
             const condition = {};
             condition['concat(a.title, a.writer, a.keywords, a.description)'] = ['like', '%' + keyword + '%'];
             [list, pagination] = await this.$model.article.getSearchList(condition);
+            pagination = pagination.render();
 
             this.$assign('title', keyword + ' - ' + this.site.webname);
             this.$assign('search_title', keyword);

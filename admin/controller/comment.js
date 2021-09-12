@@ -9,9 +9,11 @@ class Comment extends Base
             condition['concat(comment.uname, comment.email, comment.url, comment.content, comment.ip)'] = ['like', '%' + keyword + '%'];
         }
         const [list, pagination] = await this.$model.comment.getCommentList(condition);
+        
         this.$assign('keyword', keyword);
         this.$assign('list', list);
-        this.$assign('pagination', pagination);
+        this.$assign('pagination', pagination.render());
+
         await this.$fetch();
     }
 

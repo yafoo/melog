@@ -1,5 +1,6 @@
 const Base = require('./base');
 const {utils} = require('jj.js');
+const path = require('path');
 
 class Upload extends Base
 {
@@ -13,7 +14,7 @@ class Upload extends Base
 
         this.$assign('keyword', keyword);
         this.$assign('list', list);
-        this.$assign('pagination', pagination);
+        this.$assign('pagination', pagination.render());
         await this.$fetch();
     }
 
@@ -92,7 +93,7 @@ class Upload extends Base
         }
 
         try {
-            const upload_dir = this.ctx._.__node.path + this.$config.app.static_dir + this.site.upload;
+            const upload_dir = path.join(this.$config.app.base_dir,this.$config.app.static_dir,this.site.upload);
             const img_path = upload_dir + file.image;
             const thumb_path = upload_dir + file.thumb;
 

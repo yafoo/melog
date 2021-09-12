@@ -3,15 +3,17 @@ const Base = require('./base');
 class Cate extends Base
 {
     async _init() {
-        // admin跳过
+        // admin跳过(分类路由会匹配到后台admin)
         if(this.ctx.APP == 'admin') {
             await this.$next();
             return false;
         }
 
+        this._cate_dir = this.ctx.params.cate;
+
         // 栏目不存在跳过
-        const CateArr = await this.$model.cate.getCateArr();
-        if(!~CateArr.indexOf(this.ctx.params.cate)) {
+        const cate_dirs = await this.$model.cate.getCateDirList();
+        if(!~cate_dirs.indexOf(this._cate_dir)) {
             this.ctx.params = {};
             await this.$next();
             return false;
@@ -21,8 +23,7 @@ class Cate extends Base
     }
 
     async cate() {
-        const cate_dir = this.ctx.params.cate;
-        const cate = await this.$model.cate.getCate({cate_dir});
+        const cate = await this.$model.cate.getCate({cate_dir: this._cate_dir});
         const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id});
 
         this.$assign('title', cate.cate_name + ' - ' + this.site.webname);
@@ -31,7 +32,7 @@ class Cate extends Base
 
         this.$assign('cate', cate);
         this.$assign('list', list);
-        this.$assign('pagination', pagination);
+        this.$assign('pagination', pagination.render());
         
         await this.$fetch();
     }

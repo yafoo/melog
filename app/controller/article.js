@@ -11,11 +11,9 @@ class Article extends Base
         const article = await model_article.getArticle({id: aid});
         if(!article) return;
 
-        // 栏目信息
-        const cate = await this.$model.cate.getCate({id: article.cate_id});
-
-        // 上一篇、下一篇
-        const [prevOne, nextOne] = await Promise.all([
+        // 栏目信息、上一篇、下一篇
+        const [cate, prevOne, nextOne] = await Promise.all([
+            this.$model.cate.getCate({id: article.cate_id}),
             model_article.prevOne(aid),
             model_article.nextOne(aid)
         ]);
@@ -23,9 +21,9 @@ class Article extends Base
         // 更新点击(页面及数据库)
         article.click++;
         model_article.db.where({id: article.id}).inc('click');
-
         // markdown
         article.content = md.render(article.content);
+        const is_comment = this.site.is_comment + article.is_comment >= 1 ? true : false;
 
         this.$assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.webname);
         this.$assign('description', article.description);
@@ -36,7 +34,7 @@ class Article extends Base
         this.$assign('prevOne', prevOne);
         this.$assign('nextOne', nextOne);
 
-        this.$assign('is_comment', this.site.is_comment + article.is_comment >= 1);
+        this.$assign('is_comment', is_comment);
         
         await this.$fetch();
     }
