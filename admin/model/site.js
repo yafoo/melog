@@ -20,15 +20,19 @@ class Site extends Model
     }
     
     async getAdminAlias() {
-        return await this.db.cache(600).where({kname: 'admin_alias'}).value('value');
+        return await this.getConfig('admin_alias');
     }
 
     // 获取站点设置
-    async getConfig() {
+    async getConfig(kname) {
         const result = await this.db.cache(600).column('value', 'kname');
-        result.VERSION = pjson.version;
-        result.APP_TIME = this.ctx.APP_TIME;
-        return result;
+        if(kname) {
+            return result[kname];
+        } else {
+            result.VERSION = pjson.version;
+            result.APP_TIME = this.ctx.APP_TIME;
+            return result;
+        }
     }
 }
 

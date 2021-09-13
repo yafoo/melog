@@ -8,8 +8,8 @@ class Article extends Model
     }
 
     // 栏目文章列表及分页
-    async getPageList(condition) {
-        return await this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').cache(600).pagination(this.$pagination.cate);
+    async getPageList(condition, page_size=10) {
+        return await this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time').where(condition).order('id', 'desc').cache(600).pagination(this.$pagination.cate, page_size);
     }
 
     // 搜索文章列表及分页

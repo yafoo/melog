@@ -24,7 +24,7 @@ class Cate extends Base
 
     async cate() {
         const cate = await this.$model.cate.getCate({cate_dir: this._cate_dir});
-        const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id});
+        const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id}, this.site.list_rows);
 
         this.$assign('title', cate.cate_name + ' - ' + this.site.webname);
         this.$assign('description', cate.description);

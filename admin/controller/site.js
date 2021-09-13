@@ -14,6 +14,7 @@ class Site extends Base
                     }
                 });
                 await this.$model.site.db.commit();
+                this.clear();
                 this.$success('保存成功！');
             } catch(e) {
                 await this.$model.site.db.rollback();
