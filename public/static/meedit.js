@@ -13,13 +13,14 @@
         // 包裹html
         this.wrap_html();
 
-        // 外部参数
+        // 默认参数
         this.defaults = {
             image_server: '',
             callback_funname: 'insert_image',
             upload_server: '',
             render_callback: null,
-            hide_tools: []
+            hide_tools: [],
+            cancel_steps: 3
         },
         this.options = $.extend({}, this.defaults, opt);
 
@@ -42,7 +43,7 @@
         });
 
         // 工具栏
-        this.$meedit.find('.meedit-tool .layui-icon').each(function() {
+        this.$m.find('.meedit-tool .layui-icon').each(function() {
             var $this = $(this);
             var command = $this.attr('command');
             if(~that.options.hide_tools.indexOf(command)) {
@@ -55,11 +56,11 @@
         });
 
         // 工具栏 - 插入表格
-        this.$meedit.find('.meedit-table-select-item').on('mouseover', function(e) {
+        this.$m.find('.meedit-table-select-item').on('mouseover', function(e) {
             var row = parseInt($(this).attr('row')) + 1;
             var col = parseInt($(this).attr('col')) + 1;
             
-            that.$meedit.find('.meedit-table-select-row').each(function(i) {
+            that.$m.find('.meedit-table-select-row').each(function(i) {
                 $(this).children().each(function(j) {
                     if(i < row && j < col) {
                         $(this).addClass('hover');
@@ -69,9 +70,9 @@
                 });
             });
     
-            that.$meedit.find('.meedit-table-select-tips').text(row + '行' + col + '列');
+            that.$m.find('.meedit-table-select-tips').text(row + '行' + col + '列');
         });
-        this.$meedit.find('.meedit-table-select').on('mouseout', function(e) {
+        this.$m.find('.meedit-table-select').on('mouseout', function(e) {
             var event = window.event || e;
             var obj = event.toElement || event.relatedTarget;
             if(!this.contains(obj)) {
@@ -80,23 +81,23 @@
         });
 
         // 预览关闭
-        this.$meedit.find('.meview-title').click(function(e) {
+        this.$m.find('.meview-title').click(function(e) {
             if(e.offsetX > 15 && e.offsetX <= 15 + 32 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
-                that.$meedit.find('.meedit-tool-view').click();
+                that.$m.find('.meedit-tool-view').click();
             }
         });
 
         // 左右滚动同步
         this.$area.hover(function() {
-            that.syncScroll(that.$area, that.$meedit.find(".meview-content"));
+            that.syncScroll(that.$area, that.$m.find(".meview-content"));
         });
-        this.$meedit.find(".meview-content").hover(function() {
+        this.$m.find(".meview-content").hover(function() {
             that.syncScroll($(this), that.$area);
         });
 
         // PC端自动打开预览
         if($(window).width() > 450) {
-            this.$meedit.find('.meedit-tool-view').click();
+            this.$m.find('.meedit-tool-view').click();
         }
 
         // layer选择图片回调
@@ -108,7 +109,7 @@
 
     // 初始化html
     M.wrap_html = function() {
-        this.$meedit = $(
+        this.$m = $(
             '<div class="meedit-wrap">' +
                 '<div class="meedit">' +
                     '<div class="meedit-tool">' +
@@ -138,10 +139,10 @@
                 '</div>' +
             '</div>'
         );
-        this.$meedit.insertBefore(this.$area);
-        this.$area.addClass('meedit-area').appendTo(this.$meedit.find('.meedit'));
+        this.$m.insertBefore(this.$area);
+        this.$area.addClass('meedit-area').appendTo(this.$m.find('.meedit'));
 
-        this.$meedit.find('.meedit-tool-table').append(
+        this.$m.find('.meedit-tool-table').append(
             '<div class="meedit-table-select">'
                 + '<div class="meedit-table-select-list">'
                 + (function(){
@@ -178,7 +179,7 @@
         }
 
         this._data.push(this.area.value);
-        if(this._dataIndex == 9) {
+        if(this._dataIndex == this.options.cancel_steps) {
             this._data.shift();
         } else {
             this._dataIndex++;
@@ -326,20 +327,22 @@
     M.tool_help = function() {
         layer.open({
             title: '关于',
-            content: 'Meedit V1.0'
+            content: 'Meedit V1.0<br>支持网页及本地图片粘贴上传'
         });
     }
 
     M.tool_view = function($target) {
-        var $meview = this.$meedit.find('.meview');
+        var $meview = this.$m.find('.meview');
+        var $meedit = this.$m.find('.meedit');
+        var is_mobile = $(window).width() <= 450;
         if($target.hasClass('hover')) {
             $target.removeClass('hover');
             $meview.hide();
-            $(window).width() <= 450 && $meview.show();
+            $meedit.show();
         } else {
             $target.addClass('hover');
             $meview.show();
-            $(window).width() <= 450 && $meview.hide();
+            is_mobile && $meedit.hide();
 
             this.render();
         }
@@ -385,12 +388,12 @@
             return;
         }
 
-        if(!this.$meedit.find('.meedit-tool-view').hasClass('hover')) {
+        if(!this.$m.find('.meedit-tool-view').hasClass('hover')) {
             return;
         }
 
-        this.$meedit.find('.meview-content').html(markdown.render(this.area.value));
-        hljs && this.$meedit.find('.meview-content pre code').each(function(i, block) {
+        this.$m.find('.meview-content').html(markdown.render(this.area.value));
+        hljs && this.$m.find('.meview-content pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
         this.options.render_callback && this.options.render_callback();
