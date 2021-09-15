@@ -6,7 +6,7 @@ class Index extends Base
         // 首页列表
         const list = await this.$model.article.getIndexList();
         // 友情链接
-        const friend_links = await this.$admin.model.link.getFriendLinks();
+        const friend_links = await this.$model.link.getFriendLinks();
         
         this.$assign('list', list);
         this.$assign('friend_links', friend_links);

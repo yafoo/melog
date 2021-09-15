@@ -35,6 +35,13 @@
                 <input type="text" name="sort" class="layui-input" value="{{cate.sort || 0}}">
             </div>
         </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="is_show" lay-skin="switch" lay-text="ON|OFF" {{cate.is_show ? 'checked' : ''}}>
+            </div>
+        </div>
     </div>
 
     <div style="text-align: center;">

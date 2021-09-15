@@ -4,7 +4,7 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>分类</th><th>地址</th><th>排序</th><th>编辑</th></tr> 
+            <tr><th>ID</th><th>分类</th><th>地址</th><th>排序</th><th>显示</th><th>编辑</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
@@ -13,13 +13,14 @@
                 <td>{{item.cate_name}}</td>
                 <td>{{item.cate_dir}}</td>
                 <td>{{item.sort}}</td>
-                <td><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td>{{item.is_show ? '显示' : '隐藏'}}</td>
+                <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
 </div>
 <div style="text-align: center;">
-    <a href="{{url('add')}}" class="layui-btn">新增分类</a>
+    <a href="{{url('form')}}" class="layui-btn">新增分类</a>
 </div>
 {{/block}}
 

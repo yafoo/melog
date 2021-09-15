@@ -5,7 +5,7 @@ class Comment extends Base
     async index() {
         const condition = {};
         const keyword = this.ctx.query.keyword;
-        if(keyword !== undefined) {
+        if(keyword) {
             condition['concat(comment.uname, comment.email, comment.url, comment.content, comment.ip)'] = ['like', '%' + keyword + '%'];
         }
         const [list, pagination] = await this.$model.comment.getCommentList(condition);
@@ -20,11 +20,11 @@ class Comment extends Base
     async delete() {
         const id = parseInt(this.ctx.query.id);
         
-        const result = await this.$model.comment.delComment(id);
-        if(result === true) {
-            this.$success('删除成功！', 'index');
+        const err = await this.$model.comment.delComment(id);
+        if(err) {
+            this.$error(err);
         } else {
-            this.$error(result);
+            this.$success('删除成功！', 'index');
         }
     }
 }

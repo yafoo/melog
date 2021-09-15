@@ -81,7 +81,7 @@ $(function() {
     var $form = $(".comment-form");
     if($form.length) {
         // 发表评论
-        $(".comment_submit").click(function(){
+        $(".submit").click(function(){
             var data = $form.serializeObject();
             if(data.uname === '') {
                 return tips('请填写昵称！');

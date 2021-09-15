@@ -13,7 +13,7 @@ class Article extends Base
 
         // 栏目信息、上一篇、下一篇
         const [cate, prevOne, nextOne] = await Promise.all([
-            this.$model.cate.getCate({id: article.cate_id}),
+            this.$model.cate.getCateInfo({id: article.cate_id}),
             model_article.prevOne(aid),
             model_article.nextOne(aid)
         ]);

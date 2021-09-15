@@ -6,7 +6,9 @@ class Cookie extends LibCookie
     constructor(...args) {
         super(...args);
         cookieEncode || (cookieEncode = this.$utils.randomString(16));
-        this.cookieEncode = this.$config.cookie.cookieEncode || cookieEncode;
+        this.cookieEncode = this.$config.cookie && this.$config.cookie.cookieEncode
+            || this.$config.app.app_debug && 'debug_cookie_encode'
+            || cookieEncode;
     }
 
     set(key, value, options) {

@@ -3,18 +3,23 @@ const Base = require('./base');
 class Link extends Base
 {
     async index() {
-        const list = await this.$model.link.getList();
+        const pid = this.ctx.query.pid || 0;
+        const list = await this.$model.link.getLinkList(undefined, pid);
+        const link_list = await this.$model.link.getLinkList({pid: 0});
+
+        this.$assign('pid', pid);
         this.$assign('list', list);
+        this.$assign('link_list', link_list);
         await this.$fetch();
     }
 
-    async add() {
-        const link_list = await this.$model.link.getList();
+    async form() {
+        const link_list = await this.$model.link.getLinkList();
         const pid = parseInt(this.ctx.query.pid);
         const id = parseInt(this.ctx.query.id);
         let link = {};
         if(id) {
-            link = await this.$model.link.getOne({id});
+            link = await this.$model.link.get({id});
         }
 
         this.$assign('pid', pid);
@@ -29,22 +34,12 @@ class Link extends Base
         }
 
         const data = this.ctx.request.body;
-        const id = data.id;
-        delete data.id;
-        if(id) {
-            const result = await this.$model.link.update(data, {id});
-            if(result) {
-                this.$success('保存成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+        const result = await this.$model.link.save(data);
+
+        if(result) {
+            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            const result = await this.$model.link.add(data);
-            if(result) {
-                this.$success('新增成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+            this.$error(data.id ? '保存失败！' : '新增失败！');
         }
     }
 
@@ -54,7 +49,7 @@ class Link extends Base
             return this.$error('系统固定链接不可删除！');
         }
 
-        const result = await this.$model.link.delete({id});
+        const result = await this.$model.link.del({id});
         if(result) {
             this.$success('删除成功！', 'index');
         } else {

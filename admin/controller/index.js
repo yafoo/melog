@@ -16,9 +16,9 @@ class Index extends Base
                 this.$error('密码不能为空！');
             }
 
-            const msg = await this.$model.user.login(email, password);
-            if(msg !== true) {
-                this.$error(msg);
+            const err = await this.$model.user.login(email, password);
+            if(err) {
+                this.$error(err);
             } else {
                 this.$success('登录成功！', 'index');
             }

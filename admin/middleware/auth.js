@@ -9,7 +9,7 @@ class Auth extends Middleware
     // 后台地址验证
     async alias() {
         const admin_auth = this.$service.cookie.get('admin_auth');
-        const admin_alias = await this.$model.site.getAdminAlias();
+        const admin_alias = await this.$model.site.getConfig('admin_alias');
 
         if(admin_auth == 1 && this.ctx.params.app == 'admin') {
             await this.login();
@@ -27,13 +27,13 @@ class Auth extends Middleware
             if(this.ctx.params.controller == 'index' && this.ctx.params.action == 'login') {
                 this.$redirect('index/index');
             } else {
-                // 清理params
+                // 重置params
                 this.ctx.params = {};
                 await this.$next();
             }
         } else {
             if(this.ctx.params.controller == 'index' && this.ctx.params.action == 'login') {
-                // 清理params
+                // 重置params
                 this.ctx.params = {};
                 await this.$next();
             } else {

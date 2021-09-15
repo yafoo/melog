@@ -7,7 +7,7 @@ class Upload extends Base
     async index() {
         const condition = {};
         const keyword = this.ctx.query.keyword;
-        if(keyword !== undefined) {
+        if(keyword) {
             condition['title'] = ['like', '%' + keyword + '%'];
         }
         const [list, pagination] = await this.$model.upload.getPageList(condition);
@@ -68,6 +68,7 @@ class Upload extends Base
                 data.thumb = data.image.replace('.' + data.extname, '_lit.' + data.extname);
             }
             data.size = stats.size;
+            data.add_time = this.$utils.time();
             
             if(await this.$model.upload.add(data)) {
                 this.$success('上传成功！', cfg_upload + data.image);
@@ -87,7 +88,7 @@ class Upload extends Base
 
     async delete() {
         const id = parseInt(this.ctx.query.id);
-        const file = await this.$model.upload.getOne({id});
+        const file = await this.$model.upload.get({id});
         if(!file) {
             return this.$error('数据不存在！');
         }
@@ -103,10 +104,11 @@ class Upload extends Base
             if(thumb_path != img_path && utils.fs.isFileSync(thumb_path)) {
                 await utils.fs.unlink(thumb_path);
             }
-            await this.$model.upload.delete({id});
+            await this.$model.upload.del({id});
             
             this.$success('删除成功！', 'index');
         } catch(e) {
+            this.$logger.error('删除失败：' + e.message);
             this.$error('删除失败！');
         }
     }

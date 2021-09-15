@@ -3,7 +3,7 @@ const {Controller} = require('jj.js');
 class Comment extends Controller
 {
     async _init() {
-        this.site = await this.$admin.model.site.getConfig();
+        this.site = await this.$model.site.getConfig();
     }
 
     async list() {
@@ -21,7 +21,7 @@ class Comment extends Controller
             }
         }
 
-        const list = await this.$admin.model.comment.getPageList(id, page);
+        const list = await this.$model.comment.getPageList(id, page);
         this.$success(this.$utils.toTreeArray(list).reverse());
     }
 
@@ -56,7 +56,7 @@ class Comment extends Controller
         
         data.pid = parseInt(data.pid);
         if(data.pid) {
-            const reply = await this.$admin.model.comment.getOne({id: data.pid});
+            const reply = await this.$model.comment.get({id: data.pid});
             if(!reply) {
                 return this.$error('原评论不存在或已删除！');
             }
@@ -65,11 +65,11 @@ class Comment extends Controller
         data.user_id = this.$service.cookie.get('user') || 0;
         data.ip = this.$utils.getIP(this.ctx.req);
 
-        const result = await this.$admin.model.comment.add(data);
-        if(result) {
-            this.$success('评论成功！');
+        const err = await this.$model.comment.addComment(data);
+        if(err) {
+            this.$error(err);
         } else {
-            this.$error('评论失败！');
+            this.$success('评论成功！');
         }
     }
 }

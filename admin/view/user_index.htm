@@ -13,13 +13,13 @@
                 <td>{{item.uname}}</td>
                 <td>{{item.tname}}</td>
                 <td>{{item.email}}</td>
-                <td><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
 </div>
 <div style="text-align: center;">
-    <a href="{{url('add')}}" class="layui-btn">新增用户</a>
+    <a href="{{url('form')}}" class="layui-btn">新增用户</a>
 </div>
 {{/block}}
 

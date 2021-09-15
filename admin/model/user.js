@@ -2,40 +2,25 @@ const {Model} = require('jj.js');
 
 class User extends Model
 {
-    async getList(condition, rows=10, order='id', sort='asc') {
+    async getUserList(condition, rows=10, order='id', sort='asc') {
         return await this.db.where(condition).order(order, sort).limit(rows).select();
     }
 
-    async getOne(condition) {
-        return await this.db.where(condition).find();
-    }
-
-    async add(data) {
-        const user_data = {...data};
-
-        user_data.salt = this.$utils.randomString(8);
-        user_data.password = this.passmd5(user_data.password, user_data.salt);
-        user_data.add_time = this.$utils.time();
-
-        return await this.db.insert(user_data);
-    }
-
-    async update(data, condition) {
-        const user_data = {...data};
-
-        if(user_data.password) {
-            user_data.salt = this.$utils.randomString(8);
-            user_data.password = this.passmd5(user_data.password, user_data.salt);
+    async saveUser(data) {
+        if(data.id) {
+            data.add_time = this.$utils.time();
         } else {
-            delete user_data.password;
+            data.update_time = this.$utils.time();
         }
-        user_data.update_time = this.$utils.time();
-        
-        return await this.db.update(user_data, condition);
-    }
 
-    async delete(condition) {
-        return await this.db.delete(condition);
+        if(data.password) {
+            data.salt = this.$utils.randomString(8);
+            data.password = this.passmd5(data.password, data.salt);
+        } else {
+            delete data.password;
+        }
+
+        return await this.save(data);
     }
 
     async lock(id) {
@@ -43,7 +28,7 @@ class User extends Model
     }
 
     async login(email, password) {
-        const user = await this.getOne({email});
+        const user = await this.get({email});
 
         if(!user) {
             return '账号或密码错误！';
@@ -60,12 +45,10 @@ class User extends Model
 
         await this.db.update({is_lock: -5, login_time: this.$utils.time()}, {id: user.id});
         this.$service.cookie.set('user', user.id);
-        return true;
     }
 
     async logout() {
         this.$service.cookie.delete('user');
-        return true;
     }
 
     is_lock(user) {

@@ -12,7 +12,7 @@ class Cate extends Base
         this._cate_dir = this.ctx.params.cate;
 
         // 栏目不存在跳过
-        const cate_dirs = await this.$model.cate.getCateDirList();
+        const cate_dirs = await this.$model.cate.getCateDirs();
         if(!~cate_dirs.indexOf(this._cate_dir)) {
             this.ctx.params = {};
             await this.$next();
@@ -23,7 +23,7 @@ class Cate extends Base
     }
 
     async cate() {
-        const cate = await this.$model.cate.getCate({cate_dir: this._cate_dir});
+        const cate = await this.$model.cate.getCateInfo({cate_dir: this._cate_dir});
         const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id}, this.site.list_rows);
 
         this.$assign('title', cate.cate_name + ' - ' + this.site.webname);

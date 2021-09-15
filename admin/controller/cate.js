@@ -3,16 +3,16 @@ const Base = require('./base');
 class Cate extends Base
 {
     async index() {
-        const list = await this.$model.cate.getList(undefined, 100, 'sort', 'asc');
+        const list = await this.$model.cate.getCateList();
         this.$assign('list', list);
         await this.$fetch();
     }
 
-    async add() {
+    async form() {
         const id = parseInt(this.ctx.query.id);
         let cate = {};
         if(id) {
-            cate = await this.$model.cate.getOne({id});
+            cate = await this.$model.cate.get({id});
         }
 
         this.$assign('cate', cate);
@@ -20,34 +20,25 @@ class Cate extends Base
     }
 
     async save() {
-        if(this.ctx.method != 'POST'){
+        if(this.ctx.method != 'POST') {
             return this.$error('非法请求！');
         }
 
         const data = this.ctx.request.body;
-        const id = data.id;
-        delete data.id;
-        if(id) {
-            const result = await this.$model.cate.update(data, {id});
-            if(result) {
-                this.$success('保存成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+        data.is_show = data.is_show ? 1 : 0;
+
+        const result = await this.$model.cate.save(data);
+        if(result) {
+            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            const result = await this.$model.cate.add(data);
-            if(result) {
-                this.$success('新增成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+            this.$error(data.id ? '保存失败！' : '新增失败！');
         }
     }
 
     async delete() {
         const id = parseInt(this.ctx.query.id);
 
-        const result = await this.$model.cate.delete({id});
+        const result = await this.$model.cate.del({id});
         if(result) {
             this.$success('删除成功！', 'index');
         } else {

@@ -1,6 +1,4 @@
 /*
- Navicat Premium Data Transfer
-
  Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 50717
@@ -11,7 +9,7 @@
  Target Server Version : 50717
  File Encoding         : 65001
 
- Date: 07/09/2021 17:46:06
+ Date: 15/09/2021 18:20:23
 */
 
 SET NAMES utf8mb4;
@@ -58,6 +56,7 @@ CREATE TABLE `melog_cate`  (
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '栏目简介',
   `keywords` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '栏目关键词',
   `sort` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '栏目排序',
+  `is_show` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否显示',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `sort`(`sort`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
@@ -65,7 +64,7 @@ CREATE TABLE `melog_cate`  (
 -- ----------------------------
 -- Records of melog_cate
 -- ----------------------------
-INSERT INTO `melog_cate` VALUES (1, 'melog', 'melog', '一个基于jj.js(nodejs)构建的简单轻量级blog系统', 'melog,jj.js,nodejs,blog,博客', 1);
+INSERT INTO `melog_cate` VALUES (1, 'melog', 'melog', '一个基于jj.js(nodejs)构建的简单轻量级blog系统', 'melog,jj.js,nodejs,blog,博客', 1, 1);
 
 -- ----------------------------
 -- Table structure for melog_comment

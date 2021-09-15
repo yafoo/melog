@@ -3,16 +3,16 @@ const Base = require('./base');
 class User extends Base
 {
     async index() {
-        const list = await this.$model.user.getList(undefined, 100, 'id');
+        const list = await this.$model.user.getUserList(undefined, 100);
         this.$assign('list', list);
         await this.$fetch();
     }
 
-    async add() {
+    async form() {
         const id = parseInt(this.ctx.query.id);
         let user = {};
         if(id) {
-            user = await this.$model.user.getOne({id});
+            user = await this.$model.user.get({id});
         }
 
         this.$assign('user', user);
@@ -25,32 +25,21 @@ class User extends Base
         }
 
         const data = this.ctx.request.body;
-        const id = data.id;
-        delete data.id;
-
+        if(!data.email) {
+            return this.$error('账号不能为空！');
+        }
+        if(!data.id && !data.password) {
+            return this.$error('密码不能为空！');
+        }
         if(data.password != data.password2) {
             return this.$error('两次输入密码不一致！');
         }
-        delete data.password2;
 
-        if(id) {
-            const result = await this.$model.user.update(data, {id});
-            if(result) {
-                this.$success('保存成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+        const result = await this.$model.user.saveUser(data);
+        if(result) {
+            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            if(!data.email || !data.password) {
-                return this.$error('账号或密码不能为空！');
-            }
-
-            const result = await this.$model.user.add(data);
-            if(result) {
-                this.$success('新增成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+            this.$error(data.id ? '保存失败！' : '新增失败！');
         }
     }
 
@@ -60,7 +49,7 @@ class User extends Base
             return this.$error('管理员账号请手工在数据库删除！');
         }
 
-        const result = await this.$model.user.delete({id});
+        const result = await this.$model.user.del({id});
         if(result) {
             this.$success('删除成功！', 'index');
         } else {

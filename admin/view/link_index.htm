@@ -17,6 +17,19 @@
 {{/block}}
 
 {{block 'main'}}
+<form class="layui-form table-tools">
+    <div class="layui-input-inline select">
+        <select name="pid">
+            <option value="0">顶级分类</option>
+            {{each link_list item}}
+            <option value="{{item.id}}" {{(item.id == pid) && 'selected'}}>{{item.lname}}</option>{{/each}}
+        </select>
+    </div>
+    <div class="sp5"></div>
+    <div class="layui-input-inline">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
+    </div>
+</form>
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
@@ -30,13 +43,13 @@
                 <td>{{@~item.icon.indexOf('/') ? '<img src="'+item.icon+'">' : ~item.icon.indexOf('layui-icon') ? '<i class="layui-icon '+item.icon+'"></i>' : item.icon}}</td>
                 <td>{{item.url}}</td>
                 <td>{{item.sort}}</td>
-                <td><a href="{{url('add', {pid: item.id})}}" class="layui-btn layui-btn-sm">新增</a><a href="{{url('add', {id: item.id})}}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('form', {pid: item.id})}}" class="layui-btn layui-btn-sm">新增</a><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-normal layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
 </div>
 <div style="text-align: center;">
-    <a href="{{url('add')}}" class="layui-btn">新增链接</a>
+    <a href="{{url('form', pid ? {pid} : undefined)}}" class="layui-btn">新增链接</a>
 </div>
 {{/block}}
 

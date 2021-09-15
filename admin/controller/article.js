@@ -10,11 +10,11 @@ class Article extends Base
         if(cate_id > 0) {
             condition['a.cate_id'] = cate_id;
         }
-        if(keyword !== undefined) {
+        if(keyword) {
             condition['concat(a.title, a.writer)'] = ['like', '%' + keyword + '%'];
         }
 
-        const cate_list = await this.$model.cate.getCate();
+        const cate_list = await this.$model.cate.getCateList();
         const [list, pagination] = await this.$model.article.getArticleList(condition);
 
         this.$assign('cate_id', cate_id);
@@ -26,24 +26,24 @@ class Article extends Base
         await this.$fetch();
     }
     
-    async add() {
-        const cate_list = await this.$model.cate.getCate();
+    async form() {
+        const cate_list = await this.$model.cate.getCateList();
         const id = parseInt(this.ctx.query.id);
         
         let article = {};
         if(id) {
-            article = await this.$model.article.getOne({id});
+            article = await this.$model.article.get({id});
         }
 
         this.$assign('cate_list', cate_list);
         this.$assign('article', article);
 
-        const comment_option = [
+        const is_comment_option = [
             {value: 0, name: '默认'},
             {value: 1, name: '开启'},
             {value: -1, name: '关闭'}
         ];
-        this.$assign('comment_option', comment_option);
+        this.$assign('is_comment_option', is_comment_option);
 
         await this.$fetch();
     }
@@ -54,22 +54,12 @@ class Article extends Base
         }
 
         const data = this.ctx.request.body;
-        const aid = data.id;
-        delete data.id;
-        if(aid) {
-            const result = await this.$model.article.update(data, {id: aid});
-            if(result) {
-                this.$success('保存成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+        const result = await this.$model.cate.saveArticle(data);
+
+        if(result) {
+            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            const result = await this.$model.article.add(data);
-            if(result) {
-                this.$success('新增成功！', 'index');
-            } else {
-                this.$error('保存失败！');
-            }
+            this.$error(data.id ? '保存失败！' : '新增失败！');
         }
     }
 
@@ -78,11 +68,12 @@ class Article extends Base
         
         try {
             await this.db.startTrans(async () => {
-                await this.$model.article.delete({id});
-                await this.$model.comment.delete({article_id: id});
+                await this.$model.article.del({id});
+                await this.$model.comment.del({article_id: id});
             });
             this.$success('删除成功！', 'index');
         } catch (e) {
+            this.$logger.error('删除失败：' + e.message);
             this.$error('删除失败！');
         }
     }

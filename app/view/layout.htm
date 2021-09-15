@@ -7,7 +7,7 @@
     <meta name="description" content="{{description}}"/>
     <meta name="keywords" content="{{keywords}}"/>
     <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/melog.css?v=0.1">
+    <link rel="stylesheet" href="/static/melog.css">
     {{block 'css'}}{{/block}}
 </head>
 <body>
@@ -17,7 +17,7 @@
                 <a class="logo" href="/">{{site.webname}}</a>
                 <div class="navbar-menu">☰</div>
             </div>
-            <ul class="navbar-item">{{each nav item}}
+            <ul class="navbar-item">{{each nav_list item}}
                 <li><a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a></li>{{/each}}
             </ul>
         </nav>
