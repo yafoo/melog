@@ -1,4 +1,4 @@
-## melog
+# melog
 
 ![melog](https://me.i-i.me/static/images/melog_360.png "melog")
 
@@ -8,7 +8,7 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 码云镜像：[https://gitee.com/yafu/melog](https://gitee.com/yafu/melog "https://gitee.com/yafu/melog")
 
-文档地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
+官网地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
 
 ## 安装
 
@@ -64,11 +64,16 @@ http://127.0.0.1:3003
 
 ## 其他
 
-### 使用手册
-[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
+### 开发者博客
+[https://me.i-i.me/](https://me.i-i.me/ "https://me.i-i.me/")
 
 ### jj.js MVC框架
-[https://github.com/yafoo/jj.js](https://github.com/yafoo/jj.js "https://github.com/yafoo/jj.js")
+Github: [https://github.com/yafoo/jj.js](https://github.com/yafoo/jj.js "https://github.com/yafoo/jj.js")
+
+Gitee: [https://gitee.com/yafu/jj.js](https://gitee.com/yafu/jj.js "https://gitee.com/yafu/jj.js")
+
+### 爱主页网址导航
+[https://www.i-i.me/](https://www.i-i.me/ "https://www.i-i.me/")
 
 ### Nginx代理设置
 
