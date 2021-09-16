@@ -95,7 +95,7 @@ $(function() {
 
             $.post($form.attr("action"), data, function(re){
                 if(re.state) {
-                    tips(re.msg, 3000, function(){
+                    tips(re.msg, 2000, function(){
                         history.go(0);
                     });
                 } else {

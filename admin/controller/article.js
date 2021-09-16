@@ -37,6 +37,7 @@ class Article extends Base
 
         this.$assign('cate_list', cate_list);
         this.$assign('article', article);
+        this.$assign('uname', this.user.uname);
 
         const is_comment_option = [
             {value: 0, name: '默认'},
