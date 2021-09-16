@@ -49,12 +49,12 @@ class Article extends Base
     }
 
     async save() {
-        if(this.ctx.method != 'POST'){
+        if(this.ctx.method != 'POST') {
             return this.$error('非法请求！');
         }
 
         const data = this.ctx.request.body;
-        const result = await this.$model.cate.saveArticle(data);
+        const result = await this.$model.article.saveArticle(data);
 
         if(result) {
             this.$success(data.id ? '保存成功！' : '新增成功！', 'index');

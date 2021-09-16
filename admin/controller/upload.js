@@ -19,14 +19,14 @@ class Upload extends Base
     }
 
     async upload() {
-        if(this.ctx.method != 'POST'){
+        if(this.ctx.method != 'POST') {
             return this.error('非法请求！');
         }
 
-        const size = parseInt(this.site.limit_size);
+        const limit_size = parseInt(this.site.limit_size);
         const cfg_upload = this.site.upload;
         const upload_dir = this.$config.app.static_dir + cfg_upload;
-        const result = await this.$upload.file('file').validate({size}).save(upload_dir);
+        const result = await this.$upload.file('file').validate({size: limit_size}).save(upload_dir);
 
         if(result) {
             const img_path = result.filepath;
@@ -56,6 +56,20 @@ class Upload extends Base
                 image.cover(thumb_width, thumb_height);
                 await image.writeAsync(thumb_path);
             }
+
+            // 添加图片水印（不知为何，水印加不上）
+            // const watermark = this.site.watermark || '';
+            // const watermark_path = path.join(this.$config.app.base_dir, this.$config.app.static_dir, watermark);
+            // if(watermark && utils.fs.isFileSync(watermark_path)) {
+            //     const image = await jimp.read(img_path);
+            //     const mask = await jimp.read(watermark_path);
+            //     const x = image.getWidth() - mask.getWidth() - 20;
+            //     const y = image.getHeight() - mask.getHeight() - 20;
+            //     if(x > 0 && y > 0) {
+            //         image.mask(mask, 0, 0);
+            //         await image.quality(80).writeAsync(img_path);
+            //     }
+            // }
 
             // 图片信息
             const stats = await utils.fs.stat(img_path);
@@ -94,7 +108,7 @@ class Upload extends Base
         }
 
         try {
-            const upload_dir = path.join(this.$config.app.base_dir,this.$config.app.static_dir,this.site.upload);
+            const upload_dir = path.join(this.$config.app.base_dir, this.$config.app.static_dir, this.site.upload);
             const img_path = upload_dir + file.image;
             const thumb_path = upload_dir + file.thumb;
 

@@ -20,7 +20,7 @@ class User extends Base
     }
 
     async save() {
-        if(this.ctx.method != 'POST'){
+        if(this.ctx.method != 'POST') {
             return this.$error('非法请求！');
         }
 
