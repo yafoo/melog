@@ -14,6 +14,7 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 ```bash
 git clone https://github.com/yafoo/melog.git
+cd melog
 npm i
 ```
 
