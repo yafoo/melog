@@ -34,7 +34,7 @@
     text-align: center;
 }
 .meedit-tool .layui-icon {
-    width: 32px;
+    width: 30px;
     height: 30px;
     line-height: 30px;
     margin: 3px 5px;
@@ -128,7 +128,7 @@
     position: absolute;
     top: 3px;
     left: 10px;
-    width: 32px;
+    width: 30px;
     height: 30px;
     line-height: 30px;
     margin: 3px 5px;

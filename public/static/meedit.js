@@ -82,7 +82,7 @@
 
         // 预览关闭
         this.$m.find('.meview-title').click(function(e) {
-            if(e.offsetX > 15 && e.offsetX <= 15 + 32 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
+            if(e.offsetX > 15 && e.offsetX <= 15 + 30 && e.offsetY > 6 && e.offsetY <= 6 + 30) {
                 that.$m.find('.meedit-tool-view').click();
             }
         });
