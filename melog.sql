@@ -9,7 +9,7 @@
  Target Server Version : 50717
  File Encoding         : 65001
 
- Date: 15/09/2021 18:20:23
+ Date: 18/09/2021 18:16:33
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `melog_article`  (
 -- ----------------------------
 -- Records of melog_article
 -- ----------------------------
-INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 469, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n以后会慢慢填充内容，敬请期待！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/melog/ \"melog\")搭建。', 1577808000, 1581605484, 0, 0);
+INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 469, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/melog/ \"melog\")搭建。', 1577808000, 1631959741, 0, 0);
 
 -- ----------------------------
 -- Table structure for melog_cate
@@ -115,8 +115,8 @@ CREATE TABLE `melog_link`  (
 INSERT INTO `melog_link` VALUES (1, 0, '友情链接', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (2, 0, '底部链接', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (3, 1, '爱主页', '', 'https://www.i-i.me/', 2, 0, 0);
-INSERT INTO `melog_link` VALUES (4, 2, 'github', '', 'https://github.com/yafoo/jj.js', 99, 0, 0);
-INSERT INTO `melog_link` VALUES (5, 2, 'melog', '', 'https://me.i-i.me/melog/', 4, 0, 0);
+INSERT INTO `melog_link` VALUES (4, 1, 'melog', '', 'https://me.i-i.me/melog/', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (5, 2, 'github', '', 'https://github.com/yafoo/melog', 1, 0, 0);
 
 -- ----------------------------
 -- Table structure for melog_site
