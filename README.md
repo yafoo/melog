@@ -10,6 +10,8 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 官网地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
 
+演示demo：[https://js.i-i.me/](https://js.i-i.me/ "https://js.i-i.me/")（后台：[admin](https://js.i-i.me/admin "https://js.i-i.me/admin")，账号：`melog@i-i.me`，密码：`123456`）
+
 ## 安装
 
 ```bash
@@ -20,7 +22,7 @@ npm i
 
 ## 运行
 
-### 修改配置
+### 1. 修改配置
 
 修改`/config/app.js`文件，关闭调试模式
 
@@ -41,11 +43,11 @@ charset   : 'utf8', // 数据库编码默认采用utf8
 prefix    : 'melog_' // 数据库表前缀
 ```
 
-### 导入数据
+### 2. 导入数据
 
 将根目录下`melog.sql`文件导入数据库。
 
-### 运行程序
+### 3. 运行程序
 
 ```bash
 node server.js
