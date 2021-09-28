@@ -8,11 +8,12 @@ class Site extends Base
             const list = await this.$model.site.db.column('value', 'kname');
             try {
                 await this.$model.site.db.startTrans();
-                Object.keys(data).forEach(async key => {
-                    if(list[key] !== undefined && list[key] !== data[key]) {
+                const keys = Object.keys(data);
+                for(const key of keys) {
+                    if((key in list) && data[key] !== list[key]) {
                         await this.$model.site.save({value: data[key]}, {kname: key});
                     }
-                });
+                }
                 await this.$model.site.db.commit();
                 this.clear();
                 this.$success('保存成功！');
