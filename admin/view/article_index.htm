@@ -1,5 +1,14 @@
 {{extend './layout.htm'}}
 
+{{block 'css'}}
+<style>
+    .title img {
+        height: 30px;
+        margin-right: 10px;
+    }
+</style>
+{{/block}}
+
 {{block 'main'}}
 <form class="layui-form table-tools">
     <div class="layui-input-inline select">
@@ -27,7 +36,7 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td class="title"><a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></td>
+                <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':article', {id: item.id})}}" target="blank">{{item.title}}</a></td>
                 <td>{{item.cate_name}}</td>
                 <td>{{item.click}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
