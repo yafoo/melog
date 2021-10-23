@@ -1,15 +1,15 @@
 /*
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50717
+ Source Server Version : 50726
  Source Host           : localhost:3306
  Source Schema         : melog
 
  Target Server Type    : MySQL
- Target Server Version : 50717
+ Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 18/09/2021 18:16:33
+ Date: 23/10/2021 23:42:17
 */
 
 SET NAMES utf8mb4;
@@ -30,6 +30,7 @@ CREATE TABLE `melog_article`  (
   `click` int(255) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点击',
   `keywords` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '关键词',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '简介',
+  `thumb` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '缩略图',
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
   `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
@@ -43,7 +44,7 @@ CREATE TABLE `melog_article`  (
 -- ----------------------------
 -- Records of melog_article
 -- ----------------------------
-INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 469, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/melog/ \"melog\")搭建。', 1577808000, 1631959741, 0, 0);
+INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 1, 'melog,博客', '我的个人博客上线了，基于melog搭建', '', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/melog/ \"melog\")搭建。', 1577808000, 1631959741, 0, 0);
 
 -- ----------------------------
 -- Table structure for melog_cate
@@ -130,25 +131,26 @@ CREATE TABLE `melog_site`  (
   `intro` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标题',
   `value` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of melog_site
 -- ----------------------------
 INSERT INTO `melog_site` VALUES (1, 'web', 'input', 'basehost', '网站根网址', 'http://127.0.0.1:3003');
 INSERT INTO `melog_site` VALUES (3, 'web', 'input', 'webname', '网站名字', 'Melog');
-INSERT INTO `melog_site` VALUES (4, 'other', 'input', 'upload', '文件上传目录', '/upload');
+INSERT INTO `melog_site` VALUES (4, 'image', 'input', 'upload', '文件上传目录', '/upload');
 INSERT INTO `melog_site` VALUES (5, 'web', 'input', 'keywords', '关键词', 'melog');
 INSERT INTO `melog_site` VALUES (6, 'web', 'textarea', 'description', '网站简介', '一个基于melog搭建的简单轻量级博客！');
 INSERT INTO `melog_site` VALUES (7, 'web', 'textarea', 'beian', '网站备案信息', '<a href=\"https://icp.gov.moe/?keyword=20200002\" rel=\"nofollow\" target=\"_blank\">萌ICP备 20200002号</a> <script>!function(p){\"use strict\";!function(t){var s=window,e=document,i=p,c=\"\".concat(\"https:\"===e.location.protocol?\"https://\":\"http://\",\"sdk.51.la/js-sdk-pro.min.js\"),n=e.createElement(\"script\"),r=e.getElementsByTagName(\"script\")[0];n.type=\"text/javascript\",n.setAttribute(\"charset\",\"UTF-8\"),n.async=!0,n.src=c,n.id=\"LA_COLLECT\",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:\"JFnMP2IgdFm3vb1n\",ck:\"JFnMP2IgdFm3vb1n\"});</script>');
-INSERT INTO `melog_site` VALUES (15, 'other', 'input', 'img_width', '图片限制宽度', '1920');
-INSERT INTO `melog_site` VALUES (16, 'other', 'input', 'img_height', '图片限制高度', '2000');
+INSERT INTO `melog_site` VALUES (15, 'image', 'input', 'img_width', '图片限制宽度', '1920');
+INSERT INTO `melog_site` VALUES (16, 'image', 'input', 'img_height', '图片限制高度', '2000');
 INSERT INTO `melog_site` VALUES (19, 'other', 'input', 'list_rows', '列表显示行数', '10');
 INSERT INTO `melog_site` VALUES (22, 'self', 'input', 'keyname', '自定义参数', 'keyvalue');
 INSERT INTO `melog_site` VALUES (2, 'web', 'input', 'admin_alias', '后台目录别名', 'admin');
 INSERT INTO `melog_site` VALUES (31, 'other', 'input', 'is_comment', '开启评论(1/0)', '1');
-INSERT INTO `melog_site` VALUES (32, 'other', 'input', 'thumb_width', '缩略图宽度', '400');
-INSERT INTO `melog_site` VALUES (33, 'other', 'input', 'thumb_height', '缩略图高度', '300');
+INSERT INTO `melog_site` VALUES (32, 'image', 'input', 'thumb_width', '缩略图宽度', '400');
+INSERT INTO `melog_site` VALUES (33, 'image', 'input', 'thumb_height', '缩略图高度', '300');
+INSERT INTO `melog_site` VALUES (34, 'image', 'input', 'img_origin', '保留原始图片', '0');
 
 -- ----------------------------
 -- Table structure for melog_upload
@@ -163,6 +165,8 @@ CREATE TABLE `melog_upload`  (
   `extname` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件类型',
   `size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '文件大小',
   `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
+  `original` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '原图地址',
+  `origin_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '原图大小',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
