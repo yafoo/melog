@@ -5,6 +5,7 @@
 <link href="/static/meedit.css" rel="stylesheet">
 <style>
 .layui-tab-content {padding: 10px 0 0;}
+.input-thumb {background-size: auto 100%; background-repeat: no-repeat; text-indent: 45px;}
 </style>
 {{/block}}
 
@@ -65,6 +66,12 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">缩略图</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="thumb" class="layui-input input-thumb" value="{{article.thumb}}"><span class="layui-btn select-thumb">选择</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">评论</label>
                     <div class="layui-input-block">
                         <select name="is_comment" lay-verify="required">
@@ -99,8 +106,30 @@
     layui.use(['form', 'element'], function() {
         var form = layui.form
         ,element = layui.element;
+
         // 初始化高度
         $('.article').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 60);
+
+        // 缩略图选择
+        $(".select-thumb").click(function() {
+            layer.open({
+                type: 2,
+                title: '选择缩略图',
+                shadeClose: true,
+                shade: 0.2,
+                area: ['360px', '405px'],
+                content: "{{url('upload/index', {'action': 'select_thumb'})}}"
+            });
+        });
+        window.select_thumb = function(image) {
+            layer.closeAll();
+            $("input[name=thumb]").val(image).change();
+        }
+        $("input[name=thumb]").on('change', function() {
+            this.value && $(this).css('backgroundImage', 'url('+this.value+')');
+        }).change();
+
+        // 编辑器
         $('.content').meedit({
             image_server: "{{url('upload/index')}}",
             callback_funname: 'insert_image',

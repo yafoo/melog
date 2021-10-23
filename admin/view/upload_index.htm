@@ -64,7 +64,7 @@
                 <td>{{item.extname}}</td>
                 <td>{{item.size_text}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td><button data-image="{{item.image}}" class="layui-btn layui-btn-sm btn-use">使用</button><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><button data-image="{{item.thumb}}" class="layui-btn layui-btn-sm btn-use" title="选择缩略图">小图</button><button data-image="{{item.image}}" class="layui-btn layui-btn-sm btn-use" title="选择大图">大图</button><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
@@ -77,6 +77,7 @@
     // iframe调用
     $(function(){
         if(window != parent) {
+            var action = "{{action}}";
             $("header").hide();
             $(".layui-table tr>*:nth-child(3)").hide();
             $(".layui-table tr>*:nth-child(4)").hide();
@@ -84,15 +85,15 @@
             $(".layui-table tr>*:nth-child(6)").hide();
             $(".layui-table .btn-use").click(function() {
                 var image = $(this).data('image');
-                if(typeof parent.insert_image == 'function') {
+                if(action == 'select_thumb' && typeof parent.select_thumb == 'function') {
+                    parent.select_thumb(image);
+                } else if(typeof parent.insert_image == 'function') {
                     parent.insert_image(image);
                 } else {
                     layer.msg('父窗口insert_image函数未定义！');
                 }
             }).show();
             $('<style>.table-wrap{height:200px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}</style>').appendTo($('head'));
-        } else {
-            $(".layui-table tr>td:nth-child(5)")
         }
     });
 
