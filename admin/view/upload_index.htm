@@ -75,9 +75,9 @@
 {{block 'js'}}
 <script>
     // iframe调用
+    var action = "{{action}}";
     $(function(){
         if(window != parent) {
-            var action = "{{action}}";
             $("header").hide();
             $(".layui-table tr>*:nth-child(3)").hide();
             $(".layui-table tr>*:nth-child(4)").hide();
@@ -116,7 +116,11 @@
                 //上传成功
                 $('#preview').attr('src', res.data);
                 layer.msg('上传成功！', {time: 600}, function() {
-                    if(window != parent && typeof parent.insert_image == 'function') {
+                    if(action == 'select_thumb' && typeof parent.select_thumb == 'function') {
+                        // res.data为大图,不能用
+                        // parent.select_thumb(res.data);
+                        history.go(0);
+                    } else if(typeof parent.insert_image == 'function') {
                         parent.insert_image(res.data);
                     } else {
                         history.go(0);
