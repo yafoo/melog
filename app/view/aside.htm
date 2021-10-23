@@ -5,7 +5,7 @@
         </form>
         <hr class="m-hr">
         <dl class="box">
-            <dt><h3 class="title">最新博文</h3></dt>
+            <dt><h3 class="title">最新文章</h3></dt>
             <dd>
                 <ul>{{each latest item}}
                     <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
@@ -14,7 +14,7 @@
         </dl>
         <hr class="m-hr">
         <dl class="box">
-            <dt><h3 class="title">热点博文</h3></dt>
+            <dt><h3 class="title">热点文章</h3></dt>
             <dd>
                 <ul>{{each hot item}}
                     <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
