@@ -32,7 +32,13 @@ class Upload extends Base
 
         if(result) {
             const jimp = require('jimp');
-            const image = await jimp.read(result.filepath);
+            let image;
+            try {
+                image = await jimp.read(result.filepath);
+            } catch(e) {
+                await utils.fs.unlink(result.filepath);
+                return this.$error(e.message);
+            }
             const cfg_width = parseInt(this.site.img_width) || 0;
             const cfg_height = parseInt(this.site.img_height) || 0;
 
@@ -95,7 +101,7 @@ class Upload extends Base
             data.add_time = this.$utils.time();
 
             if(origin_path) {
-                data.original = this._getOri(data.image, data.extname);
+                data.original = this._getOri(save_name, data.extname);
                 const origin_stats = await utils.fs.stat(origin_path);
                 data.origin_size = origin_stats.size;
             }
