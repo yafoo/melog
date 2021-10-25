@@ -21,18 +21,18 @@
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">标题</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="required" lay-verType="tips" class="layui-input" value="{{article.title}}">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">栏目</label>
+                    <label class="layui-form-label">所属栏目</label>
                     <div class="layui-input-block">
                         <select name="cate_id" lay-verify="required">
                             {{each cate_list item}}
                             <option value="{{item.id}}" {{(item.id == article.cate_id) && 'selected'}}>{{item.cate_name}}</option>{{/each}}
                         </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="required" lay-verType="tips" class="layui-input" value="{{article.title}}">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -68,7 +68,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">缩略图</label>
                     <div class="layui-input-block">
-                        <input type="text" name="thumb" class="layui-input input-thumb" value="{{article.thumb}}"><span class="layui-btn select-thumb">选择</span>
+                        <input type="text" name="thumb" class="layui-input input-thumb" value="{{article.thumb}}" autocomplete="off"><span class="layui-btn select-thumb">选择</span>
                     </div>
                 </div>
                 <div class="layui-form-item">
