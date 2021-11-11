@@ -470,7 +470,7 @@
         var str3 = text.substr(pos.end) || '';
         this.area.value = str1 + left + str2 + right + str3;
         if(str2.length) {
-            this.area.caret(pos.begin + len + str2.length + 2);
+            this.area.caret(pos.begin + len + str2.length + (replace ? 0 : 2));
         } else {
             this.area.caret(pos.begin + len, pos.end + len);
         }
