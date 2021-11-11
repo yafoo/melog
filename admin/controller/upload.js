@@ -16,7 +16,7 @@ class Upload extends Base
         this.$assign('keyword', keyword);
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
-        this.$assign('action', this.ctx.query.action || '');
+        this.$assign('callback', this.ctx.query.callback || 'callback');
         await this.$fetch();
     }
 
@@ -107,7 +107,14 @@ class Upload extends Base
             }
             
             if(await this.$model.upload.add(data)) {
-                this.$success('上传成功！', cfg_upload + data.image);
+                const re_data = {
+                    title: data.title,
+                    image: cfg_upload + data.image,
+                    thumb: cfg_upload + data.thumb,
+                    size: data.size,
+                    extname: data.extname
+                };
+                this.$success('上传成功！', re_data);
             } else {
                 if(utils.fs.isFileSync(img_path)) {
                     await utils.fs.unlink(img_path);

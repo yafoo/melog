@@ -117,24 +117,31 @@
                 title: '选择缩略图',
                 shadeClose: true,
                 shade: 0.2,
-                area: ['360px', '405px'],
-                content: "{{url('upload/index', {'action': 'select_thumb'})}}"
+                area: ['360px', '455px'],
+                content: "{{url('upload/index', {'callback': 'callback'})}}"
             });
         });
-        window.select_thumb = function(image) {
+        // 选择回调
+        window.callback = function(image) {
             layer.closeAll();
+            typeof(image) == 'object' && (image = image.thumb);
             $("input[name=thumb]").val(image).change();
         }
+        // 缩略图预览
         $("input[name=thumb]").on('change', function() {
             this.value && $(this).css('backgroundImage', 'url('+this.value+')');
         }).change();
 
         // 编辑器
         $('.content').meedit({
-            image_server: "{{url('upload/index')}}",
-            callback_funname: 'insert_image',
-            upload_server: "{{url('upload/upload')}}",
-            render_callback: function() {
+            upload_index: "{{url('upload/index', {'callback': 'upload_callback'})}}",
+            upload_upload: "{{url('upload/upload')}}",
+            onupload: function(image) {
+                if(image && image.thumb && !$("input[name=thumb]").val()) {
+                    $("input[name=thumb]").val(image.thumb).change();
+                }
+            },
+            onrender: function() {
                 $('.meview-title').text($('input[name=title]').val() || '内容预览');
             }
         });

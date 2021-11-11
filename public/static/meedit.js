@@ -15,12 +15,13 @@
 
         // 默认参数
         this.defaults = {
-            image_server: '',
-            callback_funname: 'insert_image',
-            upload_server: '',
-            render_callback: null,
+            upload_index: '',
+            upload_upload: '',
+            upload_callback: 'upload_callback',
+            onupload: null,
+            onrender: null,
             hide_tools: [],
-            cancel_steps: 3
+            cancel_steps: 10
         },
         this.options = $.extend({}, this.defaults, opt);
 
@@ -101,9 +102,11 @@
         }
 
         // layer选择图片回调
-        window[this.options.callback_funname] = function(image) {
+        window[this.options.upload_callback] = function(image) {
             layer.closeAll();
-            that.tool_wrap_image(image);
+            typeof(image) == 'string' && (image = {image: image});
+            that.tool_wrap_image(image.image, image.title);
+            that.options.onupload && that.options.onupload(image);
         }
     }
 
@@ -203,7 +206,9 @@
                 if (blob !== null) {
                     var that = this;
                     this.upload_image(blob, function(image) {
-                        that.tool_wrap_image(image);
+                        typeof(image) == 'string' && (image = {image: image});
+                        that.tool_wrap_image(image.image, image.title);
+                        that.options.onupload && that.options.onupload(image);
                     });
                     event.preventDefault();
                 }
@@ -217,7 +222,7 @@
         data.append('file', blob);
         layer.load();
         $.ajax({
-            url: this.options.upload_server,
+            url: this.options.upload_upload,
             type: 'POST',
             data: data,
             cache: false,
@@ -277,8 +282,8 @@
             title: '插入图片',
             shadeClose: true,
             shade: 0.2,
-            area: ['360px', '405px'],
-            content: this.options.image_server
+            area: ['360px', '455px'],
+            content: this.options.upload_index
         });
     }
 
@@ -396,7 +401,7 @@
         hljs && this.$m.find('.meview-content pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
-        this.options.render_callback && this.options.render_callback();
+        this.options.onrender && this.options.onrender();
     }
 
     // 滚动同步
@@ -455,13 +460,13 @@
     }
 
     // 两边加字符串
-    M.tool_wrap_str = function(left, right) {
+    M.tool_wrap_str = function(left, right, replace) {
         right || (right = '');
         var len = left.length;
         var pos = this.area.caret();
         var text = this.area.value;
         var str1 = text.substr(0, pos.begin) || '';
-        var str2 = text.substr(pos.begin, pos.end - pos.begin) || '';
+        var str2 = replace || text.substr(pos.begin, pos.end - pos.begin) || '';
         var str3 = text.substr(pos.end) || '';
         this.area.value = str1 + left + str2 + right + str3;
         if(str2.length) {
@@ -474,14 +479,15 @@
     }
 
     // 加图片字符串
-    M.tool_wrap_image = function(image) {
-        this.tool_wrap_str('![', '](' + image + ')');
+    M.tool_wrap_image = function(image, title) {
+        this.tool_wrap_str('![', '](' + image + ')', title);
     }
 
     // jquery插件
     $.fn.meedit = function(options) {
         return this.each(function() {
-            new Meedit(this, options);
+            !window.meedit && (window.meedit = []);
+            window.meedit.push(new Meedit(this, options));
         });
     }
 

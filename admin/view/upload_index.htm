@@ -27,11 +27,7 @@
         text-align: center;
     }
     .layui-table img {
-        width: 42px;
-        height: 42px;
-    }
-    .layui-table .btn-use {
-        display: none;
+        width: 50px;
     }
 </style>
 {{/block}}
@@ -59,12 +55,12 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td><a href="{{item.image}}" target="blank"><img src="{{item.thumb}}"></a></td>
-                <td>{{item.title}}</td>
+                <td><a href="{{item.image}}" target="blank" title="{{item.title}}"><img src="{{item.thumb}}"></a></td>
+                <td class="image-title" data-title="{{item.title}}" data-image="{{item.image}}" data-thumb="{{item.thumb}}">{{item.title}}</td>
                 <td>{{item.extname}}</td>
                 <td>{{item.size_text}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td><button data-image="{{item.thumb}}" class="layui-btn layui-btn-sm btn-use" title="选择缩略图">小图</button><button data-image="{{item.image}}" class="layui-btn layui-btn-sm btn-use" title="选择大图">大图</button><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
@@ -74,28 +70,7 @@
 
 {{block 'js'}}
 <script>
-    // iframe调用
-    var action = "{{action}}";
-    $(function(){
-        if(window != parent) {
-            $("header").hide();
-            $(".layui-table tr>*:nth-child(3)").hide();
-            $(".layui-table tr>*:nth-child(4)").hide();
-            $(".layui-table tr>*:nth-child(5)").hide();
-            $(".layui-table tr>*:nth-child(6)").hide();
-            $(".layui-table .btn-use").click(function() {
-                var image = $(this).data('image');
-                if(action == 'select_thumb' && typeof parent.select_thumb == 'function') {
-                    parent.select_thumb(image);
-                } else if(typeof parent.insert_image == 'function') {
-                    parent.insert_image(image);
-                } else {
-                    layer.msg('父窗口insert_image函数未定义！');
-                }
-            }).show();
-            $('<style>.table-wrap{height:200px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}</style>').appendTo($('head'));
-        }
-    });
+    var cb = "{{callback}}";
 
     layui.use('upload', function() {
         var upload = layui.upload;
@@ -114,14 +89,9 @@
                 }
                 
                 //上传成功
-                $('#preview').attr('src', res.data);
                 layer.msg('上传成功！', {time: 600}, function() {
-                    if(action == 'select_thumb' && typeof parent.select_thumb == 'function') {
-                        // res.data为大图,不能用
-                        // parent.select_thumb(res.data);
-                        history.go(0);
-                    } else if(typeof parent.insert_image == 'function') {
-                        parent.insert_image(res.data);
+                    if(typeof parent[cb] == 'function') {
+                        parent[cb](res.data);
                     } else {
                         history.go(0);
                     }
@@ -160,6 +130,27 @@
             });
         });
 
+    });
+
+    // iframe调用
+    $(function(){
+        if(window != parent) {
+            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{font-size:13px;line-height:16px;padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;cursor:pointer;}.image-title span{height:16px;line-height:15px;padding:0 2px;margin-left:2px;vertical-align:0px;transition:all .3s;opacity:0;}.image-title:hover span{opacity:1;}</style>').appendTo($('head'));
+            $(".layui-table tr>*:nth-child(4)").hide();
+            $(".layui-table tr>*:nth-child(5)").hide();
+            $(".layui-table tr>*:nth-child(6)").hide();
+            $(".image-title").attr('title', '选择图片').append('<span class="layui-btn layui-btn-sm">选择</span>').click(function() {
+                if(typeof parent[cb] == 'function') {
+                    parent[cb]({
+                        title: $(this).data('title'),
+                        image: $(this).data('image'),
+                        thumb: $(this).data('thumb')
+                    });
+                } else {
+                    layer.msg('父窗口callback函数未定义！');
+                }
+            });
+        }
     });
 </script>
 {{/block}}
