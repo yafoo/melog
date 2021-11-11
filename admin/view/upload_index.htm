@@ -135,11 +135,11 @@
     // iframe调用
     $(function(){
         if(window != parent) {
-            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb {background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{font-size:13px;line-height:16px;padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;cursor:pointer;}.image-title span{height:16px;line-height:15px;vertical-align:0px;transition:all .3s;opacity:0;width:0;padding:0;margin-left:0;border-width:0;}.image-title:hover span{opacity:1;width:auto;padding:0 2px;margin-left:2px;border-width:1px;}</style>').appendTo($('head'));
+            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb{background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{font-size:13px;line-height:16px;padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;}.table-wrap .layui-table td.image-title:hover{font-size:0;text-align:center;}.image-title .layui-btn{display:none;}.image-title:hover .layui-btn{display:inline-block;}</style>').appendTo($('head'));
             $(".layui-table tr>*:nth-child(4)").hide();
             $(".layui-table tr>*:nth-child(5)").hide();
             $(".layui-table tr>*:nth-child(6)").hide();
-            $(".image-title").attr('title', '选择图片').append('<span class="layui-btn layui-btn-sm">选择</span>').click(function() {
+            $(".image-title").attr('title', '选择图片').append('<span class="layui-btn layui-btn-sm">选择图片</span>').click(function() {
                 if(typeof parent[cb] == 'function') {
                     parent[cb]({
                         title: $(this).data('title'),
