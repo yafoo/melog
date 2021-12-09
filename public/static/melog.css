@@ -366,7 +366,14 @@ ul>li {list-style: none;}
     padding: 10px 0;
     font-weight: bold;
 }
-.prevnext a:hover {
+.prevnext li {
+    display: flex;
+}
+.prevnext li a {
+    flex: 1;
+    margin-left: 3px;
+}
+.prevnext li a:hover {
     text-decoration: underline;
 }
 
