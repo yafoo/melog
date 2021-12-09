@@ -57,7 +57,7 @@
             <tr>
                 <td>{{item.id}}</td>
                 <td><a href="{{item.image}}" target="blank" title="{{item.title}}"><img src="{{item.thumb}}"></a></td>
-                <td class="image-title" data-title="{{item.title}}" data-image="{{item.image}}" data-thumb="{{item.thumb}}">{{item.title}}</td>
+                <td class="image-title" data-title="{{item.title}}" data-image="{{item.image}}" data-thumb="{{item.thumb}}"><div>{{item.title}}</div></td>
                 <td>{{item.extname}}</td>
                 <td>{{item.size_text}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
@@ -136,20 +136,23 @@
     // iframe调用
     $(function(){
         if(window != parent) {
-            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb{background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{font-size:13px;line-height:16px;padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;}.table-wrap .layui-table td.image-title:hover{font-size:0;text-align:center;}.image-title .layui-btn{display:none;}.image-title:hover .layui-btn{display:inline-block;}</style>').appendTo($('head'));
+            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb{background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;}.table-wrap .layui-table td.image-title div{font-size:13px;line-height:16px;max-height:32px;overflow:hidden;}.table-wrap .layui-table td.image-title:hover{text-align:center;}.table-wrap .layui-table td.image-title:hover div{display:none;}.image-title .layui-btn{display:none;}.image-title:hover .layui-btn{display:inline-block;}</style>').appendTo($('head'));
             $(".layui-table tr>*:nth-child(4)").hide();
             $(".layui-table tr>*:nth-child(5)").hide();
             $(".layui-table tr>*:nth-child(6)").hide();
-            $(".image-title").attr('title', '选择图片').append('<span class="layui-btn layui-btn-sm">选择图片</span>').click(function() {
-                if(typeof parent[cb] == 'function') {
-                    parent[cb]({
-                        title: $(this).data('title'),
-                        image: $(this).data('image'),
-                        thumb: $(this).data('thumb')
-                    });
-                } else {
-                    layer.msg('父窗口callback函数未定义！');
-                }
+            $(".image-title").each(function() {
+                var that = $(this);
+                $('<span class="layui-btn layui-btn-sm" title="' + that.data('title') + '">选择图片</span>').click(function() {
+                    if(typeof parent[cb] == 'function') {
+                        parent[cb]({
+                            title: that.data('title'),
+                            image: that.data('image'),
+                            thumb: that.data('thumb')
+                        });
+                    } else {
+                        layer.msg('父窗口callback函数未定义！');
+                    }
+                }).appendTo(that);
             });
         }
     });
