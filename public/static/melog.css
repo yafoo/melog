@@ -211,6 +211,7 @@ ul>li {list-style: none;}
     line-height: 0;
     width: 160px;
     max-width: 98%;
+    margin-bottom: 6px;
     position: relative;
 }
 .box dd a.image img {
