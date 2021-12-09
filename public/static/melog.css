@@ -1,7 +1,7 @@
 * {box-sizing: border-box; padding: 0; margin: 0;}
 ::selection{background-color: #46bc99; color: #FFF;}
 body {color: #333333; font: 14px Helvetica Neue,Helvetica,PingFang SC,Microsoft YaHei,Tahoma,Arial,sans-serif; line-height: 1.6;}
-a {color: inherit; text-decoration: none; transition: color .2s;}
+a {color: inherit; text-decoration: none; transition: all .2s;}
 a:hover {color: #3fa98a;}
 a:hover, a:active, a:focus {text-decoration: none;}
 a.image {font-size: 0;}
@@ -198,6 +198,9 @@ ul>li {list-style: none;}
 .box dd {
     padding-top: 10px;
 }
+.box dd a:hover {
+    text-decoration: underline;
+}
 
 /* list */
 .list-item {
@@ -320,6 +323,10 @@ ul>li {list-style: none;}
 .prevnext {
     line-height: 28px;
     padding: 10px 0;
+    font-weight: bold;
+}
+.prevnext a:hover {
+    text-decoration: underline;
 }
 
 /* pagination */
