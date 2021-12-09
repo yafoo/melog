@@ -29,22 +29,37 @@ class Article extends Model
 
     // 最新文章
     async getNew(rows=8) {
-        return await this.db.field('id,title,click').order('id', 'desc').limit(rows).cache(this.cacheTime).select();
+        return await this.db.field('id,title,click,thumb').order('id', 'desc').limit(rows).cache(this.cacheTime).select();
     }
 
     // 热点文章
     async getHot(rows=8) {
-        return await this.db.field('id,title,click').order('click', 'desc').limit(rows).cache(this.cacheTime).select();
+        return await this.db.field('id,title,click,thumb').order('click', 'desc').limit(rows).cache(this.cacheTime).select();
     }
 
     // 上一篇
     async prevOne(id, condition) {
-        return await this.db.field('id,title').where({id: ['>', id]}).where(condition).order('id', 'asc').cache(this.cacheTime).find();
+        return await this.db.field('id,title,thumb').where({id: ['>', id]}).where(condition).order('id', 'asc').cache(this.cacheTime).find();
     }
 
     // 下一篇
     async nextOne(id, condition) {
-        return await this.db.field('id,title').where({id: ['<', id]}).where(condition).order('id', 'desc').cache(this.cacheTime).find();
+        return await this.db.field('id,title,thumb').where({id: ['<', id]}).where(condition).order('id', 'desc').cache(this.cacheTime).find();
+    }
+
+    // 相关文章
+    async getRelated(condition, rows=10) {
+        let keywords = condition.keywords;
+        if(!keywords) {
+            return [];
+        }
+        typeof keywords != 'array' && (keywords = keywords.split(','));
+        keywords = keywords.filter(val => val != '').join('|').replace(/"/, '');
+        if(keywords == '') {
+            return [];
+        }
+        condition.keywords = ['exp', 'CONCAT_WS(`title`, `keywords`) REGEXP ' + `"${keywords}"`];
+        return await this.db.field('id,title,click,thumb').where(condition).order('id', 'desc').limit(rows).cache(this.cacheTime).select();
     }
 }
 

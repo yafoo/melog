@@ -198,8 +198,38 @@ ul>li {list-style: none;}
 .box dd {
     padding-top: 10px;
 }
+.box dd a {
+    display: block;
+    height: 32px;
+    overflow: hidden;
+}
 .box dd a:hover {
     text-decoration: underline;
+}
+.box dd a.image {
+    height: auto;
+    line-height: 0;
+    width: 160px;
+    max-width: 98%;
+    position: relative;
+}
+.box dd a.image img {
+    width: 100%;
+    min-height: 32px;
+}
+.box dd a.image span {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 24px;
+    line-height: 24px;
+    background-color: rgba(0,0,0,0.3);
+    color: #fff;
+    font-size: 12px;
+    padding: 0 5px;
+    overflow: hidden;
 }
 
 /* list */
@@ -557,11 +587,15 @@ ul>li {list-style: none;}
         position: relative;
         z-index: 1;
     }
-    .box {
-        line-height: 28px;
-    }
     .comment .comment-input {
         flex-direction: row;
+    }
+    .related dd ul {
+        overflow: hidden;
+    }
+    .related dd ul li {
+        width: 50%;
+        float: left;
     }
 }
 

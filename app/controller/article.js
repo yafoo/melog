@@ -11,11 +11,12 @@ class Article extends Base
         const article = await model_article.getArticle({id: aid});
         if(!article) return;
 
-        // 栏目信息、上一篇、下一篇
-        const [cate, prevOne, nextOne] = await Promise.all([
+        // 栏目信息、上一篇、下一篇、相关文章
+        const [cate, prevOne, nextOne, related] = await Promise.all([
             this.$model.cate.getCateInfo({id: article.cate_id}),
             model_article.prevOne(aid),
-            model_article.nextOne(aid)
+            model_article.nextOne(aid),
+            model_article.getRelated({'id': ['!=', aid], keywords: article.keywords})
         ]);
 
         // 更新点击(页面及数据库)
@@ -33,6 +34,7 @@ class Article extends Base
         this.$assign('article', article);
         this.$assign('prevOne', prevOne);
         this.$assign('nextOne', nextOne);
+        this.$assign('related', related);
 
         this.$assign('is_comment', is_comment);
         

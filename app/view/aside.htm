@@ -7,8 +7,9 @@
         <dl class="box">
             <dt><h3 class="title">最新文章</h3></dt>
             <dd>
-                <ul>{{each latest item}}
-                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
+                <ul>{{each latest item index}}{{if !index && item.thumb}}
+                    <li><a class="image" href="{{url(':article', {id: item.id})}}"><img src="{{item.thumb}}"/><span>{{item.title}}</span></a></li>{{else}}
+                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/if}}{{/each}}
                 </ul>
             </dd>
         </dl>
@@ -16,8 +17,9 @@
         <dl class="box">
             <dt><h3 class="title">热点文章</h3></dt>
             <dd>
-                <ul>{{each hot item}}
-                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/each}}
+                <ul>{{each hot item index}}{{if !index && item.thumb}}
+                    <li><a class="image" href="{{url(':article', {id: item.id})}}"><img src="{{item.thumb}}"/><span>{{item.title}}</span></a></li>{{else}}
+                    <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/if}}{{/each}}
                 </ul>
             </dd>
         </dl>
