@@ -188,4 +188,16 @@ $(function() {
 
     // 代码高亮
     hljs.initHighlightingOnLoad();
+
+    // 文章图片点击查看
+    $('article.content img').each(function() {
+        var that = $(this);
+        if(that.attr('alt')) {
+            that.attr('title', that.attr('alt'));
+        }
+
+        that.click(function() {
+            window.open(that.attr('src'));
+        });
+    });
 });
