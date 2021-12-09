@@ -220,20 +220,31 @@ ul>li {list-style: none;}
     font-size: 13px;
     color: #888;
     padding: 5px 0;
+    overflow: hidden;
 }
 .list-item ul {
     font-size: 13px;
-    line-height: 13px;
-    padding: 4px 0;
+    height: 21px;
+    line-height: 21px;
     color: #888;
     display: flex;
+    overflow: hidden;
 }
 .list-item ul li:not(:first-child) {
     margin-left: 7px;
     padding-left: 7px;
     border-left: 1px solid #EEE;
 }
-.list-item img {
+.list-item ul li:not(:last-child) {
+    white-space: nowrap;
+}
+.list-item .image {
+    width: 120px;
+    display: block;
+    float: right;
+    margin-left: 5px;
+}
+.list-item .image img {
     width: 100%;
 }
 
@@ -568,8 +579,7 @@ ul>li {list-style: none;}
         position: relative;
         padding-right: 130px;
     }
-    .list-item img {
-        width: 120px;
+    .list-item .image {
         position: absolute;
         top: 6px;
         right: 6px;

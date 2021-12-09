@@ -15,8 +15,8 @@
             <dl class="list-item {{item.thumb && 'thumb'}}">
                 <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
                 <dd>
-                    {{item.description}}
                     {{@item.thumb && '<a class="image" href="'+url(':article', {id: item.id})+'"><img src="'+item.thumb+'" /></a>'}}
+                    {{item.description}}
                 </dd>
                 <ul>
                     <li>分类: <a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a></li>
