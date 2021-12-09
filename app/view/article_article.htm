@@ -19,7 +19,7 @@
         <dl class="box related">
             <dt><h3 class="title">相关文章</h3></dt>
             <dd>
-                <ul>{{each related item index}}{{if (index == 0 || index == 1) && item.thumb}}
+                <ul>{{each related item index}}{{if !index && item.thumb}}
                     <li><a class="image" href="{{url(':article', {id: item.id})}}"><img src="{{item.thumb}}"/><span>{{item.title}}</span></a></li>{{else}}
                     <li><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></li>{{/if}}{{/each}}
                 </ul>
