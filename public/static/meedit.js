@@ -1,5 +1,5 @@
 ;(function($, window, document, layer) {
-    var markdown = window.markdownit();
+    var markdown = window.markdownit({html: true});
 
     var Meedit = function(ele, opt) {
         this.area = ele;
