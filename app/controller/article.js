@@ -16,7 +16,7 @@ class Article extends Base
             this.$model.cate.getCateInfo({id: article.cate_id}),
             model_article.prevOne(aid),
             model_article.nextOne(aid),
-            model_article.getRelated({'id': ['!=', aid], keywords: article.keywords})
+            model_article.getRelated({'id': ['!=', aid], keywords: article.keywords}, 9)
         ]);
 
         // 更新点击(页面及数据库)
