@@ -1,5 +1,5 @@
 const Base = require('./base');
-const md = require('markdown-it')();
+const md = require('markdown-it')({html: true});
 
 class Article extends Base
 {
