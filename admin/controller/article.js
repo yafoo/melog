@@ -68,7 +68,7 @@ class Article extends Base
         const id = parseInt(this.ctx.query.id);
         
         try {
-            await this.db.startTrans(async () => {
+            await this.$db.startTrans(async () => {
                 await this.$model.article.del({id});
                 await this.$model.comment.del({article_id: id});
             });
