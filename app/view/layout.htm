@@ -26,8 +26,7 @@
     {{block 'content'}}{{/block}}
     <footer id="footer">
         <div class="container">
-            {{if friend_links}}<p class="friends">友情链接：{{each friend_links item}}<a href="{{item.url}}" target="_blank">{{item.lname}}</a>{{/each}}</p>{{/if}}
-            {{if foot_links}}<p class="flinks">关于：{{each foot_links item}}<a href="{{item.url}}" target="_blank">{{item.lname}}</a>{{/each}}</p>{{/if}}
+            {{if foot_links}}<p class="foot-links">{{each foot_links item}}<a href="{{item.url}}" target="_blank">{{item.lname}}</a>{{/each}}</p>{{/if}}
             {{if site.beian}}<p class="beian">{{@site.beian}}</p>{{/if}}
         </div>
         <div class="copy-right">

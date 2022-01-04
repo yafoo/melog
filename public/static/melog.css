@@ -120,9 +120,9 @@ ul>li {list-style: none;}
     margin-top: 25px;
     margin-bottom: 15px;
     line-height: 1.8;
+    text-align: center;
 }
-#footer .container .friends>*+*,
-#footer .container .flinks>*+* {
+#footer .container .foot-links>*+* {
     margin-left: 10px;
 }
 #footer .copy-right {
@@ -133,6 +133,18 @@ ul>li {list-style: none;}
 }
 #footer .copy-right>*+* {
     margin-left: 10px;
+}
+
+/* friend_links */
+.friend-links {
+    margin-top: 20px;
+    font-size: 14px;
+    padding-left: 10px;
+    border-left: 4px solid #46bc99;
+}
+.friend-links a {
+    display: inline-block;
+    padding: 0 5px;
 }
 
 /* go-top */

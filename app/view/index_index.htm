@@ -28,4 +28,11 @@
     </main>
     {{include './aside.htm'}}
 </div>
+
+{{if friend_links}}
+<hr class="m-hr">
+<div class="container">
+    <div class="friend-links">友情链接：{{each friend_links item}}<a href="{{item.url}}" target="_blank">{{item.lname}}</a>{{/each}}</div>
+</div>
+{{/if}}
 {{/block}}
