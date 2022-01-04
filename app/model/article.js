@@ -9,7 +9,7 @@ class Article extends Model
 
     // 首页文章列表
     async getIndexList(condition, rows=10){
-        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.click,a.description,a.add_time,a.thumb,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).cache(this.cacheTime).select();
+        return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,a.thumb,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').limit(rows).cache(this.cacheTime).select();
     }
 
     // 栏目文章列表及分页
