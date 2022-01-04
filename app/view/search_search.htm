@@ -13,13 +13,12 @@
         <div class="list">
             {{each list item}}
             <dl class="list-item {{item.thumb && 'thumb'}}">
-                <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
+                <dt><h3 class="title">[<a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a>] <a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
                 <dd>
                     {{@item.thumb && '<a class="image" href="'+url(':article', {id: item.id})+'"><img src="'+item.thumb+'" /></a>'}}
                     {{item.description}}
                 </dd>
                 <ul>
-                    <li>分类: <a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a></li>
                     <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
                     <li>浏览: {{item.click}}</li>
                     <li>关键词: {{item.keywords}}</li>

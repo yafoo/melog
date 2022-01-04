@@ -355,6 +355,16 @@ ul>li {list-style: none;}
     cursor: pointer;
 }
 
+.keywords_item {
+    display: inline-block;
+    background-color: #46bc99;
+    color: #fff;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px;
+    border-radius: 2px;margin-right: 5px;
+}
+
 /* tools-bar */
 .tools-bar {
     line-height: 28px;

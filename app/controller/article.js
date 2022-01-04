@@ -37,6 +37,20 @@ class Article extends Base
         this.$assign('related', related);
 
         this.$assign('is_comment', is_comment);
+
+        // 文章关键词列表
+        const keywords_list = [];
+        if(article.keywords) {
+            article.keywords.split(',').forEach(keyword => {
+                if(keyword) {
+                    keywords_list.push(keyword);
+                }
+            });
+        }
+        this.$assign('keywords_list', keywords_list);
+
+        // 文章地址
+        this.$assign('article_link', this.site.basehost + this.$url.build(':article', {id: article.id}));
         
         await this.$fetch();
     }
