@@ -123,7 +123,16 @@ ul>li {list-style: none;}
     text-align: center;
 }
 #footer .container .foot-links>*+* {
-    margin-left: 10px;
+    margin-left: 20px;
+    position: relative;
+}
+#footer .container .foot-links>*+*::before {
+    position: absolute;
+    content: '';
+    left: -10px;
+    top: 1px;
+    bottom: 0;
+    border-left: 1px solid #fff;
 }
 #footer .copy-right {
     padding: 7px 0;
