@@ -31,12 +31,11 @@ class Site extends Base
 
     async clear() {
         try {
-            this.$cache.delete();
-            this.$db.deleteCache();
+            await this.$middleware.cache.clear(); // 不建议这样调用中间件
             this.$success('清理成功！');
         } catch(e) {
             this.$logger.error('清理失败：' + e.message);
-            this.$error('程序出错！');
+            this.$error('清理失败！');
         }
     }
 }

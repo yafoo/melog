@@ -2,6 +2,11 @@ const Base = require('./base');
 
 class Link extends Base
 {
+    constructor(...args) {
+        super(...args);
+        this.middleware = [{middleware: 'cache/clear', accept: ['save', 'delete']}];
+    }
+
     async index() {
         const pid = this.ctx.query.pid || 0;
         const list = await this.$model.link.getLinkList(undefined, pid);
