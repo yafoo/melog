@@ -1,5 +1,4 @@
 const {Controller} = require('jj.js');
-const pjson = require('../../package.json');
 
 class Base extends Controller
 {

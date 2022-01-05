@@ -1,4 +1,3 @@
-const Renderer = require('markdown-it/lib/renderer');
 const Base = require('./base');
 
 class Search extends Base
