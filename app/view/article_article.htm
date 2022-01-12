@@ -19,7 +19,7 @@
             </p>
         </article>
         {{if related && related.length}}
-        <hr class="m-hr">
+        <hr class="m-hr" />
         <dl class="box related">
             <dt><h3 class="title">相关文章</h3></dt>
             <dd>
@@ -30,13 +30,13 @@
             </dd>
         </dl>
         {{/if}}
-        <hr class="m-hr">
+        <hr class="m-hr" />
         <ul class="prevnext">
             {{if prevOne}}<li>上一篇: <a href="{{url(':article', {id: prevOne.id})}}">{{prevOne.title}}</a></li>{{/if}}
             {{if nextOne}}<li>下一篇: <a href="{{url(':article', {id: nextOne.id})}}">{{nextOne.title}}</a></li>{{/if}}
         </ul>
         {{if is_comment}}
-        <hr class="m-hr">
+        <hr class="m-hr" />
         <div class="comment">
             <h3 class="title">评论</h3>
             <form class="comment-form" action="{{url('comment/post')}}">
