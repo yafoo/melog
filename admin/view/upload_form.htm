@@ -1,0 +1,28 @@
+{{extend './layout.htm'}}
+
+{{block 'main'}}
+<form method="post" action="{{url('save')}}" class="layui-form">
+    <input type="hidden" name="id" value="{{data.id}}">
+    <div class="layui-tab-item layui-show">
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件名字</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" class="layui-input" value="{{data.title}}">
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'element'], function(){
+        var form = layui.form;
+        var element = layui.element;
+    });
+</script>
+{{/block}}
