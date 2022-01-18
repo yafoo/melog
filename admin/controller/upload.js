@@ -20,6 +20,32 @@ class Upload extends Base
         await this.$fetch();
     }
 
+    async form() {
+        const id = parseInt(this.ctx.query.id);
+        let data = {};
+        if(id) {
+            data = await this.$model.upload.get({id});
+        }
+
+        this.$assign('data', data);
+        await this.$fetch();
+    }
+
+    async save() {
+        if(this.ctx.method != 'POST') {
+            return this.$error('非法请求！');
+        }
+
+        const data = this.ctx.request.body;
+        const result = await this.$model.upload.save(data);
+
+        if(result) {
+            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
+        } else {
+            this.$error(data.id ? '保存失败！' : '新增失败！');
+        }
+    }
+
     async upload() {
         if(this.ctx.method != 'POST') {
             return this.error('非法请求！');

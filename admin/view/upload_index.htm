@@ -62,7 +62,7 @@
                 <td>{{item.size_text}}</td>
                 <td>{{item.origin_size_text}}{{if item.origin_size_text}} (<a href="{{item.original}}" target="blank">view</a>){{/if}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+                <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm layui-btn-edit">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm layui-btn-del">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
@@ -137,7 +137,7 @@
     // iframe调用
     $(function(){
         if(window != parent) {
-            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb{background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;}.table-wrap .layui-table td.image-title div{font-size:13px;line-height:16px;max-height:32px;overflow:hidden;}.table-wrap .layui-table td.image-title:hover{text-align:center;}.table-wrap .layui-table td.image-title:hover div{display:none;}.image-title .layui-btn{display:none;}.image-title:hover .layui-btn{display:inline-block;}</style>').appendTo($('head'));
+            $('<style>body>header{display:none;}.table-wrap{height:250px;overflow-y:overlay;}.table-wrap::-webkit-scrollbar{width:6px;}.table-wrap::-webkit-scrollbar-thumb{background-color:#ddd;cursor:pointer;}.table-wrap .layui-table td.image-title{padding-top:5px;padding-bottom:5px;white-space:normal;word-break:break-all;}.table-wrap .layui-table td.image-title div{font-size:13px;line-height:16px;max-height:32px;overflow:hidden;}.table-wrap .layui-table td.image-title:hover{text-align:center;}.table-wrap .layui-table td.image-title:hover div{display:none;}.image-title .layui-btn{display:none;}.image-title:hover .layui-btn{display:inline-block;}.layui-btn-edit{display:none;}.layui-btn+.layui-btn-del{margin-left:0;}</style>').appendTo($('head'));
             $(".layui-table tr>*:nth-child(4)").hide();
             $(".layui-table tr>*:nth-child(5)").hide();
             $(".layui-table tr>*:nth-child(6)").hide();
