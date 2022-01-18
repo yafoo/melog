@@ -25,6 +25,6 @@
   "dependencies": {
     "jimp": "^0.16.1",
     "jj.js": "^0.7.3",
-    "markdown-it": "^12.2.0"
+    "markdown-it": "^12.3.2"
   }
 }
