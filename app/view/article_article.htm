@@ -1,5 +1,9 @@
 {{extend './layout.htm'}}
 
+{{block 'css'}}
+<link href="/static/highlight/default.min.css" rel="stylesheet">
+{{/block}}
+
 {{block 'header'}}
         <div class="container jumbotron">
             <h1>{{article.title}}</h1>
@@ -70,4 +74,10 @@
     </main>
     {{include './aside.htm'}}
 </div>
+{{/block}}
+
+{{block 'js'}}
+<script src="/static/jdenticon/jdenticon.js"></script>
+<script src="/static/highlight/highlight.min.js"></script>
+<script src="/static/content.js"></script>
 {{/block}}

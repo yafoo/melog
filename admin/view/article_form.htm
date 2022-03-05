@@ -1,7 +1,7 @@
 {{extend './layout.htm'}}
 
 {{block 'css'}}
-<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.4.0/styles/default.min.css" rel="stylesheet">
+<link href="/static/highlight/default.min.css" rel="stylesheet">
 <link href="/static/meedit.css" rel="stylesheet">
 <style>
 .layui-tab-content {padding: 10px 0 0;}
@@ -99,8 +99,8 @@
 {{/block}}
 
 {{block 'js'}}
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/markdown-it/12.3.2/markdown-it.min.js"></script>
+<script src="/static/highlight/highlight.min.js"></script>
+<script src="/static/markdown-it/markdown-it.min.js"></script>
 <script src="/static/meedit.js"></script>
 <script>
     layui.use(['form', 'element'], function() {
