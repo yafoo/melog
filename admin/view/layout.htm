@@ -82,9 +82,11 @@
 {{if user}}
 <header>
     <ul class="layui-nav" style="border-radius: 0;">
-        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}"><i class="layui-icon layui-icon-home" style="font-size: 20px;"></i></a></li>
-        <li class="layui-nav-item"><a href="{{url('article/index')}}">文章列表</a></li>
-        <li class="layui-nav-item"><a href="{{url('article/form')}}">新增文章</a></li>
+        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}" style="font-size: 0;"><img src="/favicon.ico" style="width: 20px; width: 28px; border-radius: 2px;"/></a></li>
+        <li class="layui-nav-item"><a href="{{url('article/index')}}">文章</a></li>
+        <li class="layui-nav-item"><a href="{{url('comment/index')}}">评论</a></li>
+        <li class="layui-nav-item"><a href="{{url('upload/index')}}">图片</a></li>
+        <li class="layui-nav-item"><a href="{{url('article/form')}}">新增</a></li>
         <li class="layui-nav-item" style="float: right;">
             <a href="javascript:;" style="padding-right: 20px;">系统</a>
             <dl class="layui-nav-child">

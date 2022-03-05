@@ -11,12 +11,18 @@
     width: 120px;
     margin-left: 20px;
     margin-top: 20px;
-    padding: 30px 10px;
+    padding: 25px 10px;
     color: #fff;
     text-align: center;
     border-radius: 2px;
     line-height: 22px;
     font-size: 16px;
+}
+.site-box a span {
+    display: block;
+    line-height: 18px;
+    font-size: 14px;
+    text-indent: 5px;
 }
 </style>
 {{/block}}
@@ -26,26 +32,32 @@
     <ul class="site-box">
         <a style="background-color: #009688;" href="{{url('article/index')}}">
             <i class="layui-icon layui-icon-read"></i> 文章
+            <span>( {{count.article}} )</span>
         </a>
         <a style="background-color: #5FB878;" href="{{url('cate/index')}}">
             <i class="layui-icon layui-icon-list"></i> 分类
+            <span>( {{count.cate}} )</span>
         </a>
         <a style="background-color: #393D49;" href="{{url('comment/index')}}">
             <i class="layui-icon layui-icon-dialogue"></i> 评论
+            <span>( {{count.comment}} )</span>
         </a>
         <a style="background-color: #1E9FFF;" href="{{url('upload/index')}}">
-            <i class="layui-icon layui-icon-picture"></i> 文件
+            <i class="layui-icon layui-icon-picture"></i> 图片
+            <span>( {{count.upload}} )</span>
         </a>
         <a style="background-color: #FFB800;" href="{{url('link/index')}}">
             <i class="layui-icon layui-icon-link"></i> 链接
+            <span>( {{count.link}} )</span>
         </a>
         <a style="background-color: #FF5722;" href="{{url('user/index')}}">
             <i class="layui-icon layui-icon-user"></i> 账号
+            <span>( {{count.user}} )</span>
         </a>
-        <a style="background-color: #01AAED;" href="{{url('site/index')}}">
+        <a style="background-color: #01AAED; padding: 30px 10px;" href="{{url('site/index')}}">
             <i class="layui-icon layui-icon-set"></i> 系统
         </a>
-        <a style="background-color: #2F4056;" href="/" target="blank">
+        <a style="background-color: #2F4056; padding: 30px 10px;" href="/" target="blank">
             <i class="layui-icon layui-icon-website"></i> 前台
         </a>
     </ul>
