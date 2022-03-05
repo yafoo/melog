@@ -10,7 +10,15 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 官网地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
 
-演示demo：[https://js.i-i.me/](https://js.i-i.me/ "https://js.i-i.me/")（后台：[admin](https://js.i-i.me/admin "https://js.i-i.me/admin")，账号：`melog@i-i.me`，密码：`123456`）
+演示demo：[https://js.i-i.me/](https://js.i-i.me/ "https://js.i-i.me/")（后台：[/admin](https://js.i-i.me/admin "https://js.i-i.me/admin")，账号：`melog@i-i.me`，密码：`123456`）
+
+## 特性
+
+1. 极速：1核服务器，首页处理时间平均3ms，超越大部分博客程序
+2. 轻量：前台无框架依赖，手写少量css，移动优先，自适应pc
+3. 简单：基于jj.js（类thinkphp）mvc框架，方便二次开发
+4. 安全：后台目录可自定义，密码重试次数限制
+
 
 ## 安装
 
