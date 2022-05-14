@@ -125,6 +125,7 @@ ul>li {list-style: none;}
 #footer .container .foot-links>*+* {
     margin-left: 20px;
     position: relative;
+    white-space: nowrap;
 }
 #footer .container .foot-links>*+*::before {
     position: absolute;
