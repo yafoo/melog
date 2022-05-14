@@ -1,10 +1,15 @@
 {{extend './layout.htm'}}
 
 {{block 'main'}}
+<form class="layui-form table-tools">
+    <div class="layui-input-inline">
+        <a href="{{url('form')}}" class="layui-btn">新增</a>
+    </div>
+</form>
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>昵称</th><th>本名</th><th>账号</th><th>编辑</th></tr> 
+            <tr><th>ID</th><th>昵称</th><th>本名</th><th>账号</th><th>操作</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
@@ -17,9 +22,6 @@
             </tr>{{/each}}
         </tbody>
     </table>
-</div>
-<div style="text-align: center;">
-    <a href="{{url('form')}}" class="layui-btn">新增用户</a>
 </div>
 {{/block}}
 
