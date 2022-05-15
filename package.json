@@ -1,6 +1,6 @@
 {
   "name": "melog",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "一个基于jj.js构建的简单轻量级blog系统",
   "main": "server.js",
   "scripts": {
