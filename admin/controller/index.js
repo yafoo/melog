@@ -5,15 +5,16 @@ class Index extends Base
 {
     async index() {
         // 系统数据统计
-        const [article, cate, comment, upload, link, user] = await Promise.all([
+        const [article, cate, comment, upload, link, special, user] = await Promise.all([
             this.$model.article.db.count(),
             this.$model.cate.db.count(),
             this.$model.comment.db.count(),
             this.$model.upload.db.count(),
             this.$model.link.db.count(),
+            this.$model.special.db.count(),
             this.$model.user.db.count()
         ]);
-        this.$assign('count', {article, cate, comment, upload, link, user});
+        this.$assign('count', {article, cate, comment, upload, link, special, user});
 
         await this.$fetch();
     }

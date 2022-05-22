@@ -1,0 +1,71 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+    .title img {
+        height: 30px;
+        margin-right: 10px;
+    }
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form class="layui-form table-tools">
+    <div class="layui-input-inline input">
+        <input type="text" name="keyword" value="{{keyword}}" autocomplete="off" class="layui-input" placeholder="请输入关键词">
+    </div>
+    <div class="sp5"></div>
+    <div class="layui-input-inline">
+        <button type="submit" class="layui-btn" lay-submit>搜索</button>
+    </div>
+    <div class="sp10"></div>
+    <div class="layui-input-inline">
+        <a href="{{url('special/form')}}" class="layui-btn">新增</a>
+    </div>
+</form>
+<div class="table-wrap">
+    <table class="layui-table">
+        <thead>
+            <tr><th>ID</th><th>标题</th><th>点击</th><th>时间</th><th>操作</th></tr> 
+        </thead>
+        <tbody>
+            {{each list item}}
+            <tr>
+                <td>{{item.id}}</td>
+                <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':special', {id: item.id})}}" target="blank">{{item.title}}</a></td>
+                <td>{{item.click}}</td>
+                <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
+                <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
+            </tr>{{/each}}
+        </tbody>
+    </table>
+</div>
+{{@pagination}}
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $('a.layui-btn-danger').each(function(){
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function () {
+                layer.confirm("确定删除吗？", function(index){
+                    layer.close(index);
+                    $.get(url, function(re){
+                        if(re.state){
+                            layer.msg(re.msg, function(){
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
+    });
+</script>
+{{/block}}

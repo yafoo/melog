@@ -1,0 +1,115 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+    .layui-tab-content {padding: 10px 0 0;}
+    .input-thumb {background-size: auto 100%; background-repeat: no-repeat; text-indent: 45px;}
+    .content {width: 100%; height: 100%; border: none;}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form method="post" action="{{url('save')}}" class="layui-form">
+    <input type="hidden" name="id" value="{{special.id}}">
+    <div class="layui-tab" lay-filter="demo">
+        <ul class="layui-tab-title">
+            <li class="layui-this">专题信息</li>
+            <li>内容/预览</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="required" lay-verType="tips" class="layui-input" value="{{special.title}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">短标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="short_title" class="layui-input" value="{{special.short_title}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">SEO标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="seo_title" class="layui-input" value="{{special.seo_title}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="keywords" class="layui-input" value="{{special.keywords}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">简介</label>
+                    <div class="layui-input-block">
+                        <textarea name="description" placeholder="请输入内容" class="layui-textarea">{{special.description}}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">缩略图</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="thumb" class="layui-input input-thumb" value="{{special.thumb}}" autocomplete="off"><span class="layui-btn select-thumb">选择</span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">点击</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="click" class="layui-input" value="{{special.click || 0}}">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item special">
+                <iframe class="content" data-src="{{url('special', {id: special.id})}}"></iframe>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'element'], function() {
+        var form = layui.form
+        ,element = layui.element;
+
+        // tab切换
+        element.on('tab(demo)', function(e){
+            if(e.index == 1 && $('.content').data('src')) {
+                $('.content').attr('src', $('.content').data('src'));
+                $('.content').data('src', '');
+            }
+        });
+
+        // 初始化高度
+        $('.special').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 60);
+
+        // 缩略图选择
+        $(".select-thumb").click(function() {
+            layer.open({
+                type: 2,
+                title: '选择缩略图',
+                shadeClose: true,
+                shade: 0.2,
+                area: ['360px', '455px'],
+                content: "{{url('upload/index', {'callback': 'callback'})}}"
+            });
+        });
+        // 选择回调
+        window.callback = function(image) {
+            layer.closeAll();
+            typeof(image) == 'object' && (image = image.thumb);
+            $("input[name=thumb]").val(image).change();
+        }
+        // 缩略图预览
+        $("input[name=thumb]").on('change', function() {
+            this.value && $(this).css('backgroundImage', 'url('+this.value+')');
+        }).change();
+    });
+</script>
+{{/block}}

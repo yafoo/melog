@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{title}} - {{site.webname}}</title>
+    <link href="/static/admin/layui-vue/1.1.0.css" rel="stylesheet">
+    <style>
+        html, body, .spedit { width: 100%; height: 100%;}
+        .layui-form-label {width: 60px; padding: 10px 15px;}
+        .layui-input-block {margin-left: 90px;}
+        .layui-input:focus, .layui-textarea:focus {
+            border-color: #d2d2d2!important;
+        }
+        
+        .spedit {
+            display: flex;
+        }
+        .spedit .spedit-item {
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .spedit .spedit-item .lable {
+            display: block;
+            padding: 10px 0;
+            font-weight: 400;
+            line-height: 20px;
+        }
+        .spedit .spedit-module {
+            width: 200px;
+        }
+        .spedit .spedit-special {
+            flex: 1;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+        }
+        .spedit .spedit-form {
+            width: 350px;
+        }
+
+        .module-list {
+            height: calc(100% - 42px);
+            overflow-y: overlay;
+            font-size: 12px;
+        }
+        .module-list .module-item {
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border: 1px solid #f4f6fc;
+            background-color: #f4f6fc;
+            margin-bottom: 6px;
+        }
+        .module-list .module-item:hover {
+            border: 1px dashed #1890ff;
+            color: #1890ff;
+            cursor: move;
+        }
+        .module-list .module-item .layui-icon {
+            vertical-align: -1px;
+        }
+
+        .special-list {
+            width: 360px;
+            padding: 0 10px;
+            margin: 0 auto;
+            height: calc(100% - 42px);
+            overflow-y: overlay;
+            position: relative;
+        }
+        .special-list::-webkit-scrollbar{width:6px;}
+        .special-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
+        .special-item {
+            min-height: 30px;
+            position: relative;
+            cursor: move;
+            overflow: hidden;
+            background-color: {$special['bg_color'] ? $special['bg_color'] : '#eee'};
+        }
+        .special-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px dashed #059f05;
+            display: none;
+        }
+        .special-item:hover::after,
+        .special-item.hover::after {
+            display: block;
+        }
+        .special-place {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-left: 10px solid rgb(4, 124, 54);
+            border-bottom: 5px solid transparent;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translateY(-5px);
+        }
+        .special-list img {
+            display: block;
+            width: 100%;
+        }
+        .special-list .special-item-empty {
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+        .special-list .special-item-disable {
+            opacity: 0.6;
+        }
+        .special-list .special-item-disable:hover {
+            opacity: 1;
+        }
+        .special-item-navbar .navbar-column {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .special-item-navbar .navbar-column-1 li {
+            width: 100%;
+        }
+        .special-item-navbar .navbar-column-2 li {
+            width: 50%;
+        }
+        .special-item-navbar .navbar-column-3 li {
+            width: 33.33%;
+        }
+        .special-item-navbar .navbar-column-4 li {
+            width: 25%;
+        }
+        .special-item-navbar .navbar-column-5 li {
+            width: 20%;
+        }
+        .special-item-navbar .navbar-column-6 li {
+            width: 16.66%;
+        }
+        .special-item-navbar .navbar-column-7 li {
+            width: 14.28%;
+        }
+        .special-item-navbar .navbar-column-8 li {
+            width: 12.5%;
+        }
+
+        .special-item-list {
+            /* margin: 15px 0; */
+        }
+        .special-item-list .list-item {
+            display: flex;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 15px 10px;
+            background-color: #fff;
+        }
+        .special-item-list .list-image {
+            width: 110px;
+            max-height: 110px;
+            overflow: hidden;
+            margin: 10px;
+            display: block;
+        }
+        .special-item-list .list-image img {
+            width: 100%;
+            display: block;
+        }
+        .special-item-list .list-body {
+            flex: 1;
+        }
+        .special-item-list .list-title {
+            margin: 10px 10px 10px 0;
+            font-size: 16px;
+        }
+        .special-item-list .list-feedback {
+            color: #666;
+            margin: 10px 10px 10px 0;
+        }
+
+        .form-list {
+            height: calc(100% - 42px);
+            overflow-y: overlay;
+            margin-right: -10px;
+            padding-right: 10px;
+        }
+        .form-list::-webkit-scrollbar{width:6px;}
+        .form-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
+    </style>
+</head>
+<body>
+    <div class="spedit">
+        <div class="spedit-item spedit-module">
+            <label class="lable">模块</label>
+            <div class="module-list">
+                <div class="module-item" v-for="item in moduleList" @dragstart="dragstart($event, item.module_type)" @dragend="dragend" draggable="true">
+                    <i class="layui-icon" :class="'layui-icon-' + item.module_icon"></i> {$item.module_name}
+                </div>
+            </div>
+        </div>
+        <div class="spedit-item spedit-special">
+            <label class="lable">内容</label>
+            <div class="special-list" @drop="drop" @dragover.prevent="dragover" @scroll="scroll" id="special-list">
+                <div v-for="(item, index) in specialItem"
+                    :key="item.id"
+                    :class="'special-item special-item-' + item.type + (itemID == item.id ? ' hover' : '') + (1 == item.enable ? '' : ' special-item-disable')"
+                    :id="'special-item-' + item.id"
+                    @dragstart="dragstart($event, 'sort_' + index)"
+                    @dragend="dragend"
+                    @click="specialItemClick(item)"
+                    @contextmenu.prevent="rightClick(item)"
+                    draggable="true">
+                    <template v-if="item.type == 'banner'">
+                        <img v-if="item.data.img" :src="item.data.img" />
+                        <div v-else class="special-item-empty">点击编辑内容</div>
+                    </template>
+                    <template v-else-if="item.type == 'swiper'">
+                        <img v-if="item.data[0].img" :src="item.data[0].img" />
+                        <div v-else class="special-item-empty">点击编辑内容</div>
+                    </template>
+                    <template v-else-if="item.type == 'navbar'">
+                        <ul v-if="item.data.list.length && item.data.list[0].img" :class="'navbar-column navbar-column-' + item.data.column">
+                            <li v-for="(item, index) in item.data.list" :key="index">
+                                <img :src="item.img" />
+                            </li>
+                        </ul>
+                        <div v-else class="special-item-empty">点击编辑内容</div>
+                    </template>
+                    <template v-else-if="item.type == 'list'">
+                        <div class="list-item" v-for="(item, index) in item.data.list" :key="index">
+                            <a class="list-image" :href="item.url">
+                                <img :src="item.thumb_url" />
+                            </a>
+                            <div class="list-body">
+                                <h4 class="list-title">
+                                    <a :href="item.url">{$item.title}</a>
+                                </h4>
+                                <p class="list-desc"></p>
+                                <div class="list-feedback">
+                                    <i class="xjzfont icon-like"></i> <span>{$item.hits}</span> &nbsp;&nbsp;&nbsp;<i class="layui-icon layui-icon-time"></i> {$item.createdate}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="special-item-empty">点击编辑内容</div>
+                    </template>
+                </div>
+                <div class="special-place" :style="'top: ' + (topArr[place]) + 'px'" v-if="placeShow"></div>
+            </div>
+        </div>
+        <div class="spedit-item spedit-form">
+            <label class="lable">数据</label>
+            <div class="form-list">
+                <lay-form v-if="typeof(formData.type) != 'undefined'" :model="formData.data" class="layui-form layui-form-pane">
+                    <lay-form-item label="模块类型" prop="rows">
+                        <lay-input v-model="moduleList[formData.type].module_name" readonly></lay-input>
+                    </lay-form-item>
+
+                    <template v-if="formData.type == 'banner'">
+                        <upload :data="{id: 'img', img: formData.data.img || '', url: formData.data.url || ''}"></upload>
+                    </template>
+
+                    <template v-else-if="formData.type == 'swiper'">
+                        <upload v-for="(item, index) in formData.data" :key="item.key" :data="{id: 'img['+index+']', img: item.img || '', url: item.url || '', action: true}" @del="uploadDel(index)" @add="uploadAdd(index)"></upload>
+                    </template>
+
+                    <template v-else-if="formData.type == 'navbar'">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">图标列数</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="column" lay-verify="required" placeholder="请输入图标列数" :value="formData.data.column || 4" class="layui-input">
+                            </div>
+                        </div>
+                        <upload v-for="(item, index) in formData.data.list" :key="item.key" :data="{id: 'img['+index+']', img: item.img || '', url: item.url || '', action: true}" @del="uploadDel(index)" @add="uploadAdd(index)"></upload>
+                    </template>
+
+                    <template v-else-if="formData.type == 'list'">
+                        <lay-form-item label="数据来源" prop="source">
+                            <lay-radio v-model="formData.data.source" name="source" label="keyword">文章搜索</lay-radio>
+                            <lay-radio v-model="formData.data.source" name="source" label="select">手工选择</lay-radio>
+                        </lay-form-item>
+                        <lay-form-item v-if="formData.data.source == 'keyword'" label="关键词" prop="keyword">
+                            <lay-input v-model="formData.data.keyword"></lay-input>
+                        </lay-form-item>
+                        <lay-form-item v-if="formData.data.source == 'keyword'" label="显示数量" prop="rows">
+                            <lay-input v-model="formData.data.rows"></lay-input>
+                        </lay-form-item>
+                        <article-select v-if="formData.data.source == 'select'" v-model="formData.data.ids"></article-select>
+                    </template>
+
+                    <template v-else>
+                    </template>
+
+                    <lay-form-item label="模块状态" prop="enable">
+                        <lay-radio v-model="formData.data.enable" name="enable" label="1">启用</lay-radio>
+                        <lay-radio v-model="formData.data.enable" name="enable" label="0">禁用</lay-radio>
+                    </lay-form-item>
+
+                    <lay-form-item>
+                        <lay-button type="primary" @click="buttonSave">提交</lay-button>
+                        <lay-button v-if="delBtnShow" type="danger" @click="buttonDel">删除</lay-button>
+                    </lay-form-item>
+                </lay-form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="article-select">
+        <div class="layui-form-item">
+            <label class="layui-form-label">已选文章<br><br>拖动排序<br>右键删除</label>
+            <div class="layui-input-block">
+                <lay-scroll height="200px" style="background-color: whitesmoke; padding: 4px 0;">
+                    <lay-panel v-for="(n, index) in 50" :key="n" style="margin: 1px 5px; padding: 10px;">内容{$index}</lay-panel>
+                </lay-scroll>
+            </div>
+        </div>
+        <lay-form-item>
+            <lay-button type="primary">点击选择</lay-button>
+        </lay-form-item>
+    </script>
+
+    <script src="/static/admin/vue/3.2.34.js"></script>
+    <script src="/static/admin/layui-vue/1.1.0.js"></script>
+    <script>
+        const special_id = {{id}};
+        const {createApp, onMounted, ref, reactive, toRefs, defineComponent} = Vue;
+        const {layer} = LayuiVue;
+
+        const articleSelect = defineComponent({
+            template: '#article-select',
+            setup() {
+                console.log('articleSelect mounted');
+            }
+        });
+
+        const App = {
+            setup() {
+                const moduleList = {
+                    list: {
+                        module_type: 'list',
+                        module_name: '文章列表',
+                        module_icon: 'list'
+                    },
+                    banner: {
+                        module_type: 'banner',
+                        module_name: '横幅图',
+                        module_icon: 'picture-fine'
+                    },
+                    navbar: {
+                        module_type: 'navbar',
+                        module_name: '导航块',
+                        module_icon: 'table'
+                    }
+                };
+
+                const data = reactive({
+                    specialItem: [],
+                    formData: {},
+                    itemID: -1,
+                    delBtnShow: false
+                });
+
+                onMounted(() => {
+                    getSpecialItemList();
+                    place.scrollOffset = document.getElementById('special-list').offsetTop;
+                });
+
+                const $ = (url, data) => {
+                    url += (~url.indexOf('?') ? '&is_ajax=1' : '?is_ajax=1');
+                    return new Promise((resolve, reject) => {
+                        const layer_id = layer.load(0);
+                        fetch(url, {
+                            method: data ? 'post' : 'get',
+                            body: data ? JSON.stringify(data) : null,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(rsp => {
+                            layer.close(layer_id);
+                            rsp.json().then(res => {
+                                resolve(res);
+                            });
+                        }).catch(e => {
+                            layer.close(layer_id);
+                        });
+                    });
+                }
+
+                function getSpecialItemList() {
+                    $("{{url('special_item_list')}}?special_id=" + special_id).then(res => {
+                        data.specialItem = res.data;
+                        data.itemID = -1;
+                        data.formData = {};
+                        data.delBtnShow = false;
+                        setTimeout(() => {
+                            getElementTop();
+                        }, 1000);
+                    });
+                }
+
+                function specialItemClick(item) {
+                    // 为for循环加key
+                    if(item.type == 'swiper' && typeof item.key == 'undefined') {
+                        item.key = 0;
+                        item.data.forEach(it => {
+                            item.key++;
+                            it.key = item.key;
+                        });
+                    }
+                    if(item.type == 'navbar' && typeof item.key == 'undefined') {
+                        item.key = 0;
+                        item.data.list.forEach(it => {
+                            item.key++;
+                            it.key = item.key;
+                        });
+                    }
+
+                    data.itemID = item.id;
+                    data.formData = item;JSON.parse(JSON.stringify(item));
+                    data.delBtnShow = false;
+                }
+
+                function specialItemAdd(data) {
+                    $("{{url('special_item_add')}}", data).then(res => {
+                        !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
+                        res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
+                    });
+                }
+
+                function specialItemSave(data) {
+                    $("{{url('special_item_save')}}", data).then(res => {
+                        !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
+                        res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                    });
+                }
+
+                function specialItemDel() {
+                    const data = {
+                        id: data.itemID
+                    };
+                    $("{{url('special_item_del')}}", data).then(res => {
+                        !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
+                        res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                    });
+                }
+
+                function specialItemSort(sort_data) {
+                    const data = {
+                        special_id: special_id,
+                        sort: sort_data.join(',')
+                    };
+                    $("{{url('special_item_sort')}}", data).then(res => {
+                        !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
+                        res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                    });
+                }
+
+                function uploadDel(index) {
+                    if(data.formData.type == 'swiper') {
+                        data.formData.data.splice(index, 1);
+                    } else if(data.formData.type == 'navbar') {
+                        data.formData.data.list.splice(index, 1);
+                    }
+                }
+
+                function uploadAdd(index) {
+                    data.formData.key++;
+                    if(data.formData.type == 'swiper') {
+                        data.formData.data.splice(index + 1, 0, {key: data.formData.key});
+                    } else if(data.formData.type == 'navbar') {
+                        data.formData.data.list.splice(index + 1, 0, {key: data.formData.key});
+                    }
+                }
+
+                function rightClick(item) {
+                    if(data.itemID != item.id) {
+                        specialItemClick(item);
+                    }
+                    data.delBtnShow = true;
+                }
+
+                function buttonSave() {
+                    const data = $("form").serializeArray();
+                    if(!data.length) {
+                        return;
+                    }
+                    const form_data = {};
+                    form_data.id = data.formData.id;
+                    form_data.type = data.formData.type;
+                    data.forEach(field => {
+                        form_data[field.name] = field.value || '';
+                    });
+
+                    specialItemSave(form_data);
+                }
+
+                function buttonDel() {
+                    layer.confirm('确定删除此模块？', {icon: 3, title:'提示'}, index => {
+                        specialItemDel();
+                        layer.close(index);
+                    });
+                }
+
+                const place = reactive({
+                    place: 0,
+                    topArr: [],
+                    drapY: 0,
+                    scrollY: 0,
+                    scrollOffset: 0,
+                    placeShow: false
+                });
+
+                function dragsort(index) {
+                    index = parseInt(index);
+                    // console.log('index:' + index, 'place:' + place.place);
+                    if(place.place == index || place.place == index + 1) {
+                        return;
+                    }
+                    data.specialItem.splice(place.place, 0, data.specialItem[index]);
+                    data.specialItem.splice(place.place > index ? index : index + 1, 1);
+                    const sort_data = [];
+                    data.specialItem.forEach((item, key) => {
+                        if(item.sort != key) {
+                            sort_data.push(item.id + ':' + key);
+                        }
+                    });
+                    // console.log(sort_data);
+                    specialItemSort(sort_data);
+                }
+
+                function dragstart(e, module_name) {
+                    e.dataTransfer.setData('module_name', module_name);
+                    data.itemID = -1;
+                    place.placeShow = true;
+                }
+
+                function dragend() {
+                    place.placeShow = false;
+                }
+
+                function drop(e) {
+                    const module_name = e.dataTransfer.getData('module_name');
+                    if(module_name.split('_')[0] == 'sort') {
+                        dragsort(module_name.split('_')[1]);
+                        return;
+                    }
+                    const data = {};
+                    data.special_id = special_id;
+                    data.type = module_name;
+                    data.sort = place.place;
+                    specialItemAdd(data);
+                }
+
+                function scroll(e) {
+                    if(e.target.scrollTop == 1 || Math.abs(e.target.scrollTop - place.drapY) < 5) {
+                        return;
+                    }
+                    place.scrollY = e.target.scrollTop;
+                    place.placeShow && calcPlace();
+                }
+
+                function dragover(e) {
+                    if(e.pageY == 1 || Math.abs(e.pageY + place.scrollY - place.scrollOffset - place.drapY) < 5) {
+                        return;
+                    }
+                    place.drapY = e.pageY + place.scrollY - place.scrollOffset;
+                    calcPlace();
+                }
+
+                function calcPlace() {
+                    const top_arr = place.topArr;
+                    const len = top_arr.length - 1;
+                    const drap_y = place.drapY;
+                    for(let i=0; i < len; i++) {
+                        if(drap_y > top_arr[i] && drap_y < top_arr[i + 1]) {
+                            if(Math.abs(drap_y - top_arr[i]) <= Math.abs(drap_y - top_arr[i + 1])) {
+                                place.place = i;
+                            } else {
+                                place.place = i + 1;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                //获取距离顶部的高度
+                function getScrollTop(selector) {
+                    const dom = document.getElementById(selector);
+                    return [dom.offsetTop, dom.offsetTop + dom.offsetHeight];
+                }
+
+                function getElementTop() {
+                    const top_arr = [];
+                    let top_bottom = null;
+                    data.specialItem.forEach(item => {
+                        top_bottom = getScrollTop('special-item-' + item.id);
+                        top_arr.push(top_bottom[0]);
+                    });
+                    top_bottom && top_arr.push(top_bottom[1]);
+                    place.topArr = top_arr;
+                    // console.log(top_arr);
+                }
+
+                return {
+                    moduleList,
+                    ...toRefs(data),
+                    ...toRefs(place),
+                    dragstart,
+                    dragend,
+                    dragover,
+                    drop,
+                    scroll,
+                    specialItemClick,
+                    rightClick,
+                    uploadDel,
+                    uploadAdd,
+                    buttonSave,
+                    buttonDel
+                }
+            }
+        }; 
+        const app = createApp(App);
+        app.config.compilerOptions.delimiters = ['{$', '}']
+        app.use(LayuiVue);
+        app.component('article-select', articleSelect);
+        app.mount('.spedit');
+    </script>
+</body>
+</html>
