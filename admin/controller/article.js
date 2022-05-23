@@ -22,6 +22,7 @@ class Article extends Base
         this.$assign('cate_list', cate_list);
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
+        this.$assign('callback', this.ctx.query.callback || 'callback');
 
         await this.$fetch();
     }

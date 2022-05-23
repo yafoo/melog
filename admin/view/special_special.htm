@@ -311,13 +311,14 @@
             <label class="layui-form-label">已选文章<br><br>拖动排序<br>右键删除</label>
             <div class="layui-input-block">
                 <lay-scroll height="200px" style="background-color: whitesmoke; padding: 4px 0;">
-                    <lay-panel v-for="(n, index) in 50" :key="n" style="margin: 1px 5px; padding: 10px;">内容{$index}</lay-panel>
+                    <lay-panel v-for="(item, index) in list" :key="index" style="margin: 1px 5px; padding: 10px;">{$item.title}</lay-panel>
                 </lay-scroll>
             </div>
         </div>
         <lay-form-item>
-            <lay-button type="primary">点击选择</lay-button>
+            <lay-button type="primary" @click="showLayer">点击选择</lay-button>
         </lay-form-item>
+        <lay-layer title="选择文章" :area="['360px','455px']" maxmin="true" v-model="layerShow" move="true" :type="2" content="{{url('article/index')}}"></lay-layer>
     </script>
 
     <script src="/static/admin/vue/3.2.34.js"></script>
@@ -331,6 +332,26 @@
             template: '#article-select',
             setup() {
                 console.log('articleSelect mounted');
+                const list = ref([
+                    {thumb: '', title: '内容1'},
+                    {thumb: '', title: '内容2'},
+                    {thumb: '', title: '内容3'},
+                ]);
+
+                const layerShow = ref(false);
+                const showLayer = () => {
+                    layerShow.value = true;
+                    window.callback = (data) => {
+                        console.log(data);
+                        list.value.push(data);
+                    }
+                }
+
+                return {
+                    list,
+                    layerShow,
+                    showLayer
+                }
             }
         });
 
