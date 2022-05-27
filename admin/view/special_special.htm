@@ -304,8 +304,10 @@
     </div>
 
     <script type="text/x-template" id="me-scroll">
-        <lay-scroll :height="height" style="background-color: whitesmoke; padding: 4px 0;" @dragleave.self="dragleave">
-            <lay-panel v-for="(item, index) in dataList" :key="index" style="margin: 1px 5px; padding: 10px; cursor: move;" :style="{opacity: dragIndex == index ? 0.5 : 1, marginTop: dragIndex > -1 && dropIndex == index && dragIndex > index ? '20px' : '1px', marginBottom: dragIndex > -1 && dropIndex == index && dragIndex < index ? '20px' : '1px'}" :draggable="true" @dragstart="dragstart(index)" @dragenter="dragenter(index)" @dragover="dragover" @dragend="dragend"><div>{$item.title}</div></lay-panel>
+        <lay-scroll :height="height" style="background-color: whitesmoke; padding: 4px 0;">
+            <div v-for="(item, index) in dataList" :key="item[key]" style="margin: 0 5px; cursor: move;" :style="{borderTop: dragIndex > -1 && dropIndex == index && dragIndex > index ? '2px solid #009688' : 'none', borderBottom: dragIndex > -1 && dropIndex == index && dragIndex < index ? '2px solid #009688' : 'none'}" :draggable="true" @dragstart.self="dragstart(index)" @dragover="dragover" @dragenter="dragenter(index)" @dragend.self="dragend" @dragleave.self="dragleave">
+                <lay-panel style="margin: 1px 0;padding: 10px;" :style="{opacity: dragIndex == index ? 0.5 : 1}"><div>{$item.title}</div></lay-panel>
+            </div>
         </lay-scroll>
     </script>
 
@@ -357,11 +359,11 @@
                 const dragIndex = ref(-1);
                 const dropIndex = ref(-1);
 
-                function dragstart(index) {
+                function dragstart(index) {console.log('dragstart');
                     dragIndex.value = index;
                 }
-                function dragenter(index) {
-                    setTimeout(() => {console.log('dragenter', index);
+                function dragenter(index) {console.log('dragenter');
+                    setTimeout(() => {
                         dropIndex.value = index;
                     }, 10);
                 }
@@ -378,7 +380,7 @@
                     dragIndex.value = -1;
                     dropIndex.value = -1;
                 }
-                function dragleave(index) {console.log('dragleave', index);
+                function dragleave(index) {console.log('dragleave');
                     dropIndex.value = -1;
                 }
 
@@ -461,7 +463,6 @@
                 });
 
                 const $ = (url, data) => {
-                    url += (~url.indexOf('?') ? '&is_ajax=1' : '?is_ajax=1');
                     return new Promise((resolve, reject) => {
                         const layer_id = layer.load(0);
                         fetch(url, {
