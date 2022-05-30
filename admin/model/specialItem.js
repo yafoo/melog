@@ -9,17 +9,34 @@ class SpecialItem extends Model
         }
         const item_list = await this.db.order('sort', 'asc').order('id', 'asc').select(condition);
 
-        item_list.forEach(item => {
+        item_list.forEach(async item => {
             if(item.data) {
                 item.data = JSON.parse(item.data);
             } else {
-                // 方便前端渲染
-                item.data = {list: [], enable: 0};
+                item.data = {};
             }
             switch(item.type) {
                 case 'list':
                     if(item.data.rows === undefined) {
                         item.data.rows = 5;
+                    }
+                    if(item.data.source === undefined) {
+                        item.data.source = 'keyword';
+                    }
+                    if(item.data.ids === undefined) {
+                        item.data.ids = '';
+                    }
+                    item.data.list = [];
+                    if(item.data.ids) {
+                        const ids = item.data.ids.split(',');
+                        const list = await this.$db.table('article').where({id: ['in', ids]}).field('id,thumb,title').select();
+                        const temp_list = {};
+                        list.forEach(item => {
+                            temp_list[item.id] = item;
+                        });
+                        ids.forEach(id => {
+                            item.data.list.push(temp_list[id]);
+                        });
                     }
                     break;
             }
