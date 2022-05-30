@@ -1,0 +1,79 @@
+<script type="text/x-template" id="me-scroll">
+    <lay-scroll :height="height" style="min-height: 30px; background-color: whitesmoke; padding: 4px 0;" @dragover="dragover" @drop="drop">
+        <div v-if="dataList.length" v-for="(item, index) in dataList" :key="index" style="margin: 0 5px; cursor: move;" :style="{borderTop: dragIndex > -1 && dropIndex == index && dragIndex > index ? '2px solid #009688' : 'none', borderBottom: dragIndex > -1 && dropIndex == index && dragIndex < index ? '2px solid #009688' : 'none'}" :draggable="true" @dragstart="dragstart(index)" @dragenter="dragenter(index)" @dragend="dragend" @contextmenu.prevent="rightClick(index)">
+            <lay-panel style="margin: 1px 0; padding: 10px;" :style="{opacity: dragIndex == index ? 0.5 : 1}"><img v-if="item.thumb" :src="item.thumb" style="width: 19px; height: 19px; float: left; margin-right: 5px;">{$item.title}</lay-panel>
+        </div>
+        <div v-else style="margin: 5px 10px;">暂无内容<span style="font-size: 12px; color: #FF5722; vertical-align: 1px;">（拖动排序,右键删除）</span></div>
+    </lay-scroll>
+</script>
+<script>
+    components['me-scroll'] = defineComponent({
+        template: '#me-scroll',
+        props: {
+            height: {
+                type: String,
+                default: '205px'
+            },
+            list: {
+                type: Array,
+                default: []
+            }
+        },
+        setup(props, ctx) {
+            const dataList = ref(props.list);
+
+            const dragIndex = ref(-1);
+            const dropIndex = ref(-1);
+
+            function dragstart(index) {
+                dragIndex.value = index;
+            }
+            function dragover(e) {
+                e.preventDefault();
+            }
+            function dragenter(index) {
+                dropIndex.value = index;
+            }
+            function dragend() {
+                dragIndex.value = -1;
+                dropIndex.value = -1;
+            }
+            function drop() {
+                if(dragIndex.value !== dropIndex.value && dropIndex.value != -1) {
+                    const dragData = dataList.value[dragIndex.value];
+                    dataList.value.splice(dragIndex.value, 1);
+                    dataList.value.splice(dropIndex.value, 0, dragData);
+                    ctx.emit('change', dataList.value);
+                }
+            }
+            function rightClick(index) {
+                dataList.value.splice(index, 1);
+                ctx.emit('change', dataList.value);
+            }
+
+            let me = null;
+            onMounted(() => {
+                console.log('meScroll mounted');
+                me = getCurrentInstance();
+            });
+
+            function scrollToBottom() {
+                me && me.ctx && me.ctx.$el && me.ctx.$el.children[0] && (me.ctx.$el.children[0].children[0].scrollTop = me.ctx.$el.children[0].children[0].scrollHeight);
+            }
+
+            return {
+                dataList,
+                dragIndex,
+                dropIndex,
+                dragstart,
+                dragover,
+                dragenter,
+                dragend,
+                drop,
+                rightClick,
+                scrollToBottom
+            }
+        },
+        inheritAttrs: false
+    });
+</script>

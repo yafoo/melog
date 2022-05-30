@@ -5,188 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>{{title}} - {{site.webname}}</title>
     <link href="/static/admin/layui-vue/1.1.0.css" rel="stylesheet">
-    <style>
-        html, body, .spedit { width: 100%; height: 100%;}
-        .layui-form-label {width: 60px; padding: 10px 15px;}
-        .layui-input-block {margin-left: 90px;}
-        .layui-input:focus, .layui-textarea:focus {
-            border-color: #d2d2d2!important;
-        }
-        
-        .spedit {
-            display: flex;
-        }
-        .spedit .spedit-item {
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-        .spedit .spedit-item .lable {
-            display: block;
-            padding: 10px 0;
-            font-weight: 400;
-            line-height: 20px;
-        }
-        .spedit .spedit-module {
-            width: 200px;
-        }
-        .spedit .spedit-special {
-            flex: 1;
-            border-left: 1px solid #eee;
-            border-right: 1px solid #eee;
-        }
-        .spedit .spedit-form {
-            width: 350px;
-        }
-
-        .module-list {
-            height: calc(100% - 42px);
-            overflow-y: overlay;
-            font-size: 12px;
-        }
-        .module-list .module-item {
-            height: 60px;
-            line-height: 60px;
-            text-align: center;
-            border: 1px solid #f4f6fc;
-            background-color: #f4f6fc;
-            margin-bottom: 6px;
-        }
-        .module-list .module-item:hover {
-            border: 1px dashed #1890ff;
-            color: #1890ff;
-            cursor: move;
-        }
-        .module-list .module-item .layui-icon {
-            vertical-align: -1px;
-        }
-
-        .special-list {
-            width: 360px;
-            padding: 0 10px;
-            margin: 0 auto;
-            height: calc(100% - 42px);
-            overflow-y: overlay;
-            position: relative;
-        }
-        .special-list::-webkit-scrollbar{width:6px;}
-        .special-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
-        .special-item {
-            min-height: 30px;
-            position: relative;
-            cursor: move;
-            overflow: hidden;
-            background-color: {$special['bg_color'] ? $special['bg_color'] : '#eee'};
-        }
-        .special-item::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px dashed #059f05;
-            display: none;
-        }
-        .special-item:hover::after,
-        .special-item.hover::after {
-            display: block;
-        }
-        .special-place {
-            width: 0;
-            height: 0;
-            border-top: 5px solid transparent;
-            border-left: 10px solid rgb(4, 124, 54);
-            border-bottom: 5px solid transparent;
-            position: absolute;
-            left: 0;
-            top: 0;
-            transform: translateY(-5px);
-        }
-        .special-list img {
-            display: block;
-            width: 100%;
-        }
-        .special-list .special-item-empty {
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-        }
-        .special-list .special-item-disable {
-            opacity: 0.6;
-        }
-        .special-list .special-item-disable:hover {
-            opacity: 1;
-        }
-        .special-item-navbar .navbar-column {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .special-item-navbar .navbar-column-1 li {
-            width: 100%;
-        }
-        .special-item-navbar .navbar-column-2 li {
-            width: 50%;
-        }
-        .special-item-navbar .navbar-column-3 li {
-            width: 33.33%;
-        }
-        .special-item-navbar .navbar-column-4 li {
-            width: 25%;
-        }
-        .special-item-navbar .navbar-column-5 li {
-            width: 20%;
-        }
-        .special-item-navbar .navbar-column-6 li {
-            width: 16.66%;
-        }
-        .special-item-navbar .navbar-column-7 li {
-            width: 14.28%;
-        }
-        .special-item-navbar .navbar-column-8 li {
-            width: 12.5%;
-        }
-
-        .special-item-list {
-            /* margin: 15px 0; */
-        }
-        .special-item-list .list-item {
-            display: flex;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: 15px 10px;
-            background-color: #fff;
-        }
-        .special-item-list .list-image {
-            width: 110px;
-            max-height: 110px;
-            overflow: hidden;
-            margin: 10px;
-            display: block;
-        }
-        .special-item-list .list-image img {
-            width: 100%;
-            display: block;
-        }
-        .special-item-list .list-body {
-            flex: 1;
-        }
-        .special-item-list .list-title {
-            margin: 10px 10px 10px 0;
-            font-size: 16px;
-        }
-        .special-item-list .list-feedback {
-            color: #666;
-            margin: 10px 10px 10px 0;
-        }
-
-        .form-list {
-            height: calc(100% - 42px);
-            overflow-y: overlay;
-            margin-right: -10px;
-            padding-right: 10px;
-        }
-        .form-list::-webkit-scrollbar{width:6px;}
-        .form-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
-    </style>
+    <link href="/static/admin/spedit.css" rel="stylesheet">
 </head>
 <body>
     <div class="spedit">
@@ -290,12 +109,12 @@
                     </template>
 
                     <lay-form-item label="模块状态" prop="enable">
-                        <lay-radio v-model="formData.data.enable" name="enable" label="1">启用</lay-radio>
-                        <lay-radio v-model="formData.data.enable" name="enable" label="0">禁用</lay-radio>
+                        <lay-radio v-model="formData.enable" name="enable" label="1">启用</lay-radio>
+                        <lay-radio v-model="formData.enable" name="enable" label="0">禁用</lay-radio>
                     </lay-form-item>
 
                     <lay-form-item>
-                        <lay-button type="primary" @click="buttonSave">提交</lay-button>
+                        <lay-button type="primary" @click="buttonSave(formData)">提交</lay-button>
                         <lay-button v-if="delBtnShow" type="danger" @click="buttonDel">删除</lay-button>
                     </lay-form-item>
                 </lay-form>
@@ -306,15 +125,18 @@
     <script src="/static/admin/vue/3.2.34.js"></script>
     <script src="/static/admin/layui-vue/1.1.0.js"></script>
     <script>
-        const special_id = {{id}};
+        const special_id = parseInt("{{id}}");
         const {createApp, onMounted, ref, reactive, toRefs, defineComponent, getCurrentInstance, nextTick} = Vue;
         const {layer} = LayuiVue;
         const components = {};
+        const url_special_item_list = "{{url('special_item_list')}}";
+        const url_special_item_add = "{{url('special_item_add')}}";
+        const url_special_item_save = "{{url('special_item_save')}}";
+        const url_special_item_del = "{{url('special_item_del')}}";
+        const url_special_item_sort = "{{url('special_item_sort')}}";
     </script>
-
-    {{include './special/me-scroll.htm'}}
-    {{include './special/me-article-select.htm'}}
-
-    {{include './special/app-js.htm'}}
+    {{include './components/me-scroll.htm'}}
+    {{include './components/me-article-select.htm'}}
+    <script src="/static/admin/spedit.js"></script>
 </body>
 </html>
