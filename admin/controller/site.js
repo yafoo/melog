@@ -15,8 +15,7 @@ class Site extends Base
                     }
                 }
                 await this.$model.site.db.commit();
-                this.clear();
-                this.$success('保存成功！');
+                this.clear('保存成功！');
             } catch(e) {
                 await this.$model.site.db.rollback();
                 this.$logger.error('保存失败：' + e.message);
@@ -29,10 +28,10 @@ class Site extends Base
         }
     }
 
-    async clear() {
+    async clear(msg = '') {
         try {
             await this.$middleware.cache.clear(); // 不建议这样调用中间件
-            this.$success('清理成功！');
+            this.$success(msg || '清理成功！');
         } catch(e) {
             this.$logger.error('清理失败：' + e.message);
             this.$error('清理失败！');
