@@ -5,6 +5,7 @@ html, body, .spedit { width: 100%; height: 100%;}
     border-color: #d2d2d2!important;
 }
 
+/* spedit */
 .spedit {
     display: flex;
 }
@@ -12,24 +13,16 @@ html, body, .spedit { width: 100%; height: 100%;}
     padding: 0 10px;
     box-sizing: border-box;
 }
-.spedit .spedit-item .lable {
+.spedit .spedit-item .label {
     display: block;
     padding: 10px 0;
     font-weight: 400;
     line-height: 20px;
 }
-.spedit .spedit-module {
+/* spedit-module */
+.spedit-module {
     width: 200px;
 }
-.spedit .spedit-special {
-    flex: 1;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-}
-.spedit .spedit-form {
-    width: 350px;
-}
-
 .module-list {
     height: calc(100% - 42px);
     overflow-y: overlay;
@@ -51,9 +44,20 @@ html, body, .spedit { width: 100%; height: 100%;}
 .module-list .module-item .layui-icon {
     vertical-align: -1px;
 }
-
+/* spedit-special */
+.spedit .spedit-special {
+    padding: 0;
+}
+.spedit .spedit-special .label {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.spedit-special {
+    flex: 1;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
 .special-list {
-    width: 360px;
     padding: 0 10px;
     margin: 0 auto;
     height: calc(100% - 42px);
@@ -136,39 +140,10 @@ html, body, .spedit { width: 100%; height: 100%;}
 .special-item-navbar .navbar-column-8 li {
     width: 12.5%;
 }
-
-.special-item-list {
-    /* margin: 15px 0; */
+/* spedit-form */
+.spedit-form {
+    width: 350px;
 }
-.special-item-list .list-item {
-    display: flex;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 15px 10px;
-    background-color: #fff;
-}
-.special-item-list .list-image {
-    width: 110px;
-    max-height: 110px;
-    overflow: hidden;
-    margin: 10px;
-    display: block;
-}
-.special-item-list .list-image img {
-    width: 100%;
-    display: block;
-}
-.special-item-list .list-body {
-    flex: 1;
-}
-.special-item-list .list-title {
-    margin: 10px 10px 10px 0;
-    font-size: 16px;
-}
-.special-item-list .list-feedback {
-    color: #666;
-    margin: 10px 10px 10px 0;
-}
-
 .form-list {
     height: calc(100% - 42px);
     overflow-y: overlay;
@@ -177,3 +152,49 @@ html, body, .spedit { width: 100%; height: 100%;}
 }
 .form-list::-webkit-scrollbar{width:6px;}
 .form-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
+
+/* module(list) */
+.list-item {
+    padding: 10px 0;
+}
+.list-item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+.list-item dt {
+    padding: 3px 0;
+}
+.list-item dt .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.list-item dd {
+    font-size: 13px;
+    color: #888;
+    padding: 5px 0;
+    overflow: hidden;
+}
+.list-item ul {
+    font-size: 13px;
+    height: 21px;
+    line-height: 21px;
+    color: #888;
+    display: flex;
+    overflow: hidden;
+}
+.list-item ul li:not(:first-child) {
+    margin-left: 7px;
+    padding-left: 7px;
+    border-left: 1px solid #EEE;
+}
+.list-item ul li:not(:last-child) {
+    white-space: nowrap;
+}
+.list-item .image {
+    width: 120px;
+    display: block;
+    float: right;
+    margin-left: 5px;
+}
+.list-item .image img {
+    width: 100%;
+}

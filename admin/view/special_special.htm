@@ -10,7 +10,7 @@
 <body>
     <div class="spedit">
         <div class="spedit-item spedit-module">
-            <label class="lable">模块</label>
+            <label class="label">模块</label>
             <div class="module-list">
                 <div class="module-item" v-for="item in moduleList" @dragstart="dragstart($event, item.module_type)" @dragend="dragend" draggable="true">
                     <i class="layui-icon" :class="'layui-icon-' + item.module_icon"></i> {$item.module_name}
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="spedit-item spedit-special">
-            <label class="lable">内容</label>
+            <label class="label">内容</label>
             <div class="special-list" @drop="drop" @dragover.prevent="dragover" @scroll="scroll" id="special-list">
                 <div v-for="(item, index) in specialItem"
                     :key="item.id"
@@ -28,37 +28,20 @@
                     @dragend="dragend"
                     @click="specialItemClick(item)"
                     draggable="true">
-                    <template v-if="item.type == 'banner'">
-                        <img v-if="item.data.img" :src="item.data.img" />
+                    <template v-if="item.type == 'list'">
+                        <dl class="list-item" :class="item.thumb || ''" v-if="item.data.list.length" v-for="(item, index) in item.data.list" :key="index">
+                            <dt><h3 class="title">{$item.title}</h3></dt>
+                            <dd>
+                                <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                                此处仅展示部分信息，完成信息，在前台预览
+                            </dd>
+                            <ul>
+                                <li>时间: {$item.add_date}</li>
+                                <li>浏览: {$item.click}</li>
+                                <li>关键词: {$item.keywords}</li>
+                            </ul>
+                        </dl>
                         <div v-else class="special-item-empty">点击编辑内容</div>
-                    </template>
-                    <template v-else-if="item.type == 'swiper'">
-                        <img v-if="item.data[0].img" :src="item.data[0].img" />
-                        <div v-else class="special-item-empty">点击编辑内容</div>
-                    </template>
-                    <template v-else-if="item.type == 'navbar'">
-                        <ul v-if="item.data.list.length && item.data.list[0].img" :class="'navbar-column navbar-column-' + item.data.column">
-                            <li v-for="(item, index) in item.data.list" :key="index">
-                                <img :src="item.img" />
-                            </li>
-                        </ul>
-                        <div v-else class="special-item-empty">点击编辑内容</div>
-                    </template>
-                    <template v-else-if="item.type == 'list'">
-                        <div class="list-item" v-for="(item, index) in item.data.list" :key="index">
-                            <a class="list-image" :href="item.url">
-                                <img :src="item.thumb_url" />
-                            </a>
-                            <div class="list-body">
-                                <h4 class="list-title">
-                                    <a :href="item.url">{$item.title}</a>
-                                </h4>
-                                <p class="list-desc"></p>
-                                <div class="list-feedback">
-                                    <i class="xjzfont icon-like"></i> <span>{$item.hits}</span> &nbsp;&nbsp;&nbsp;<i class="layui-icon layui-icon-time"></i> {$item.createdate}
-                                </div>
-                            </div>
-                        </div>
                     </template>
                     <template v-else>
                         <div class="special-item-empty">点击编辑内容</div>
@@ -68,7 +51,7 @@
             </div>
         </div>
         <div class="spedit-item spedit-form">
-            <label class="lable">数据</label>
+            <label class="label">数据</label>
             <div class="form-list">
                 <lay-form v-if="typeof(formData.type) != 'undefined'" :model="formData.data" class="layui-form layui-form-pane">
                     <lay-form-item label="模块类型" prop="rows">
