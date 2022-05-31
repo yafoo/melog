@@ -9,7 +9,7 @@ class SpecialItem extends Model
         }
         const item_list = await this.db.order('sort', 'asc').order('id', 'asc').select(condition);
 
-        item_list.forEach(async item => {
+        await Promise.all(item_list.map(async item => {
             if(item.data) {
                 item.data = JSON.parse(item.data);
             } else {
@@ -40,69 +40,7 @@ class SpecialItem extends Model
                     }
                     break;
             }
-        });
-
-        // foreach($item_list as &$item) {
-        //     if($item['data']) {
-        //         $item['data'] = unserialize($item['data']);
-        //     } else {
-        //         $item['data'] = [];
-        //     }
-        //     switch($item['type']) {
-        //         case 'banner':
-        //             if(!isset($item['data']['img'])) {
-        //                 $item['data']['img'] = '';
-        //             }
-        //             if(!isset($item['data']['url'])) {
-        //                 $item['data']['url'] = '';
-        //             }
-        //             break;
-        //         case 'swiper':
-        //             if(empty($item['data'])) {
-        //                 $item['data'][] = [];
-        //             }
-        //             break;
-        //         case 'navbar':
-        //             if(!isset($item['data']['column'])) {
-        //                 $item['data']['column'] = 4;
-        //             }
-        //             if(!isset($item['data']['list'])) {
-        //                 $item['data']['list'] = [[]];
-        //             }
-        //             break;
-        //         case 'list':
-        //             if(!isset($item['data']['rows'])) {
-        //                 $item['data']['rows'] = 5;
-        //             }
-        //             if(!isset($item['data']['list_type'])) {
-        //                 $item['data']['list_type'] = 'huodong';
-        //             }
-        //             if(!isset($item['data']['posid'])) {
-        //                 $item['data']['posid'] = 0;
-        //             }
-        //             $where = 'a.posid=' . $item['data']['posid'];
-        //             $where .= ' and (a.status = 1 or (a.status = 0 and a.createtime <'.time().'))';
-        //             $list = db($item['data']['list_type'])
-        //                 ->alias("a")
-        //                 ->join("category c", " a.catid = c.id", "left")
-        //                 ->field('a.id,a.catid,a.title,a.thumb,a.hits,a.createtime,c.catdir')
-        //                 ->where($where)
-        //                 ->limit($item['data']['rows'])
-        //                 ->order('a.id desc')
-        //                 ->select();
-        //             if($list) {
-        //                 foreach($list as $k => $v) {
-        //                     $list[$k]['url'] = url('mobile/'.$v['catdir'].'/info', array('catId'=>$v['catid'], 'id'=>$v['id']));
-        //                     $list[$k]['thumb_url'] = imgUrl($v['thumb'],'/static/mobile/img/'. $k .'.jpg');
-        //                     $list[$k]['creatdate'] = date('Y-m-d', $v['createtime']);
-        //                 }
-        //                 $item['data']['list'] = $list;
-        //             } else {
-        //                 $item['data']['list'] = [[]];
-        //             }
-        //             break;
-        //     }
-        // }
+        }));
 
         return item_list;
     }

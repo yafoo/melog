@@ -27,7 +27,6 @@
                     @dragstart="dragstart($event, 'sort_' + index)"
                     @dragend="dragend"
                     @click="specialItemClick(item)"
-                    @contextmenu.prevent="rightClick(item)"
                     draggable="true">
                     <template v-if="item.type == 'banner'">
                         <img v-if="item.data.img" :src="item.data.img" />
@@ -102,7 +101,7 @@
                         <lay-form-item v-if="formData.data.source == 'keyword'" label="显示数量" prop="rows">
                             <lay-input v-model="formData.data.rows"></lay-input>
                         </lay-form-item>
-                        <me-article-select v-if="formData.data.source == 'select'" v-model="formData.data.list"></me-article-select>
+                        <me-article-select v-if="formData.data.source == 'select'" v-model:list="formData.data.list" v-model="formData.data.ids"></me-article-select>
                     </template>
 
                     <template v-else>
@@ -114,8 +113,8 @@
                     </lay-form-item>
 
                     <lay-form-item>
-                        <lay-button type="primary" @click="buttonSave(formData)">提交</lay-button>
-                        <lay-button v-if="delBtnShow" type="danger" @click="buttonDel">删除</lay-button>
+                        <lay-button type="primary" @click="buttonSave">提交</lay-button>
+                        <lay-button type="danger" @click="buttonDel">删除</lay-button>
                     </lay-form-item>
                 </lay-form>
             </div>

@@ -38,12 +38,13 @@ class Special extends Base
         }
 
         const data = this.ctx.request.body;
+        const id = data.id;
         const result = await this.$model.special.saveSpecial(data);
 
         if(result) {
-            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
+            this.$success(id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            this.$error(data.id ? '保存失败！' : '新增失败！');
+            this.$error(id ? '保存失败！' : '新增失败！');
         }
     }
 
@@ -92,6 +93,10 @@ class Special extends Base
             const data = {};
             data.id = form_data.id;
             data.enable = parseInt(form_data.enable);
+            delete(form_data.id);
+            delete(form_data.enable);
+            delete(form_data.type);
+            data.data = form_data;
 
             const msg = await this.$model.specialItem.specialItemSave(data);
             if(msg === true) {
@@ -139,7 +144,7 @@ class Special extends Base
             const data = this.ctx.request.body;
             const id = data.id;
 
-            const msg = await this.$model.specialItem.specialItemDel({id});
+            const msg = await this.$model.specialItem.specialItemDel(id);
             if(msg === true) {
                 return this.$success('删除成功！');
             } else {

@@ -21,8 +21,7 @@ const App = {
         const data = reactive({
             specialItem: [],
             formData: {},
-            itemID: -1,
-            delBtnShow: false
+            itemID: -1
         });
 
         onMounted(() => {
@@ -94,17 +93,17 @@ const App = {
         function specialItemSave(data) {
             $(url_special_item_save, data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
-                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
 
         function specialItemDel() {
-            const data = {
+            const form_data = {
                 id: data.itemID
             };
-            $(url_special_item_del, data).then(res => {
+            $(url_special_item_del, form_data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
-                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
 
@@ -115,57 +114,27 @@ const App = {
             };
             $(url_special_item_sort, data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
-                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, () => {getSpecialItemList()});
+                res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
 
-        function uploadDel(index) {
-            if(data.formData.type == 'swiper') {
-                data.formData.data.splice(index, 1);
-            } else if(data.formData.type == 'navbar') {
-                data.formData.data.list.splice(index, 1);
-            }
-        }
-
-        function uploadAdd(index) {
-            data.formData.key++;
-            if(data.formData.type == 'swiper') {
-                data.formData.data.splice(index + 1, 0, {key: data.formData.key});
-            } else if(data.formData.type == 'navbar') {
-                data.formData.data.list.splice(index + 1, 0, {key: data.formData.key});
-            }
-        }
-
-        function rightClick(item) {console.log(data);
-            if(data.itemID != item.id) {
-                specialItemClick(item);
-            }
-            data.delBtnShow = true;
-        }
-
-        function buttonSave(formData) {
-            console.log(formData);
-            return;
-
-            const data = $("form").serializeArray();
-            if(!data.length) {
-                return;
-            }
-            const form_data = {};
+        function buttonSave() {
+            const form_data = {...data.formData.data};
             form_data.id = data.formData.id;
             form_data.type = data.formData.type;
-            data.forEach(field => {
-                form_data[field.name] = field.value || '';
-            });
-
+            form_data.enable = data.formData.enable;
+            if(~['list'].indexOf(form_data.type)) {
+                delete(form_data.list);
+            }
+            // console.log(form_data);
             specialItemSave(form_data);
         }
 
         function buttonDel() {
-            layer.confirm('确定删除此模块？', {icon: 3, title:'提示'}, index => {
+            const id = layer.confirm('确定删除此模块？', {icon: 3, title:'提示', yes() {
+                layer.close(id);
                 specialItemDel();
-                layer.close(index);
-            });
+            }});
         }
 
         const place = reactive({
@@ -278,9 +247,6 @@ const App = {
             drop,
             scroll,
             specialItemClick,
-            rightClick,
-            uploadDel,
-            uploadAdd,
             buttonSave,
             buttonDel
         }

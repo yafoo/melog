@@ -44,7 +44,7 @@
                 <td>{{item.cate_name}}</td>
                 <td>{{item.click}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td class="table-action" data-title="{{item.title}}" data-thumb="{{item.thumb}}"><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm iframe-hide">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm iframe-hide">删除</a></td>
+                <td class="table-action" data-id="{{item.id}}" data-title="{{item.title}}" data-thumb="{{item.thumb}}"><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm iframe-hide">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm iframe-hide">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>
@@ -90,6 +90,7 @@
                 $('<span class="layui-btn layui-btn-sm">选择</span>').click(function() {
                     if(typeof parent[cb] == 'function') {
                         parent[cb]({
+                            id: that.data('id'),
                             title: that.data('title'),
                             thumb: that.data('thumb')
                         });

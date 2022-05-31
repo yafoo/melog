@@ -10,18 +10,30 @@
             </lay-button-group>
         </div>
     </div>
-    <lay-layer title="选择文章" :area="['360px','455px']" maxmin="true" v-model="layerShow" move="true" :type="2" content="{{url('article/index')}}" @click="closeLayer"></lay-layer>
+    <lay-layer title="选择文章" :area="['360px','455px']" maxmin="true" v-model="layerShow" move="true" :type="2" content="{{url('article/index')}}" :shadeClose="false" @close="closeLayer"></lay-layer>
 </script>
 <script>
     components['me-article-select'] = defineComponent({
         template: '#me-article-select',
+        props: {
+            list: {
+                type: Array,
+                default: []
+            }
+        },
         setup(props, ctx) {
             const addHeight = ref(0);
-            const arcList = ref([]);
+            const arcList = ref(props.list);
 
             const change = data => {
                 data && (arcList.value = data);
-                ctx.emit('update:list', dataList.value);
+                emitModel();
+            }
+
+            const emitModel = () => {
+                ctx.emit('update:list', arcList.value);
+                const ids = arcList.value.map(item => item.id);
+                ctx.emit('update:modelValue', ids.join(','));
             }
 
             const layerShow = ref(false);
@@ -29,7 +41,7 @@
                 layerShow.value = true;
                 window.callback = (data) => {
                     arcList.value.push(data);
-                    ctx.emit('update:list', arcList.value);
+                    emitModel();
                     nextTick(() => {
                         scrollToBottom();
                     });
