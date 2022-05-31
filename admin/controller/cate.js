@@ -30,13 +30,14 @@ class Cate extends Base
         }
 
         const data = this.ctx.request.body;
+        const id = data.id;
         data.is_show = data.is_show ? 1 : 0;
 
         const result = await this.$model.cate.save(data);
         if(result) {
-            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
+            this.$success(id ? '保存成功！' : '新增成功！', 'index');
         } else {
-            this.$error(data.id ? '保存失败！' : '新增失败！');
+            this.$error(id ? '保存失败！' : '新增失败！');
         }
     }
 
