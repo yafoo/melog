@@ -29,11 +29,11 @@
                     @click="specialItemClick(item)"
                     draggable="true">
                     <template v-if="item.type == 'list'">
-                        <dl class="list-item" :class="item.thumb || ''" v-if="item.data.list.length" v-for="(item, index) in item.data.list" :key="index">
+                        <dl class="list-item" :class="item.thumb && 'thumb' || ''" v-if="item.data.list.length" v-for="(item, index) in item.data.list" :key="index">
                             <dt><h3 class="title">{$item.title}</h3></dt>
                             <dd>
                                 <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
-                                此处仅展示部分信息，完成信息，在前台预览
+                                {$item.description}
                             </dd>
                             <ul>
                                 <li>时间: {$item.add_date}</li>

@@ -1,4 +1,4 @@
-const {Model} = require('jj.js');
+const {Model, utils} = require('jj.js');
 
 class SpecialItem extends Model
 {
@@ -29,9 +29,10 @@ class SpecialItem extends Model
                     item.data.list = [];
                     if(item.data.ids) {
                         const ids = item.data.ids.split(',');
-                        const list = await this.$db.table('article').where({id: ['in', ids]}).field('id,thumb,title').select();
+                        const list = await this.$db.table('article').where({id: ['in', ids]}).field('id,thumb,title,description,click,keywords,add_time').select();
                         const temp_list = {};
                         list.forEach(item => {
+                            item.add_date = this.$utils.date('YYYY-mm-dd');
                             temp_list[item.id] = item;
                         });
                         ids.forEach(id => {

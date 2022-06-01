@@ -1,13 +1,13 @@
 // 获取随机字符串
 function randomString(len) {
-　　len = len || 32;
-　　var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-　　var maxPos = $chars.length;
-　　var pwd = '';
-　　for (i = 0; i < len; i++) {
-　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-　　}
-　　return pwd;
+    len = len || 32;
+    var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var maxPos = $chars.length;
+    var pwd = '';
+    for (i = 0; i < len; i++) {
+        pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
 }
 
 // 按父子孙分级整理
@@ -49,4 +49,7 @@ const md5 = require('jj.js').utils.md5;
 // 获取时间戳
 const time = () => Math.round(new Date() / 1000);
 
-module.exports = {randomString, toTreeArray, toTree, getIP, md5, time}
+// 日期格式化
+const date = (format, value) => require('jj.js').utils.date.format(format, value);
+
+module.exports = {randomString, toTreeArray, toTree, getIP, md5, time, date}

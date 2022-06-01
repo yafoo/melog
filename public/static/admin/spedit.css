@@ -56,6 +56,7 @@ html, body, .spedit { width: 100%; height: 100%;}
     flex: 1;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
+    min-width: 300px;
 }
 .special-list {
     padding: 0 10px;
@@ -156,6 +157,7 @@ html, body, .spedit { width: 100%; height: 100%;}
 /* module(list) */
 .list-item {
     padding: 10px 0;
+    line-height: 1.6;
 }
 .list-item:not(:last-child) {
     border-bottom: 1px solid #eee;
@@ -197,4 +199,16 @@ html, body, .spedit { width: 100%; height: 100%;}
 }
 .list-item .image img {
     width: 100%;
+}
+
+@media screen and (min-width: 961px) {
+    .list-item.thumb {
+        position: relative;
+        padding-right: 130px;
+    }
+    .list-item .image {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+    }
 }
