@@ -20,9 +20,9 @@
         <div class="spedit-item spedit-special">
             <label class="label">内容</label>
             <div class="special-list" @drop="drop" @dragover.prevent="dragover" @scroll="scroll" id="special-list">
-                <div v-for="(item, index) in specialItem"
+                <div v-for="(item, index) in specialItemList"
                     :key="item.id"
-                    :class="'special-item special-item-' + item.type + (itemID == item.id ? ' hover' : '') + (1 == item.enable ? '' : ' special-item-disable')"
+                    :class="'special-item special-item-' + item.type + (currentItemID == item.id ? ' hover' : '') + (1 == item.enable ? '' : ' special-item-disable')"
                     :id="'special-item-' + item.id"
                     @dragstart="dragstart($event, 'sort_' + index)"
                     @dragend="dragend"

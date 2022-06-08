@@ -1,34 +1,6 @@
 const App = {
     setup() {
-        const moduleList = {
-            list: {
-                module_type: 'list',
-                module_name: '文章列表',
-                module_icon: 'list'
-            },
-            banner: {
-                module_type: 'banner',
-                module_name: '横幅图',
-                module_icon: 'picture-fine'
-            },
-            navbar: {
-                module_type: 'navbar',
-                module_name: '导航块',
-                module_icon: 'table'
-            }
-        };
-
-        const data = reactive({
-            specialItem: [],
-            formData: {},
-            itemID: -1
-        });
-
-        onMounted(() => {
-            getSpecialItemList();
-            place.scrollOffset = document.getElementById('special-list').offsetTop;
-        });
-
+        /** ajax请求 **/
         const $ = (url, data) => {
             return new Promise((resolve, reject) => {
                 const layer_id = layer.load(0);
@@ -49,18 +21,38 @@ const App = {
             });
         }
 
+        /** 左侧模块列表 **/
+        const moduleList = {
+            list: {
+                module_type: 'list',
+                module_name: '文章列表',
+                module_icon: 'list'
+            },
+            banner: {
+                module_type: 'banner',
+                module_name: '横幅图',
+                module_icon: 'picture-fine'
+            },
+            navbar: {
+                module_type: 'navbar',
+                module_name: '导航块',
+                module_icon: 'table'
+            }
+        };
+
+        /** 中间模块预览 **/
+        const specialItemList = ref([]);
+        const currentItemID = ref(-1);
         function getSpecialItemList() {
             $(url_special_item_list + "?special_id=" + special_id).then(res => {
-                data.specialItem = res.data;
-                data.itemID = -1;
-                data.formData = {};
-                data.delBtnShow = false;
+                specialItemList.value = res.data;
+                currentItemID.value = -1;
+                formData.value = {};
                 setTimeout(() => {
                     getElementTop();
                 }, 1000);
             });
         }
-
         function specialItemClick(item) {
             // 为for循环加key
             if(item.type == 'swiper' && typeof item.key == 'undefined') {
@@ -78,35 +70,60 @@ const App = {
                 });
             }
 
-            data.itemID = item.id;
-            data.formData = item;JSON.parse(JSON.stringify(item));
-            data.delBtnShow = false;
+            currentItemID.value = item.id;
+            formData.value = {};
+            nextTick(() => {
+                formData.value = item; //JSON.parse(JSON.stringify(item));
+            });
         }
 
+        onMounted(() => {
+            getSpecialItemList();
+            place.scrollOffset = document.getElementById('special-list').offsetTop;
+        });
+
+        /** 右侧模块编辑 **/
+        const formData = ref({});
+        function buttonSave() {
+            const form_data = {...formData.value.data};
+            form_data.id = formData.value.id;
+            form_data.type = formData.value.type;
+            form_data.enable = formData.value.enable;
+            if(~['list'].indexOf(form_data.type)) {
+                delete(form_data.list);
+            }
+            // console.log(form_data);
+            specialItemSave(form_data);
+        }
+        function buttonDel() {
+            const id = layer.confirm('确定删除此模块？', {icon: 3, title:'提示', yes() {
+                layer.close(id);
+                specialItemDel();
+            }});
+        }
+
+        /** 模块操作接口 **/
         function specialItemAdd(data) {
             $(url_special_item_add, data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
                 res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
-
         function specialItemSave(data) {
             $(url_special_item_save, data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
                 res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
-
         function specialItemDel() {
             const form_data = {
-                id: data.itemID
+                id: formData.value.id
             };
             $(url_special_item_del, form_data).then(res => {
                 !res.state && layer.msg(res.msg, {time: 1800, icon: 2});
                 res.state && layer.msg(res.msg, {time: 1800, icon: 1}, getSpecialItemList);
             });
         }
-
         function specialItemSort(sort_data) {
             const data = {
                 special_id: special_id,
@@ -118,25 +135,7 @@ const App = {
             });
         }
 
-        function buttonSave() {
-            const form_data = {...data.formData.data};
-            form_data.id = data.formData.id;
-            form_data.type = data.formData.type;
-            form_data.enable = data.formData.enable;
-            if(~['list'].indexOf(form_data.type)) {
-                delete(form_data.list);
-            }
-            // console.log(form_data);
-            specialItemSave(form_data);
-        }
-
-        function buttonDel() {
-            const id = layer.confirm('确定删除此模块？', {icon: 3, title:'提示', yes() {
-                layer.close(id);
-                specialItemDel();
-            }});
-        }
-
+        /** 模块拖拽系统 **/
         const place = reactive({
             place: 0,
             topArr: [],
@@ -145,17 +144,16 @@ const App = {
             scrollOffset: 0,
             placeShow: false
         });
-
         function dragsort(index) {
             index = parseInt(index);
             // console.log('index:' + index, 'place:' + place.place);
             if(place.place == index || place.place == index + 1) {
                 return;
             }
-            data.specialItem.splice(place.place, 0, data.specialItem[index]);
-            data.specialItem.splice(place.place > index ? index : index + 1, 1);
+            specialItemList.value.splice(place.place, 0, specialItemList.value[index]);
+            specialItemList.value.splice(place.place > index ? index : index + 1, 1);
             const sort_data = [];
-            data.specialItem.forEach((item, key) => {
+            specialItemList.value.forEach((item, key) => {
                 if(item.sort != key) {
                     sort_data.push(item.id + ':' + key);
                 }
@@ -163,17 +161,14 @@ const App = {
             // console.log(sort_data);
             specialItemSort(sort_data);
         }
-
         function dragstart(e, module_name) {
             e.dataTransfer.setData('module_name', module_name);
-            data.itemID = -1;
+            currentItemID.value = -1;
             place.placeShow = true;
         }
-
         function dragend() {
             place.placeShow = false;
         }
-
         function drop(e) {
             const module_name = e.dataTransfer.getData('module_name');
             if(module_name.split('_')[0] == 'sort') {
@@ -186,7 +181,6 @@ const App = {
             data.sort = place.place;
             specialItemAdd(data);
         }
-
         function scroll(e) {
             if(e.target.scrollTop == 1 || Math.abs(e.target.scrollTop - place.drapY) < 5) {
                 return;
@@ -194,7 +188,6 @@ const App = {
             place.scrollY = e.target.scrollTop;
             place.placeShow && calcPlace();
         }
-
         function dragover(e) {
             if(e.pageY == 1 || Math.abs(e.pageY + place.scrollY - place.scrollOffset - place.drapY) < 5) {
                 return;
@@ -202,7 +195,6 @@ const App = {
             place.drapY = e.pageY + place.scrollY - place.scrollOffset;
             calcPlace();
         }
-
         function calcPlace() {
             const top_arr = place.topArr;
             const len = top_arr.length - 1;
@@ -218,17 +210,14 @@ const App = {
                 }
             }
         }
-
-        //获取距离顶部的高度
         function getScrollTop(selector) {
             const dom = document.getElementById(selector);
             return [dom.offsetTop, dom.offsetTop + dom.offsetHeight];
         }
-
         function getElementTop() {
             const top_arr = [];
             let top_bottom = null;
-            data.specialItem.forEach(item => {
+            specialItemList.value.forEach(item => {
                 top_bottom = getScrollTop('special-item-' + item.id);
                 top_arr.push(top_bottom[0]);
             });
@@ -237,18 +226,21 @@ const App = {
             // console.log(top_arr);
         }
 
+        /** 页面数据 **/
         return {
             moduleList,
-            ...toRefs(data),
+            specialItemList,
+            currentItemID,
+            specialItemClick,
+            formData,
+            buttonSave,
+            buttonDel,
             ...toRefs(place),
             dragstart,
             dragend,
             dragover,
             drop,
-            scroll,
-            specialItemClick,
-            buttonSave,
-            buttonDel
+            scroll
         }
     }
 }; 
