@@ -1,6 +1,6 @@
 html, body, .spedit { width: 100%; height: 100%;}
-.layui-form-label {width: 60px; padding: 10px 15px;}
-.layui-input-block {margin-left: 90px;}
+.layui-form-label {width: 45px; padding: 10px 15px 10px 0;}
+.layui-input-block {margin-left: 75px;}
 .layui-input:focus, .layui-textarea:focus {
     border-color: #d2d2d2!important;
 }
@@ -29,8 +29,7 @@ html, body, .spedit { width: 100%; height: 100%;}
     font-size: 12px;
 }
 .module-list .module-item {
-    height: 60px;
-    line-height: 60px;
+    padding: 25px 5px;
     text-align: center;
     border: 1px solid #f4f6fc;
     background-color: #f4f6fc;
@@ -144,6 +143,7 @@ html, body, .spedit { width: 100%; height: 100%;}
 /* spedit-form */
 .spedit-form {
     width: 350px;
+    min-width: 310px;
 }
 .form-list {
     height: calc(100% - 42px);
