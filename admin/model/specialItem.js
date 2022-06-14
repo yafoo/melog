@@ -40,6 +40,17 @@ class SpecialItem extends Model
                         });
                     }
                     break;
+                case 'map':
+                    if(item.data.zoom === undefined) {
+                        item.data.zoom = 14;
+                    }
+                    if(item.data.center === undefined) {
+                        item.data.center = '';
+                    }
+                    if(item.data.list === undefined) {
+                        item.data.list = [{points: [''], point_type: 'point'}];
+                    }
+                    break;
             }
         }));
 

@@ -1,0 +1,95 @@
+<script type="text/x-template" id="me-point">
+    <div class="layui-form-item" style="margin-bottom: 0;">
+        <label class="layui-form-label">坐标数据</label>
+        <div class="layui-input-block">
+            <div v-for="(point, index) in formData.points" :key="index" style="display: flex; margin-bottom: 1px;">
+                <me-point-select v-model="formData.points[index]" :center="center"></me-point-select>
+                <lay-button-group style="white-space: nowrap;">
+                    <lay-button type="primary" @click="pointAdd(index)" style="padding: 0 10px; border-top-left-radius: 0; border-bottom-left-radius: 0;"><lay-icon type="layui-icon-add-circle" style="color: #fff;"></lay-icon></lay-button>
+                    <lay-button type="danger" @click="pointDel(index)" style="padding: 0 10px;"><lay-icon type="layui-icon-delete" style="color: #fff;"></lay-icon></lay-button>
+                </lay-button-group>
+            </div>
+        </div>
+    </div>
+    <lay-form-item label="坐标类型" prop="point_type" style="margin-bottom: 1px;">
+        <lay-radio v-model="formData.point_type" name="point_type" label="point">点</lay-radio>
+        <lay-radio v-model="formData.point_type" name="point_type" label="line">线</lay-radio>
+        <lay-radio v-model="formData.point_type" name="point_type" label="area">面</lay-radio>
+    </lay-form-item>
+    <lay-form-item v-if="formData.point_type == 'line' || formData.point_type == 'area'" label="线、边框" style="margin-bottom: 1px;">
+        <lay-color-picker v-model="formData.line_color"></lay-color-picker>
+        <lay-input v-model="formData.line_width" placeholder="宽度(px)" style="width: 90px; margin-left: 5px;"></lay-input>
+        <lay-select v-model="formData.line_type" :showEmpty="false" placeholder="线型" style="width: 90px; display: inline-block; margin-left: 5px;">
+            <lay-select-option value="solid" label="实线"></lay-select-option>
+            <lay-select-option value="dashed" label="虚线"></lay-select-option>
+            <lay-select-option value="dotted" label="虚点"></lay-select-option>
+        </lay-select>
+    </lay-form-item>
+    <lay-form-item v-if="formData.point_type == 'area'" label="填充颜色" style="margin-bottom: 1px;">
+        <lay-color-picker v-model="formData.fill_color"></lay-color-picker>
+    </lay-form-item>
+    <lay-form-item label="标签/文章" prop="text" style="margin-bottom: 1px;">
+        <div style="display: flex;">
+            <lay-input v-model="formData.text"></lay-input>
+            <lay-button type="primary" @click="articleSelect" style="padding: 0 10px; border-top-left-radius: 0; border-bottom-left-radius: 0;"><lay-icon type="layui-icon-search" style="color: #fff;"></lay-icon></lay-button>
+        </div>
+    </lay-form-item>
+    <lay-form-item label="标签样式" v-if="formData.text !== undefined" style="margin-bottom: 1px;">
+        <lay-color-picker v-model="formData.text_color"></lay-color-picker>
+        <lay-input v-model="formData.text_size" placeholder="大小(px)" style="width: 90px; margin-left: 5px;"></lay-input>
+        <lay-checkbox label="1" v-model="formData.text_scale" style="margin-left: 5px;">缩放</lay-checkbox>
+    </lay-form-item>
+    <lay-form-item label="标签坐标" v-if="formData.text !== undefined" style="margin-bottom: 1px;">
+        <me-point-select v-model="formData.text_point" :center="center"></me-point-select>
+    </lay-form-item>
+    <lay-layer title="选择文章" :area="['360px','455px']" maxmin="true" v-model="layerShow" move="true" :type="2" content="{{url('article/index')}}"></lay-layer>
+</script>
+<script>
+    components['me-point'] = defineComponent({
+        template: '#me-point',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            },
+            center: undefined
+        },
+        setup(props, ctx) {
+            const formData = reactive(props.data);
+
+            const pointAdd = index => {
+                formData.points.splice(index + 1, 0, '');
+            }
+
+            const pointDel = index => {
+                const id = layer.confirm('确定删除此坐标点？', {icon: 3, title:'提示', yes() {
+                    layer.close(id);
+                    formData.points.splice(index, 1);
+                }});
+            }
+
+            const layerShow = ref(false);
+            const articleSelect = () => {
+                layerShow.value = true;
+                window.callback = (data) => {
+                    formData.text = data.id + '[::]' + data.title;
+                    layerShow.value = false;
+                    window.callback = null;
+                }
+            }
+
+            onMounted(() => {
+                console.log('point mounted');
+            });
+
+            return {
+                formData,
+                pointAdd,
+                pointDel,
+                layerShow,
+                articleSelect
+            }
+        },
+        inheritAttrs: false
+    });
+</script>

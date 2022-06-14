@@ -63,6 +63,14 @@ class Special extends Base
         const id = parseInt(this.ctx.query.id) || 0;
         this.$assign('id', id);
 
+        const {resolve} = require('path');
+        const dir = resolve(__dirname, '../view/special');
+        const component_files = await this.$.utils.fs.readdir(dir);
+        this.$assign('component_files', component_files);
+
+        // 地图sdk
+        this.$assign('map_ak', '465c0734722cfde06f7d7eac68559354');
+
         await this.$fetch();
     }
 

@@ -1,0 +1,36 @@
+<script type="text/x-template" id="form-list">
+    <lay-form-item label="数据来源" prop="source">
+        <lay-radio v-model="formData.source" name="source" label="keyword">文章搜索</lay-radio>
+        <lay-radio v-model="formData.source" name="source" label="select">手工选择</lay-radio>
+    </lay-form-item>
+    <lay-form-item v-if="formData.source == 'keyword'" label="关键词" prop="keyword">
+        <lay-input v-model="formData.keyword"></lay-input>
+    </lay-form-item>
+    <lay-form-item v-if="formData.source == 'keyword'" label="显示数量" prop="rows">
+        <lay-input v-model="formData.rows"></lay-input>
+    </lay-form-item>
+    <me-article-select v-if="formData.source == 'select'" v-model:list="formData.list" v-model="formData.ids"></me-article-select>
+</script>
+<script>
+    components['form-list'] = defineComponent({
+        template: '#form-list',
+        props: {
+            modelValue: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            const formData = reactive(props.modelValue);
+
+            onMounted(() => {
+                console.log('form-list mounted');
+            });
+
+            return {
+                formData
+            }
+        },
+        inheritAttrs: false
+    });
+</script>

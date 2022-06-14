@@ -1,0 +1,116 @@
+<script type="text/x-template" id="module-map">
+    <el-bmap :zoom="parseInt(data.zoom)" :center="[...data.center.split(',')]" @zoomend="zoomEnd" :mapType="mapType">
+        <template v-for="(item, index) in data.list" :key="index">
+            <template v-if="item.point_type == 'point'" v-for="(point, index) in item.points">
+                <el-bmap-marker
+                    :position="point.split(',')"
+                ></el-bmap-marker>
+            </template>
+            <template v-else-if="item.point_type == 'line'">
+                <el-bmap-polyline
+                    :path="item.points.map(p => p.split(','))"
+                    :stroke-color="color(item.line_color)"
+                    :stroke-opacity="opacity(item.line_color)"
+                    :stroke-weight="parseInt(item.line_width || 1)"
+                    :stroke-style="item.line_type || 'solid'"
+                ></el-bmap-polyline>
+            </template>
+            <template v-else-if="item.point_type == 'area'">
+                <el-bmap-polygon
+                    :path="item.points.map(p => p.split(','))"
+                    :stroke-color="color(item.line_color)"
+                    :stroke-opacity="opacity(item.line_color)"
+                    :stroke-weight="parseInt(item.line_width || 1)"
+                    :stroke-style="item.line_type || 'solid'"
+                    :fill-color="color(item.fill_color)"
+                    :fill-opacity="opacity(item.fill_color)"
+                ></el-bmap-polygon>
+            </template>
+
+            <el-bmap-label v-if="item.text && item.text_point"
+                :position="point(item.text_point || item.points[0])"
+                :isCustom="true"
+            >
+                <div :style="textStyle(item)">{$text(item.text)}</div>
+            </el-bmap-label>
+        </template>
+    </el-bmap>
+</script>
+<script>
+    components['module-map'] = defineComponent({
+        template: '#module-map',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            onMounted(() => {
+                console.log('module-map mounted');
+            });
+
+            const point = value => {
+                return value.split(',');
+            }
+
+            const color = value => {
+                if(!value) {
+                    return '';
+                }
+                return value.slice(0, 7);
+            }
+
+            const opacity = value => {
+                if(!value) {
+                    return 1;
+                }
+                value = value.substring(7);
+                if(!value) {
+                    return 1;
+                }
+                return parseInt(value, 16) / 255;
+            }
+
+            const text = value => {
+                value = value.split('[::]');
+                return value[1] || value[0];
+            }
+
+            const zoom = ref(props.data.zoom);
+            const scale = computed(() => {
+                return 2 ** (parseFloat(zoom.value).toFixed(2) - props.data.zoom);
+            });
+            const textStyle = computed(() => {
+                return data => {
+                    const obj = {color: color(data.text_color), opacity: opacity(data.text_color), fontSize: data.text_size + 'px'};
+                    if(data.text_scale == 1) {
+                        obj.transformOrigin = '0 0';
+                        obj.transform = 'scale(' + scale.value + ')';
+                    }
+                    return obj;
+                }
+            });
+
+            const zoomEnd = e => {
+                zoom.value = e.target.getZoom();
+            }
+
+            return {
+                point,
+                color,
+                opacity,
+                text,
+                textStyle,
+                zoomEnd
+            }
+        },
+        inheritAttrs: false
+    });
+
+    modules['map'] = {
+        module_type: 'map',
+        module_name: '地图标注',
+        module_icon: 'location'
+    }
+</script>

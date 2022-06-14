@@ -1,0 +1,37 @@
+<script type="text/x-template" id="module-list">
+    <dl class="list-item" v-for="(item, index) in data.list" :key="index" :class="item.thumb && 'thumb' || ''">
+        <dt><h3 class="title">{$item.title}</h3></dt>
+        <dd>
+            <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+            {$item.description}
+        </dd>
+        <ul>
+            <li>时间: {$item.add_date}</li>
+            <li>浏览: {$item.click}</li>
+            <li>关键词: {$item.keywords}</li>
+        </ul>
+    </dl>
+</script>
+<script>
+    components['module-list'] = defineComponent({
+        template: '#module-list',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            onMounted(() => {
+                console.log('module-list mounted');
+            });
+        },
+        inheritAttrs: false
+    });
+
+    modules['list'] = {
+        module_type: 'list',
+        module_name: '文章列表',
+        module_icon: 'list'
+    }
+</script>

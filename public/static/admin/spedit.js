@@ -22,23 +22,7 @@ const App = {
         }
 
         /** 左侧模块列表 **/
-        const moduleList = {
-            list: {
-                module_type: 'list',
-                module_name: '文章列表',
-                module_icon: 'list'
-            },
-            banner: {
-                module_type: 'banner',
-                module_name: '横幅图',
-                module_icon: 'picture-fine'
-            },
-            navbar: {
-                module_type: 'navbar',
-                module_name: '导航块',
-                module_icon: 'table'
-            }
-        };
+        const moduleList = modules;
 
         /** 中间模块预览 **/
         const specialItemList = ref([]);
@@ -54,22 +38,6 @@ const App = {
             });
         }
         function specialItemClick(item) {
-            // 为for循环加key
-            if(item.type == 'swiper' && typeof item.key == 'undefined') {
-                item.key = 0;
-                item.data.forEach(it => {
-                    item.key++;
-                    it.key = item.key;
-                });
-            }
-            if(item.type == 'navbar' && typeof item.key == 'undefined') {
-                item.key = 0;
-                item.data.list.forEach(it => {
-                    item.key++;
-                    it.key = item.key;
-                });
-            }
-
             currentItemID.value = item.id;
             formData.value = {};
             nextTick(() => {
@@ -245,8 +213,8 @@ const App = {
     }
 }; 
 const app = createApp(App);
-app.config.compilerOptions.delimiters = ['{$', '}']
-app.use(LayuiVue);
+app.config.compilerOptions.delimiters = ['{$', '}'];
+libs.forEach(lib => app.use(lib));
 Object.keys(components).forEach(tag => {
     app.component(tag, components[tag]);
 });

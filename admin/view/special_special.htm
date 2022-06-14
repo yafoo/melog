@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>{{title}} - {{site.webname}}</title>
     <link href="/static/admin/layui-vue/1.1.0.css" rel="stylesheet">
+    <link href="/static/admin/bmap/1.0.1.css" rel="stylesheet">
     <link href="/static/admin/spedit.css" rel="stylesheet">
 </head>
 <body>
@@ -27,22 +28,20 @@
                     @dragstart="dragstart($event, 'sort_' + index)"
                     @dragend="dragend"
                     @click="specialItemClick(item)"
-                    draggable="true">
+                    draggable="true"
+                >
                     <template v-if="item.type == 'list'">
-                        <dl class="list-item" :class="item.thumb && 'thumb' || ''" v-if="item.data.list.length" v-for="(item, index) in item.data.list" :key="index">
-                            <dt><h3 class="title">{$item.title}</h3></dt>
-                            <dd>
-                                <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
-                                {$item.description}
-                            </dd>
-                            <ul>
-                                <li>时间: {$item.add_date}</li>
-                                <li>浏览: {$item.click}</li>
-                                <li>关键词: {$item.keywords}</li>
-                            </ul>
-                        </dl>
+                        <module-list v-if="item.data.list.length" :data="item.data"></module-list>
+                        <div v-else class="special-item-empty">[{$moduleList[item.type].module_name}]点击编辑内容</div>
+                    </template>
+
+                    <template v-else-if="item.type == 'map'">
+                        <div v-if="item.data.list.length && item.data.list[0] && item.data.list[0].points" style="height: 250px;">
+                            <module-map v-if="item.data.list.length" :data="item.data"></module-map>
+                        </div>
                         <div v-else class="special-item-empty">点击编辑内容</div>
                     </template>
+
                     <template v-else>
                         <div class="special-item-empty">点击编辑内容</div>
                     </template>
@@ -58,67 +57,45 @@
                         <lay-input v-model="moduleList[formData.type].module_name" readonly></lay-input>
                     </lay-form-item>
 
-                    <template v-if="formData.type == 'banner'">
-                    </template>
+                    <form-list v-if="formData.type == 'list'" v-model="formData.data"></form-list>
 
-                    <template v-else-if="formData.type == 'swiper'">
-                    </template>
-
-                    <template v-else-if="formData.type == 'navbar'">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">图标列数</label>
-                            <div class="layui-input-block">
-                                <input type="text" name="column" lay-verify="required" placeholder="请输入图标列数" :value="formData.data.column || 4" class="layui-input">
-                            </div>
-                        </div>
-                    </template>
-
-                    <template v-else-if="formData.type == 'list'">
-                        <lay-form-item label="数据来源" prop="source">
-                            <lay-radio v-model="formData.data.source" name="source" label="keyword">文章搜索</lay-radio>
-                            <lay-radio v-model="formData.data.source" name="source" label="select">手工选择</lay-radio>
-                        </lay-form-item>
-                        <lay-form-item v-if="formData.data.source == 'keyword'" label="关键词" prop="keyword">
-                            <lay-input v-model="formData.data.keyword"></lay-input>
-                        </lay-form-item>
-                        <lay-form-item v-if="formData.data.source == 'keyword'" label="显示数量" prop="rows">
-                            <lay-input v-model="formData.data.rows"></lay-input>
-                        </lay-form-item>
-                        <me-article-select v-if="formData.data.source == 'select'" v-model:list="formData.data.list" v-model="formData.data.ids"></me-article-select>
-                    </template>
-
-                    <template v-else>
-                    </template>
+                    <form-map v-else-if="formData.type == 'map'" v-model="formData.data"></form-map>
 
                     <lay-form-item label="模块状态" prop="enable">
                         <lay-radio v-model="formData.enable" name="enable" label="1">启用</lay-radio>
                         <lay-radio v-model="formData.enable" name="enable" label="0">禁用</lay-radio>
                     </lay-form-item>
-
-                    <lay-form-item>
-                        <lay-button type="primary" @click="buttonSave">提交</lay-button>
-                        <lay-button type="danger" @click="buttonDel">删除</lay-button>
-                    </lay-form-item>
                 </lay-form>
+            </div>
+            <div class="layui-input-block" v-if="typeof(formData.type) != 'undefined'">
+                <lay-button type="primary" @click="buttonSave">保存</lay-button>
+                <lay-button type="danger" @click="buttonDel">删除</lay-button>
             </div>
         </div>
     </div>
 
     <script src="/static/admin/vue/3.2.34.js"></script>
     <script src="/static/admin/layui-vue/1.1.0.js"></script>
+    <script src="/static/admin/bmap/1.0.1.js"></script>
     <script>
         const special_id = parseInt("{{id}}");
-        const {createApp, onMounted, ref, reactive, toRefs, defineComponent, getCurrentInstance, nextTick} = Vue;
-        const {layer} = LayuiVue;
-        const components = {};
         const url_special_item_list = "{{url('special_item_list')}}";
         const url_special_item_add = "{{url('special_item_add')}}";
         const url_special_item_save = "{{url('special_item_save')}}";
         const url_special_item_del = "{{url('special_item_del')}}";
         const url_special_item_sort = "{{url('special_item_sort')}}";
+
+        const {createApp, onMounted, ref, reactive, toRefs, computed, watch, defineComponent, getCurrentInstance, nextTick} = Vue;
+        const {layer} = LayuiVue;
+        const libs = [LayuiVue, VueBMap];
+        const components = {};
+        
+        const modules = {};
+        VueBMap.initBMapApiLoader({
+            ak: '{{map_ak}}',
+        });
     </script>
-    {{include './components/me-scroll.htm'}}
-    {{include './components/me-article-select.htm'}}
+    <%component_files.forEach(file => include('./special/' + file))%>
     <script src="/static/admin/spedit.js"></script>
 </body>
 </html>

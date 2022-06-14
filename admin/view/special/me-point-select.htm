@@ -1,0 +1,50 @@
+<script type="text/x-template" id="me-point-select">
+    <lay-input v-model="point"><template #suffix><lay-icon @click="layerShow = true" type="layui-icon-location" style="padding: 0 5px; cursor: pointer;"></lay-icon></template></lay-input>
+    <lay-layer v-model="layerShow" title="选择坐标" :area="['360px','411px']" maxmin="true" move="true">
+        <el-bmap :zoom="14" :center="mapPoint" @click="pointSelect">
+        </el-bmap>
+    </lay-layer>
+</script>
+<script>
+    components['me-point-select'] = defineComponent({
+        template: '#me-point-select',
+        props: {
+            modelValue: {
+                type: String,
+                default: ''
+            },
+            center: {
+                type: String,
+                default: '116.403424,39.924079'
+            }
+        },
+        setup(props, ctx) {
+            const point = ref(props.modelValue);
+            const mapPoint = computed(() => {
+                return point.value ? [...point.value.split(',')] : props.center ? [...props.center.split(',')] : ['116.403424,39.924079'];
+            })
+            watch(point, (newValue, oldValue) => {
+                ctx.emit('update:modelValue', newValue);
+            });
+
+            const layerShow = ref(false);
+            const pointSelect = e => {
+                layerShow.value = false;
+                point.value = e.latlng.lng + ',' + e.latlng.lat;
+                layer.msg('选择成功', {time: 1800, icon: 1});
+            }
+
+            onMounted(() => {
+                console.log('point-select mounted');
+            });
+
+            return {
+                point,
+                mapPoint,
+                layerShow,
+                pointSelect
+            }
+        },
+        inheritAttrs: false
+    });
+</script>

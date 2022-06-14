@@ -1,0 +1,90 @@
+.el-vue-bmap-container {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.el-vue-bmap-container .el-vue-bmap {
+  height: 100%;
+}
+
+.bmap-info-window-custom {
+  position: absolute;
+  background: #F5F8FF;
+  box-shadow: 0 5px 10px 0 rgba(65, 84, 102, 0.09);
+  border-radius: 5px;
+  z-index: 200;
+}
+.bmap-info-window-custom.top {
+  transform: translate(-50%, 11px);
+}
+.bmap-info-window-custom.top .arrow {
+  position: absolute;
+  box-shadow: 0 5px 7px -1px rgba(238, 238, 238, 0.5);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 11px solid #F5F8FF;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bmap-info-window-custom.right {
+  transform: translate(calc(-100% - 11px), -50%);
+}
+.bmap-info-window-custom.right .arrow {
+  position: absolute;
+  box-shadow: 0 5px 7px -1px rgba(238, 238, 238, 0.5);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 11px solid #F5F8FF;
+  right: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bmap-info-window-custom.bottom {
+  transform: translate(-50%, calc(-100% - 11px));
+}
+.bmap-info-window-custom.bottom .arrow {
+  position: absolute;
+  box-shadow: 0 5px 7px -1px rgba(238, 238, 238, 0.5);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 11px solid #F5F8FF;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bmap-info-window-custom.left {
+  transform: translate(11px, -50%);
+}
+.bmap-info-window-custom.left .arrow {
+  position: absolute;
+  box-shadow: 0 5px 7px -1px rgba(238, 238, 238, 0.5);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 11px solid #F5F8FF;
+  left: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bmap-info-window-custom.top-right {
+  transform: translate(-100%, 0);
+}
+.bmap-info-window-custom.bottom-left {
+  transform: translate(0, -100%);
+}
+.bmap-info-window-custom.bottom-right {
+  transform: translate(-100%, -100%);
+}
+.bmap-info-window-custom.custom {
+  box-shadow: none;
+  border-radius: 0;
+  background: none;
+}

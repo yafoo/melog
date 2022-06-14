@@ -1,0 +1,51 @@
+<script type="text/x-template" id="form-map">
+    <lay-form-item label="缩放等级" prop="zoom">
+        <lay-input v-model="formData.zoom"></lay-input>
+    </lay-form-item>
+    <lay-form-item label="中心坐标" prop="center">
+        <me-point-select v-model="formData.center"></me-point-select>
+    </lay-form-item>
+    <template v-for="(item, index) in formData.list" :key="index">
+        <me-point :data="item" :center="formData.center"></me-point>
+        <lay-form-item label="添加删除">
+            <lay-button border="green" @click="pointsAdd(index)">插入一组坐标</lay-button>
+            <lay-button border="orange" @click="pointsDel(index)">删除本组坐标</lay-button>
+        </lay-form-item>
+    </template>
+</script>
+<script>
+    components['form-map'] = defineComponent({
+        template: '#form-map',
+        props: {
+            modelValue: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            const formData = reactive(props.modelValue);
+
+            const pointsAdd = index => {
+                formData.list.splice(index + 1, 0, {points: [''], point_type: 'point'});
+            }
+
+            const pointsDel = index => {
+                const id = layer.confirm('确定删除本组坐标？', {icon: 3, title:'提示', yes() {
+                    layer.close(id);
+                    formData.list.splice(index , 1);
+                }});
+            }
+
+            onMounted(() => {
+                console.log('form-map mounted');
+            });
+
+            return {
+                formData,
+                pointsAdd,
+                pointsDel
+            }
+        },
+        inheritAttrs: false
+    });
+</script>
