@@ -30,21 +30,8 @@
                     @click="specialItemClick(item)"
                     draggable="true"
                 >
-                    <template v-if="item.type == 'list'">
-                        <module-list v-if="item.data.list.length" :data="item.data"></module-list>
-                        <div v-else class="special-item-empty">[{$moduleList[item.type].module_name}]点击编辑内容</div>
-                    </template>
-
-                    <template v-else-if="item.type == 'map'">
-                        <div v-if="item.data.list.length && item.data.list[0] && item.data.list[0].points" style="height: 250px;">
-                            <module-map v-if="item.data.list.length" :data="item.data"></module-map>
-                        </div>
-                        <div v-else class="special-item-empty">点击编辑内容</div>
-                    </template>
-
-                    <template v-else>
-                        <div class="special-item-empty">点击编辑内容</div>
-                    </template>
+                    <div v-if="(item.type == 'list' && !item.data.list.length) || (item.type == 'map' && (!item.data.list.length || !item.data.list[0] || !item.data.list[0].points))" class="special-item-empty">[{$moduleList[item.type].module_name}]点击编辑内容</div>
+                    <component v-else :is="'module-' + item.type" :data="item.data"></component>
                 </div>
                 <div class="special-place" :style="'top: ' + (topArr[place]) + 'px'" v-if="placeShow"></div>
             </div>
@@ -57,9 +44,7 @@
                         <lay-input v-model="moduleList[formData.type].module_name" readonly></lay-input>
                     </lay-form-item>
 
-                    <form-list v-if="formData.type == 'list'" v-model="formData.data"></form-list>
-
-                    <form-map v-else-if="formData.type == 'map'" v-model="formData.data"></form-map>
+                    <component :is="'form-' + formData.type" v-model="formData.data"></component>
 
                     <lay-form-item label="模块状态" prop="enable">
                         <lay-radio v-model="formData.enable" name="enable" label="1">启用</lay-radio>

@@ -1,40 +1,42 @@
 <script type="text/x-template" id="module-map">
-    <el-bmap :zoom="parseInt(data.zoom)" :center="[...data.center.split(',')]" @zoomend="zoomEnd" :mapType="mapType">
-        <template v-for="(item, index) in data.list" :key="index">
-            <template v-if="item.point_type == 'point'" v-for="(point, index) in item.points">
-                <el-bmap-marker
-                    :position="point.split(',')"
-                ></el-bmap-marker>
-            </template>
-            <template v-else-if="item.point_type == 'line'">
-                <el-bmap-polyline
-                    :path="item.points.map(p => p.split(','))"
-                    :stroke-color="color(item.line_color)"
-                    :stroke-opacity="opacity(item.line_color)"
-                    :stroke-weight="parseInt(item.line_width || 1)"
-                    :stroke-style="item.line_type || 'solid'"
-                ></el-bmap-polyline>
-            </template>
-            <template v-else-if="item.point_type == 'area'">
-                <el-bmap-polygon
-                    :path="item.points.map(p => p.split(','))"
-                    :stroke-color="color(item.line_color)"
-                    :stroke-opacity="opacity(item.line_color)"
-                    :stroke-weight="parseInt(item.line_width || 1)"
-                    :stroke-style="item.line_type || 'solid'"
-                    :fill-color="color(item.fill_color)"
-                    :fill-opacity="opacity(item.fill_color)"
-                ></el-bmap-polygon>
-            </template>
+    <div style="height: 300px;">
+        <el-bmap :zoom="parseInt(data.zoom)" :center="[...data.center.split(',')]" @zoomend="zoomEnd">
+            <template v-for="(item, index) in data.list" :key="index">
+                <template v-if="item.point_type == 'point'" v-for="(point, index) in item.points">
+                    <el-bmap-marker
+                        :position="point.split(',')"
+                    ></el-bmap-marker>
+                </template>
+                <template v-else-if="item.point_type == 'line'">
+                    <el-bmap-polyline
+                        :path="item.points.map(p => p.split(','))"
+                        :stroke-color="color(item.line_color)"
+                        :stroke-opacity="opacity(item.line_color)"
+                        :stroke-weight="parseInt(item.line_width || 1)"
+                        :stroke-style="item.line_type || 'solid'"
+                    ></el-bmap-polyline>
+                </template>
+                <template v-else-if="item.point_type == 'area'">
+                    <el-bmap-polygon
+                        :path="item.points.map(p => p.split(','))"
+                        :stroke-color="color(item.line_color)"
+                        :stroke-opacity="opacity(item.line_color)"
+                        :stroke-weight="parseInt(item.line_width || 1)"
+                        :stroke-style="item.line_type || 'solid'"
+                        :fill-color="color(item.fill_color)"
+                        :fill-opacity="opacity(item.fill_color)"
+                    ></el-bmap-polygon>
+                </template>
 
-            <el-bmap-label v-if="item.text && item.text_point"
-                :position="point(item.text_point || item.points[0])"
-                :isCustom="true"
-            >
-                <div :style="textStyle(item)">{$text(item.text)}</div>
-            </el-bmap-label>
-        </template>
-    </el-bmap>
+                <el-bmap-label v-if="item.text && item.text_point"
+                    :position="point(item.text_point || item.points[0])"
+                    :isCustom="true"
+                >
+                    <div :style="textStyle(item)">{$text(item.text)}</div>
+                </el-bmap-label>
+            </template>
+        </el-bmap>
+    </div>
 </script>
 <script>
     components['module-map'] = defineComponent({
