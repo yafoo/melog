@@ -64,7 +64,7 @@ class Special extends Base
         this.$assign('id', id);
 
         const {resolve} = require('path');
-        const dir = resolve(__dirname, '../view/special');
+        const dir = resolve(__dirname, '../view/components');
         const component_files = await this.$.utils.fs.readdir(dir);
         this.$assign('component_files', component_files);
 
