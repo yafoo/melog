@@ -3,7 +3,7 @@
         <label class="layui-form-label">坐标数据</label>
         <div class="layui-input-block">
             <div v-for="(point, index) in formData.points" :key="index" style="display: flex; margin-bottom: 1px;">
-                <me-point-select v-model="formData.points[index]" :center="center"></me-point-select>
+                <me-point-select v-model="formData.points[index]" :center="center" :zoom="formData.zoom" :map-type="mapType"></me-point-select>
                 <lay-button-group style="white-space: nowrap;">
                     <lay-button type="primary" @click="pointAdd(index)" style="padding: 0 10px; border-top-left-radius: 0; border-bottom-left-radius: 0;"><lay-icon type="layui-icon-add-circle" style="color: #fff;"></lay-icon></lay-button>
                     <lay-button type="danger" @click="pointDel(index)" style="padding: 0 10px;"><lay-icon type="layui-icon-delete" style="color: #fff;"></lay-icon></lay-button>
@@ -40,7 +40,7 @@
         <lay-checkbox label="1" v-model="formData.text_scale" style="margin-left: 5px;">缩放</lay-checkbox>
     </lay-form-item>
     <lay-form-item label="标签坐标" v-if="formData.text !== undefined" style="margin-bottom: 1px;">
-        <me-point-select v-model="formData.text_point" :center="center"></me-point-select>
+        <me-point-select v-model="formData.text_point" :center="center" :zoom="formData.zoom" :map-type="mapType"></me-point-select>
     </lay-form-item>
     <lay-layer title="选择文章" :area="['360px','455px']" maxmin="true" v-model="layerShow" move="true" :type="2" content="{{url('article/index')}}"></lay-layer>
 </script>
@@ -52,7 +52,13 @@
                 type: Object,
                 default: {}
             },
-            center: undefined
+            center: undefined,
+            mapType: {
+                default: 'normal'
+            },
+            zoom: {
+                default: 14
+            }
         },
         setup(props, ctx) {
             const formData = reactive(props.data);

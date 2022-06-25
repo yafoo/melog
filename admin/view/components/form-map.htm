@@ -1,16 +1,22 @@
 <script type="text/x-template" id="form-map">
+    <lay-form-item label="地图类型" prop="map_type">
+        <lay-radio v-model="formData.map_type" name="map_type" label="normal">默认地图</lay-radio>
+        <lay-radio v-model="formData.map_type" name="map_type" label="earth">卫星地图</lay-radio>
+    </lay-form-item>
     <lay-form-item label="缩放等级" prop="zoom">
         <lay-input v-model="formData.zoom"></lay-input>
     </lay-form-item>
     <lay-form-item label="中心坐标" prop="center">
-        <me-point-select v-model="formData.center"></me-point-select>
+        <me-point-select v-model="formData.center" :zoom="parseInt(formData.zoom)" :map-type="formData.map_type"></me-point-select>
     </lay-form-item>
+    <div style="margin-bottom: 20px; border-top: 3px dotted #888;"></div>
     <template v-for="(item, index) in formData.list" :key="index">
-        <me-point :data="item" :center="formData.center"></me-point>
+        <me-point :data="item" :center="formData.center" :zoom="parseInt(formData.zoom)" :map-type="formData.map_type"></me-point>
         <lay-form-item label="添加删除">
             <lay-button border="green" @click="pointsAdd(index)">插入一组坐标</lay-button>
             <lay-button border="orange" @click="pointsDel(index)">删除本组坐标</lay-button>
         </lay-form-item>
+        <div style="margin-bottom: 20px; border-top: 3px dotted #888;"></div>
     </template>
 </script>
 <script>

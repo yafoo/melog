@@ -68,6 +68,9 @@ class SpecialItem extends Model
                     });
                     break;
                 case 'map':
+                    if(item.data.map_type === undefined) {
+                        item.data.map_type = 'normal';
+                    }
                     if(item.data.zoom === undefined) {
                         item.data.zoom = 14;
                     }
