@@ -24,6 +24,7 @@ html, body, .spedit { width: 100%; height: 100%;}
     font-weight: 400;
     line-height: 20px;
 }
+
 /* spedit-module */
 .spedit-module {
     width: 200px;
@@ -48,6 +49,7 @@ html, body, .spedit { width: 100%; height: 100%;}
 .module-list .module-item .layui-icon {
     vertical-align: -1px;
 }
+
 /* spedit-special */
 .spedit .spedit-special {
     padding: 0;
@@ -117,34 +119,7 @@ html, body, .spedit { width: 100%; height: 100%;}
 .special-list .special-item-disable:hover {
     opacity: 1;
 }
-.special-item-navbar .navbar-column {
-    display: flex;
-    flex-wrap: wrap;
-}
-.special-item-navbar .navbar-column-1 li {
-    width: 100%;
-}
-.special-item-navbar .navbar-column-2 li {
-    width: 50%;
-}
-.special-item-navbar .navbar-column-3 li {
-    width: 33.33%;
-}
-.special-item-navbar .navbar-column-4 li {
-    width: 25%;
-}
-.special-item-navbar .navbar-column-5 li {
-    width: 20%;
-}
-.special-item-navbar .navbar-column-6 li {
-    width: 16.66%;
-}
-.special-item-navbar .navbar-column-7 li {
-    width: 14.28%;
-}
-.special-item-navbar .navbar-column-8 li {
-    width: 12.5%;
-}
+
 /* spedit-form */
 .spedit-form {
     width: 350px;
@@ -158,62 +133,3 @@ html, body, .spedit { width: 100%; height: 100%;}
 }
 .form-list::-webkit-scrollbar{width:6px;}
 .form-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
-
-/* module(list) */
-.list-item {
-    padding: 10px 0;
-    line-height: 1.6;
-}
-.list-item:not(:last-child) {
-    border-bottom: 1px solid #eee;
-}
-.list-item dt {
-    padding: 3px 0;
-}
-.list-item dt .title {
-    font-size: 16px;
-    font-weight: bold;
-}
-.list-item dd {
-    font-size: 13px;
-    color: #888;
-    padding: 5px 0;
-    overflow: hidden;
-}
-.list-item ul {
-    font-size: 13px;
-    height: 21px;
-    line-height: 21px;
-    color: #888;
-    display: flex;
-    overflow: hidden;
-}
-.list-item ul li:not(:first-child) {
-    margin-left: 7px;
-    padding-left: 7px;
-    border-left: 1px solid #EEE;
-}
-.list-item ul li:not(:last-child) {
-    white-space: nowrap;
-}
-.list-item .image {
-    width: 120px;
-    display: block;
-    float: right;
-    margin-left: 5px;
-}
-.list-item .image img {
-    width: 100%;
-}
-
-@media screen and (min-width: 961px) {
-    .list-item.thumb {
-        position: relative;
-        padding-right: 130px;
-    }
-    .list-item .image {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-    }
-}
