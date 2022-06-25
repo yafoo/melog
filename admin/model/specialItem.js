@@ -23,22 +23,49 @@ class SpecialItem extends Model
                     if(item.data.source === undefined) {
                         item.data.source = 'keyword';
                     }
+                    if(item.data.style === undefined) {
+                        item.data.style = '';
+                    }
                     if(item.data.ids === undefined) {
                         item.data.ids = '';
                     }
                     item.data.list = [];
-                    if(item.data.ids) {
+                    let field = 'id,thumb,title,description,click,keywords,add_time,cate_id';
+                    if(item.data.style) {
+                        field = 'id,thumb,title';
+                    }
+                    if(item.data.source == 'keyword' && item.data.keyword) {
+                        const list = await this.$db.table('article').where({title: ['like', '%' + item.data.keyword + '%']}).field(field).order('id', 'desc').limit(item.data.rows).select();
+                        item.data.list = list;
+                    } else if(item.data.source != 'keyword' && item.data.ids) {
                         const ids = item.data.ids.split(',');
-                        const list = await this.$db.table('article').where({id: ['in', ids]}).field('id,thumb,title,description,click,keywords,add_time').select();
+                        const list = await this.$db.table('article').where({id: ['in', ids]}).field(field).select();
                         const temp_list = {};
                         list.forEach(item => {
-                            item.add_date = this.$utils.date('YYYY-mm-dd');
                             temp_list[item.id] = item;
                         });
                         ids.forEach(id => {
                             item.data.list.push(temp_list[id]);
                         });
                     }
+                    let cate_list = {};
+                    if(!item.data.style) {
+                        const temp_list = await this.$db.table('cate').limit(100).field('id,cate_name,cate_dir').select();
+                        temp_list.forEach(item => {
+                            cate_list[item.id] = item;
+                        });
+                    }
+                    item.data.list.forEach(arc => {
+                        arc.url = this.$url.build(':article', {id: arc.id});
+                        if(arc.add_time) {
+                            arc.add_date = this.$utils.date('YYYY-mm-dd', arc.add_time)
+                        }
+                        if(arc.cate_id) {
+                            arc.cate_name = cate_list[arc.cate_id].cate_name;
+                            arc.cate_dir = cate_list[arc.cate_id].cate_dir;
+                            arc.cate_url = this.$url.build(':cate', {cate: cate_list[arc.cate_id].cate_dir});
+                        }
+                    });
                     break;
                 case 'map':
                     if(item.data.zoom === undefined) {

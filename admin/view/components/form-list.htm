@@ -10,6 +10,12 @@
         <lay-input v-model="formData.rows"></lay-input>
     </lay-form-item>
     <me-article-select v-if="formData.source == 'select'" v-model:list="formData.list" v-model="formData.ids"></me-article-select>
+    <lay-form-item label="列表样式" prop="style">
+        <lay-radio v-model="formData.style" name="style" label="">分类列表</lay-radio>
+        <lay-radio v-model="formData.style" name="style" label="imagetitle">图片标题</lay-radio>
+        <lay-radio v-model="formData.style" name="style" label="image">图片列表</lay-radio>
+        <lay-radio v-model="formData.style" name="style" label="title">标题列表</lay-radio>
+    </lay-form-item>
 </script>
 <script>
     components['form-list'] = defineComponent({
