@@ -1,0 +1,48 @@
+<link href="/static/admin/meedit.css" rel="stylesheet">
+
+<script type="text/x-template" id="module-markdown">
+    <div class="meview-content" v-if="html_content" style="max-height: 300px;" v-html="html_content"></div>
+    <div class="special-item-empty" v-else>[Markdown] 点击编辑内容</div>
+</script>
+
+<script src="/static/admin/markdown-it/markdown-it.min.js"></script>
+<script>
+    const markdown = window.markdownit({html: true});
+
+    components['module-markdown'] = defineComponent({
+        template: '#module-markdown',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            onMounted(() => {
+                console.log('module-markdown mounted');
+
+                render();
+            });
+
+            const html_content = ref('');
+            watch(props.data, (newValue, oldValue) => {
+                html_content.value = markdown.render(newValue.content);
+            });
+
+            const render = () => {
+                html_content.value = markdown.render(props.data.content);
+            }
+
+            return {
+                html_content
+            }
+        },
+        inheritAttrs: false
+    });
+
+    modules['markdown'] = {
+        module_type: 'markdown',
+        module_name: 'Markdown',
+        module_icon: 'list'
+    }
+</script>

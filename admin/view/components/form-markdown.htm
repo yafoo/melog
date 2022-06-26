@@ -1,0 +1,28 @@
+<script type="text/x-template" id="form-markdown">
+    <lay-form-item label="MD内容" prop="content">
+        <lay-textarea placeholder="请输入markdown内容" v-model="formData.content"></lay-textarea>
+    </lay-form-item>
+</script>
+<script>
+    components['form-markdown'] = defineComponent({
+        template: '#form-markdown',
+        props: {
+            modelValue: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            const formData = reactive(props.modelValue);
+
+            onMounted(() => {
+                console.log('form-markdown mounted');
+            });
+
+            return {
+                formData
+            }
+        },
+        inheritAttrs: false
+    });
+</script>
