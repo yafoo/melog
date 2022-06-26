@@ -1,5 +1,6 @@
 <script type="text/x-template" id="module-map">
-    <div style="height: 300px;">
+    <div class="special-item-empty" v-if="!data.list.length || !data.list[0] || !data.list[0].points">[地图标注] 点击编辑内容</div>
+    <div v-else style="height: 300px;">
         <el-bmap :zoom="parseInt(data.zoom)" :center="[...data.center.split(',')]" :map-type="data.map_type == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'" @zoomend="zoomEnd">
             <template v-for="(item, index) in data.list" :key="index">
                 <template v-if="item.point_type == 'point'" v-for="(point, index) in item.points">

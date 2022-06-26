@@ -79,40 +79,43 @@
     }
 </style>
 <script type="text/x-template" id="module-list">
-    <div class="list" v-if="!data.style">
-        <dl class="list-item" v-for="(item, index) in data.list" :key="index" :class="item.thumb && 'thumb' || ''">
-            <dt><h3 class="title">[<a :href="item.cate_url">{$item.cate_name}</a>] <a :href="item.url">{$item.title}</a></h3></dt>
-            <dd>
-                <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
-                {$item.description}
-            </dd>
-            <ul>
-                <li>时间: {$item.add_date}</li>
-                <li>浏览: {$item.click}</li>
-                <li>关键词: {$item.keywords}</li>
-            </ul>
-        </dl>
-    </div>
-    <div class="list-image" v-else-if="data.style == 'imagetitle'">
-        <dl class="list-item" v-for="(item, index) in data.list" :key="index">
-            <dd>
-                <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
-            </dd>
-            <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
-        </dl>
-    </div>
-    <div class="list-image" v-else-if="data.style == 'image'">
-        <dl class="list-item" v-for="(item, index) in data.list" :key="index">
-            <dd>
-                <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
-            </dd>
-        </dl>
-    </div>
-    <div class="list-title" v-else-if="data.style == 'title'">
-        <dl class="list-item" v-for="(item, index) in data.list" :key="index">
-            <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
-        </dl>
-    </div>
+    <template v-if="data.list.length">
+        <div class="list" v-if="!data.style">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index" :class="item.thumb && 'thumb' || ''">
+                <dt><h3 class="title">[<a :href="item.cate_url">{$item.cate_name}</a>] <a :href="item.url">{$item.title}</a></h3></dt>
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                    {$item.description}
+                </dd>
+                <ul>
+                    <li>时间: {$item.add_date}</li>
+                    <li>浏览: {$item.click}</li>
+                    <li>关键词: {$item.keywords}</li>
+                </ul>
+            </dl>
+        </div>
+        <div class="list-image" v-else-if="data.style == 'imagetitle'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                </dd>
+                <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
+            </dl>
+        </div>
+        <div class="list-image" v-else-if="data.style == 'image'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                </dd>
+            </dl>
+        </div>
+        <div class="list-title" v-else-if="data.style == 'title'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
+            </dl>
+        </div>
+    </template>
+    <div class="special-item-empty" v-else>[文章列表] 点击编辑内容</div>
 </script>
 <script>
     components['module-list'] = defineComponent({

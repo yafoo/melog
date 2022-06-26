@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="spedit">
+        <!-- 左侧模块 -->
         <div class="spedit-item spedit-module">
             <label class="label">模块</label>
             <div class="module-list">
@@ -18,6 +19,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 中间预览 -->
         <div class="spedit-item spedit-special">
             <label class="label">内容</label>
             <div class="special-list" @drop="drop" @dragover.prevent="dragover" @scroll="scroll" id="special-list">
@@ -30,12 +33,13 @@
                     @click="specialItemClick(item)"
                     draggable="true"
                 >
-                    <div v-if="(item.type == 'list' && !item.data.list.length) || (item.type == 'map' && (!item.data.list.length || !item.data.list[0] || !item.data.list[0].points))" class="special-item-empty">[{$moduleList[item.type].module_name}]点击编辑内容</div>
-                    <component v-else :is="'module-' + item.type" :data="item.data"></component>
+                    <component :is="'module-' + item.type" :data="item.data"></component>
                 </div>
                 <div class="special-place" :style="'top: ' + (topArr[place]) + 'px'" v-if="placeShow"></div>
             </div>
         </div>
+
+        <!-- 右侧表单 -->
         <div class="spedit-item spedit-form">
             <label class="label">数据</label>
             <div class="form-list">
@@ -43,9 +47,7 @@
                     <lay-form-item label="模块类型" prop="rows">
                         <lay-input v-model="moduleList[formData.type].module_name" readonly></lay-input>
                     </lay-form-item>
-
                     <component :is="'form-' + formData.type" v-model="formData.data"></component>
-
                     <lay-form-item label="模块状态" prop="enable">
                         <lay-radio v-model="formData.enable" name="enable" label="1">启用</lay-radio>
                         <lay-radio v-model="formData.enable" name="enable" label="0">禁用</lay-radio>
