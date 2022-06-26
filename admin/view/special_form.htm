@@ -3,7 +3,9 @@
 {{block 'css'}}
 <style>
     .layui-tab-content {padding: 10px 0 0;}
+    .input-thumb-block {display: flex;}
     .input-thumb {background-size: auto 100%; background-repeat: no-repeat; text-indent: 45px;}
+    .select-thumb {margin-left: 10px;}
     .content {width: 100%; height: 100%; border: none;}
 </style>
 {{/block}}
@@ -50,7 +52,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">缩略图</label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-block input-thumb-block">
                         <input type="text" name="thumb" class="layui-input input-thumb" value="{{special.thumb}}" autocomplete="off"><span class="layui-btn select-thumb">选择</span>
                     </div>
                 </div>
@@ -58,6 +60,12 @@
                     <label class="layui-form-label">点击</label>
                     <div class="layui-input-block">
                         <input type="text" name="click" class="layui-input" value="{{special.click || 0}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">侧边栏</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="aside" lay-skin="switch" lay-text="显示|隐藏" {{special.aside || special.aside === undefined ? 'checked' : ''}}>
                     </div>
                 </div>
             </div>

@@ -26,7 +26,7 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>标题</th><th>点击</th><th>时间</th><th>操作</th></tr> 
+            <tr><th>ID</th><th>标题</th><th>点击</th><th>侧边栏</th><th>时间</th><th>操作</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
@@ -34,6 +34,7 @@
                 <td>{{item.id}}</td>
                 <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':special', {id: item.id})}}" target="blank">{{item.title}}</a></td>
                 <td>{{item.click}}</td>
+                <td>{{item.aside ? '显示' : '隐藏'}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
                 <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
