@@ -5,7 +5,9 @@
 <link href="/static/admin/meedit.css" rel="stylesheet">
 <style>
     .layui-tab-content {padding: 10px 0 0;}
+    .input-thumb-block {display: flex;}
     .input-thumb {background-size: auto 100%; background-repeat: no-repeat; text-indent: 45px;}
+    .select-thumb {margin-left: 10px;}
 </style>
 {{/block}}
 
@@ -67,12 +69,12 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">缩略图</label>
-                    <div class="layui-input-block">
+                    <div class="layui-input-block input-thumb-block">
                         <input type="text" name="thumb" class="layui-input input-thumb" value="{{article.thumb}}" autocomplete="off"><span class="layui-btn select-thumb">选择</span>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">评论</label>
+                    <label class="layui-form-label">开放评论</label>
                     <div class="layui-input-block">
                         <select name="is_comment" lay-verify="required">
                             {{each is_comment_option item}}
