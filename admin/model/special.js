@@ -12,7 +12,21 @@ class Special extends Model
         if(!data.id && !data.add_time) {
             data.add_time = this.$utils.time();
         }
-        return await this.save(data, condition);
+        if(data.id > 0) {
+            return await this.save(data, condition);
+        } else {
+            try {
+                await this.db.startTrans(async () => {
+                    const result = await this.save(data, condition);
+                    await this.$db.table('special_item').update({special_id: result.insertId}, {special_id: 0});
+                });
+                return true;
+            } catch(e) {
+                this.$logger.error('专题新增失败：' + e.message);
+                return false;
+            }
+        }
+        
     }
 }
 
