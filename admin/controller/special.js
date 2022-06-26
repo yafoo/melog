@@ -39,7 +39,7 @@ class Special extends Base
 
         const data = this.ctx.request.body;
         const id = data.id;
-        data.aside_show = data.aside_show ? 1 : 0;
+        data.aside = data.aside ? 1 : 0;
         const result = await this.$model.special.saveSpecial(data);
 
         if(result) {
