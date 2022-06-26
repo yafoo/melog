@@ -1,0 +1,28 @@
+<script type="text/x-template" id="form-html">
+    <lay-form-item label="Html代码" prop="content">
+        <lay-textarea placeholder="请输入html代码" v-model="formData.content"></lay-textarea>
+    </lay-form-item>
+</script>
+<script>
+    components['form-html'] = defineComponent({
+        template: '#form-html',
+        props: {
+            modelValue: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            const formData = reactive(props.modelValue);
+
+            onMounted(() => {
+                console.log('form-html mounted');
+            });
+
+            return {
+                formData
+            }
+        },
+        inheritAttrs: false
+    });
+</script>
