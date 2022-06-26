@@ -41,9 +41,9 @@ class Article extends Base
         this.$assign('uname', this.user.uname);
 
         const is_comment_option = [
-            {value: 0, name: '默认'},
-            {value: 1, name: '开启'},
-            {value: -1, name: '关闭'}
+            {value: 0, name: '跟随系统'},
+            {value: 1, name: '强制开启'},
+            {value: -1, name: '强制关闭'}
         ];
         this.$assign('is_comment_option', is_comment_option);
 
