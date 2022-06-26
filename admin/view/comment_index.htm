@@ -13,22 +13,20 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>文章标题</th><th>昵称</th><th>邮箱</th><th>主页</th><th>IP</th><th>时间</th><th>操作</th></tr> 
+            <tr><th>ID</th><th>评论内容</th><th>所属文章</th><th>昵称</th><th>邮箱</th><th>主页</th><th>IP</th><th>时间</th><th>操作</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
             <tr>
-                <td rowspan="2">{{item.id}}</td>
+                <td>{{item.id}}</td>
+                <td class="title">{{item.pid ? '回复：' : '评论：'}}{{item.content}}</td>
                 <td class="title"><a href="{{url(':article', {id: item.article_id})}}" target="blank">{{item.title}}</a></td>
                 <td>{{item.uname}}</td>
                 <td>{{item.email}}</td>
                 <td>{{item.url}}</td>
                 <td>{{item.ip}}</td>
                 <td>{{item.add_time | dateFormat 'YYYY-mm-dd HH:ii'}}</td>
-                <td rowspan="2"><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
-            </tr>
-            <tr>
-                <td colspan="6" class="content">{{item.pid ? '回复：' : '评论：'}}{{item.content}}</td>
+                <td><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}
         </tbody>
     </table>

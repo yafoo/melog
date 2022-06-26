@@ -34,9 +34,6 @@ class Comment extends Controller
         if(!data.uname) {
             return this.$error('昵称不能为空！');
         }
-        if(!data.email) {
-            return this.$error('邮箱不能为空！');
-        }
         if(!data.content) {
             return this.$error('评论内容不能为空！');
         }
@@ -69,7 +66,7 @@ class Comment extends Controller
         if(err) {
             this.$error(err);
         } else {
-            this.$success('评论成功！');
+            this.$success(data.pid ? '回复成功！' : '评论成功！');
         }
     }
 }

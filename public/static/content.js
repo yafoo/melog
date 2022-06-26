@@ -1,5 +1,8 @@
 $(function() {
     // 评论
+    var reg_email = /.+@.+/i;
+    var reg_url = /^http(s)?:\/\//i;
+
     var $form = $(".comment-form");
     if($form.length) {
         // 发表评论
@@ -8,8 +11,11 @@ $(function() {
             if(data.uname === '') {
                 return tips('请填写昵称！');
             }
-            if(data.email === '') {
-                return tips('请填写邮箱！');
+            if(data.email && !reg_email.test(data.email)) {
+                return tips('请填写正确的邮箱！');
+            }
+            if(data.url && !reg_url.test(data.url)) {
+                return tips('网址前缀需写http://或https://！');
             }
             if(data.content === '') {
                 return tips('请填写评论内容！');
@@ -80,6 +86,7 @@ $(function() {
             list.forEach(item => {
                 html += parseComment.HTML.replace(/\[(.*?)\]/g, function(match, pos){
                     switch(pos){
+                        case "url": return !item.url ? '' : (!reg_url.test(item.url) ? 'http://' : '') + htmlEscape(item.url);
                         case "face": return jdenticon.toSvg(item.uname, 80);
                         case "add_time": return format('YYYY-mm-dd HH:ii', item.add_time);
                         case "reply": return item.child ? parseComment(item.child) : '';
@@ -94,7 +101,7 @@ $(function() {
     }
 
     // 代码高亮
-    hljs.initHighlightingOnLoad();
+    hljs.highlightAll();
 
     // 文章图片点击查看
     $('article.content img').each(function() {
