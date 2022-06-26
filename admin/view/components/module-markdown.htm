@@ -30,7 +30,7 @@
             });
 
             const render = () => {
-                html_content.value = markdown.render(props.data.content);
+                html_content.value = markdown.render(props.data.content || '');
             }
 
             return {
