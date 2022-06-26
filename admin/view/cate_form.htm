@@ -5,15 +5,21 @@
     <input type="hidden" name="id" value="{{cate.id}}">
     <div class="layui-tab-item layui-show">
         <div class="layui-form-item">
-            <label class="layui-form-label">分类</label>
+            <label class="layui-form-label">分类名字</label>
             <div class="layui-input-block">
                 <input type="text" name="cate_name" lay-verify="required" lay-verType="tips" class="layui-input" value="{{cate.cate_name}}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">地址</label>
+            <label class="layui-form-label">目录地址</label>
             <div class="layui-input-block">
                 <input type="text" name="cate_dir" class="layui-input" value="{{cate.cate_dir}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">SEO标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="seo_title" class="layui-input" value="{{cate.seo_title}}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -39,7 +45,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">显示</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="is_show" lay-skin="switch" lay-text="ON|OFF" {{cate.is_show ? 'checked' : ''}}>
+                <input type="checkbox" name="is_show" lay-skin="switch" lay-text="ON|OFF" {{cate.is_show || cate.is_show === undefined ? 'checked' : ''}}>
             </div>
         </div>
     </div>
