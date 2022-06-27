@@ -33,13 +33,18 @@ html, body, .spedit { width: 100%; height: 100%;}
     height: calc(100% - 42px);
     overflow-y: overlay;
     font-size: 12px;
+    margin-right: -10px;
+    padding-right: 10px;
 }
+.module-list::-webkit-scrollbar{width:6px;}
+.module-list::-webkit-scrollbar-thumb{background-color:#ccc;border-radius:3px;}
 .module-list .module-item {
     padding: 25px 5px;
     text-align: center;
     border: 1px solid #f4f6fc;
     background-color: #f4f6fc;
     margin-bottom: 6px;
+    word-break: break-all;
 }
 .module-list .module-item:hover {
     border: 1px dashed #1890ff;
