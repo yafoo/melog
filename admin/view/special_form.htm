@@ -63,6 +63,12 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">目录地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sp_dir" class="layui-input" value="{{special.sp_dir}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">侧边栏</label>
                     <div class="layui-input-block">
                         <input type="checkbox" name="aside" lay-skin="switch" lay-text="显示|隐藏" {{special.aside || special.aside === undefined ? 'checked' : ''}}>
