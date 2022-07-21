@@ -8,19 +8,19 @@ class Link extends Model
     }
 
     // 获取列表
-    async getLinkList(pid) {
-        const link = await this.db.order('sort', 'asc').cache(this.cacheTime).select();
+    async getLinkList(pid, rows=100) {
+        const link = await this.db.order('sort', 'asc').limit(rows).cache(this.cacheTime).select();
         return this.$utils.toTreeArray(link, pid);
     }
 
     // 友情链接
-    async getFriendLinks() {
-        return await this.getLinkList(1);
+    async getFriendLinks(rows=100) {
+        return await this.getLinkList(1, rows);
     }
 
     // 底部导航
-    async getFootLinks(rows) {
-        return await this.getLinkList(2);
+    async getFootLinks(rows=100) {
+        return await this.getLinkList(2, rows);
     }
 }
 
