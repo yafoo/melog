@@ -6,15 +6,24 @@
     <lay-form-item label="缩放等级" prop="zoom">
         <lay-input v-model="formData.zoom"></lay-input>
     </lay-form-item>
+    <lay-form-item label="旋转角度" prop="rotate">
+        <lay-input v-model="formData.rotate"></lay-input>
+    </lay-form-item>
     <lay-form-item label="中心坐标" prop="center">
-        <me-point-select v-model="formData.center" :zoom="parseInt(formData.zoom)" :map-type="formData.map_type"></me-point-select>
+        <me-point-select v-model="formData.center" :zoom="formData.zoom" :map-type="formData.map_type" :rotate="formData.rotate"></me-point-select>
     </lay-form-item>
     <div style="margin-bottom: 20px; border-top: 3px dotted #888;"></div>
     <template v-for="(item, index) in formData.list" :key="index">
-        <me-point :data="item" :center="formData.center" :zoom="parseInt(formData.zoom)" :map-type="formData.map_type"></me-point>
+        <me-point :data="item" :center="formData.center" :zoom="formData.zoom" :map-type="formData.map_type" :rotate="formData.rotate"></me-point>
         <lay-form-item label="添加删除">
             <lay-button border="green" @click="pointsAdd(index)">插入一组坐标</lay-button>
             <lay-button border="orange" @click="pointsDel(index)">删除本组坐标</lay-button>
+        </lay-form-item>
+        <div style="margin-bottom: 20px; border-top: 3px dotted #888;"></div>
+    </template>
+    <template v-if="formData.list.length == 0">
+        <lay-form-item label="添加删除">
+            <lay-button border="green" @click="pointsAdd(0)">插入一组坐标</lay-button>
         </lay-form-item>
         <div style="margin-bottom: 20px; border-top: 3px dotted #888;"></div>
     </template>
@@ -32,7 +41,7 @@
             const formData = reactive(props.modelValue);
 
             const pointsAdd = index => {
-                formData.list.splice(index + 1, 0, {points: [''], point_type: 'point'});
+                formData.list.splice(index + 1, 0, {points: [''], point_type: 'point', line_color: '#7EED0E', fill_color: '#FFFFFF00', text_color: '#F50505'});
             }
 
             const pointsDel = index => {

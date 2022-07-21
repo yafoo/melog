@@ -1,7 +1,12 @@
 <script type="text/x-template" id="me-point-select">
     <lay-input v-model="point"><template #suffix><lay-icon @click="layerShow = true" type="layui-icon-location" style="padding: 0 5px; cursor: pointer;"></lay-icon></template></lay-input>
     <lay-layer v-model="layerShow" title="选择坐标" :area="['360px','411px']" maxmin="true" move="true">
-        <el-bmap :zoom="zoom" :center="mapPoint" :map-type="mapType == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'" @click="pointSelect">
+        <el-bmap
+            :zoom="parseInt(zoom) || 14"
+            :center="mapPoint"
+            :map-type="mapType == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'"
+            :heading="parseFloat(rotate) || 0" @click="pointSelect"
+        >
             <el-bmap-marker v-if="point"
                 :position="point.split(',')"
             ></el-bmap-marker>
@@ -25,12 +30,15 @@
             },
             zoom: {
                 default: 14
+            },
+            rotate: {
+                default: 0
             }
         },
         setup(props, ctx) {
             const point = ref(props.modelValue);
             const mapPoint = computed(() => {
-                return point.value ? [...point.value.split(',')] : props.center ? [...props.center.split(',')] : ['116.403424,39.924079'];
+                return point.value ? [...point.value.split(',')] : props.center ? [...props.center.split(',')] : ['116.403424', '39.924079'];
             })
             watch(point, (newValue, oldValue) => {
                 ctx.emit('update:modelValue', newValue);

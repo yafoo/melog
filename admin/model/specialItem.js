@@ -78,7 +78,7 @@ class SpecialItem extends Model
                         item.data.center = '';
                     }
                     if(item.data.list === undefined) {
-                        item.data.list = [{points: [''], point_type: 'point'}];
+                        item.data.list = [];
                     }
                     break;
             }
