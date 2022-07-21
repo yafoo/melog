@@ -26,7 +26,7 @@ class Cate extends Base
         const cate = await this.$model.cate.getCateInfo({cate_dir: this._cate_dir});
         const [list, pagination] = await this.$model.article.getPageList({cate_id: cate.id}, this.site.list_rows);
 
-        this.$assign('title', cate.cate_name + ' - ' + this.site.webname);
+        this.$assign('title', (cate.seo_title || cate.cate_name) + ' - ' + this.site.webname);
         this.$assign('description', cate.description);
         this.$assign('keywords', cate.keywords);
 

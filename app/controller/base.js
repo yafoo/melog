@@ -16,7 +16,7 @@ class Base extends Controller
         ]);
 
         this.$assign('site', this.site = site_config);
-        this.$assign('title', this.site.webname + ' - ' + this.site.description);
+        this.$assign('title', this.site.webname);
         this.$assign('description', this.site.description);
         this.$assign('keywords', this.site.keywords);
         this.$assign('nav_list', nav_list);

@@ -8,6 +8,7 @@ class Index extends Base
         // 友情链接
         const friend_links = await this.$model.link.getFriendLinks();
         
+        this.site.seo_title && this.$assign('title', this.site.seo_title + ' - ' + this.site.webname);
         this.$assign('list', list);
         this.$assign('friend_links', friend_links);
         await this.$fetch();
