@@ -70,7 +70,7 @@ class Special extends Base
         this.$assign('component_files', component_files);
 
         // 地图sdk
-        this.$assign('map_ak', '465c0734722cfde06f7d7eac68559354');
+        this.$assign('map_ak', this.site.map_ak);
 
         await this.$fetch();
     }
