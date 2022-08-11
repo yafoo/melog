@@ -1,6 +1,6 @@
 <script type="text/x-template" id="module-map">
     <div class="special-item-empty" v-if="!data.list.length || !data.list[0] || !data.list[0].points">[地图标注] 点击编辑内容</div>
-    <div v-else style="height: 300px;">
+    <div v-else :style="{height: data.height || '300px'}">
         <el-bmap
             :zoom="parseInt(data.zoom)"
             :center="data.center ? [...data.center.split(',')] : ['116.403424', '39.924079']"
@@ -82,7 +82,7 @@
             }
 
             const text = value => {
-                value = value.split('[::]');
+                value = value.split('::');
                 return value[1] || value[0];
             }
 

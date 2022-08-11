@@ -3,6 +3,9 @@
         <lay-radio v-model="formData.map_type" name="map_type" label="normal">默认地图</lay-radio>
         <lay-radio v-model="formData.map_type" name="map_type" label="earth">卫星地图</lay-radio>
     </lay-form-item>
+    <lay-form-item label="地图高度" prop="height">
+        <lay-input v-model="formData.height" label="需带单位px"></lay-input>
+    </lay-form-item>
     <lay-form-item label="缩放等级" prop="zoom">
         <lay-input v-model="formData.zoom"></lay-input>
     </lay-form-item>
