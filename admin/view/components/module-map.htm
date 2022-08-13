@@ -2,7 +2,7 @@
     <div class="special-item-empty" v-if="!data.list.length || !data.list[0] || !data.list[0].points">[地图标注] 点击编辑内容</div>
     <div v-else :style="{height: data.height || '300px'}">
         <el-bmap
-            :zoom="parseInt(data.zoom)"
+            :zoom="parseFloat(data.zoom)"
             :center="data.center ? [...data.center.split(',')] : ['116.403424', '39.924079']"
             :map-type="data.map_type == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'"
             :heading="parseFloat(data.rotate) || 0"

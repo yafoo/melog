@@ -2,7 +2,7 @@
     <lay-input v-model="point"><template #suffix><lay-icon @click="layerShow = true" type="layui-icon-location" style="padding: 0 5px; cursor: pointer;"></lay-icon></template></lay-input>
     <lay-layer v-model="layerShow" title="选择坐标" :area="['360px','411px']" maxmin="true" move="true">
         <el-bmap
-            :zoom="parseInt(zoom) || 14"
+            :zoom="parseFloat(zoom) || 14"
             :center="mapPoint"
             :map-type="mapType == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'"
             :heading="parseFloat(rotate) || 0" @click="pointSelect"
