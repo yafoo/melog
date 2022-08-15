@@ -69,6 +69,12 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">页面宽度</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="page_width" class="layui-input" value="{{special.page_width}}" placeholder="网页主体宽度，支持像素或百分比或其他">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">侧边栏</label>
                     <div class="layui-input-block">
                         <input type="checkbox" name="aside" lay-skin="switch" lay-text="显示|隐藏" {{special.aside || special.aside === undefined ? 'checked' : ''}}>
