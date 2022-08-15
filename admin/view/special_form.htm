@@ -69,6 +69,18 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" class="layui-input" value="{{special.sort}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">顶部展示</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="flag" lay-skin="switch" lay-text="展示|隐藏" {{special.flag || special.flag == 1 ? 'checked' : ''}}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">页面宽度</label>
                     <div class="layui-input-block">
                         <input type="text" name="page_width" class="layui-input" value="{{special.page_width}}" placeholder="网页主体宽度，支持像素或百分比或其他">
