@@ -6,15 +6,30 @@ class Base extends Controller
         // 文章模型
         const model_article = this.$model.article;
 
-        // 站点配置、顶部导航、最新、热门列表、底部链接、顶部专题列表
-        const [site_config, nav_list, latest, hot, foot_links, special_list] = await Promise.all([
+        // 站点配置、最新、热门列表、底部链接、顶部专题列表
+        const [site_config, latest, hot, foot_links, special_list] = await Promise.all([
             this.$model.site.getConfig(),
-            this.$model.cate.getNavList(),
             model_article.getNew(),
             model_article.getHot(),
             this.$model.link.getFootLinks(),
             this.$model.special.getTopList()
-        ]);console.log(special_list);
+        ]);
+
+        // 顶部导航
+        let nav_list = [];
+        if(site_config.style == 'cms') {
+            nav_list = await this.$model.cate.getNavList();
+            nav_list.forEach(item => {
+                item.nav_url = this.$url.build(':cate', {cate: item.cate_dir});
+                item.nav_name = item.cate_name;
+            });
+        } else if(site_config.style == 'blog') {
+            nav_list = await this.$model.link.getNavLinks();console.log(nav_list);
+            nav_list.forEach(item => {
+                item.nav_url = item.url;
+                item.nav_name = item.lname;
+            });
+        }
 
         this.$assign('site', this.site = site_config);
         this.$assign('title', this.site.webname);
