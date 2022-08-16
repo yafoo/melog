@@ -37,7 +37,7 @@
 
                 <el-bmap-label v-if="item.text && item.text_point"
                     :position="point(item.text_point || item.points[0])"
-                    :isCustom="true"
+                    :is-custom="true"
                 >
                     <div :style="textStyle(item)">{$text(item.text)}</div>
                 </el-bmap-label>
