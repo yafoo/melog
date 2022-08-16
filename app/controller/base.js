@@ -41,6 +41,12 @@ class Base extends Controller
         this.$assign('foot_links', foot_links);
         this.$assign('special_list', special_list);
     }
+
+    // 支持更换模板主题
+    async $fetch(template) {
+        const content = await this.$view.setFolder(this.site.theme).fetch(template);
+        this.$show(content);
+    }
 }
 
 module.exports = Base;
