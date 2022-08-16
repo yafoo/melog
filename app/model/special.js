@@ -1,12 +1,7 @@
-const {Model} = require('jj.js');
+const Base = require('./base');
 
-class Special extends Model
+class Special extends Base
 {
-    constructor(...args) {
-        super(...args);
-        this.cacheTime = this.$config.cache.app_sql_cache_time;
-    }
-
     // 获取专题信息
     async getSpecialInfo(condition) {
         return await this.db.where(condition).cache(this.cacheTime).find();

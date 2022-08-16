@@ -1,12 +1,7 @@
-const {Model} = require('jj.js');
+const Base = require('./base');
 
-class Cate extends Model
+class Cate extends Base
 {
-    constructor(...args) {
-        super(...args);
-        this.cacheTime = this.$config.cache.app_sql_cache_time;
-    }
-
     // 获取一个分类
     async getCateInfo(condition) {
         return await this.db.where(condition).cache(this.cacheTime).find();

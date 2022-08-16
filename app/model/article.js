@@ -1,12 +1,7 @@
-const {Model} = require('jj.js');
+const Base = require('./base');
 
-class Article extends Model
+class Article extends Base
 {
-    constructor(...args) {
-        super(...args);
-        this.cacheTime = this.$config.cache.app_sql_cache_time;
-    }
-
     // 首页文章列表
     async getIndexList(page_size=10, with_page=false) {
         const modle = this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,a.thumb,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').order('a.id', 'desc').limit(page_size).cache(this.cacheTime);

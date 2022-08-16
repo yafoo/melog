@@ -1,12 +1,7 @@
-const {Model} = require('jj.js');
+const Base = require('./base');
 
-class Comment extends Model
+class Comment extends Base
 {
-    constructor(...args) {
-        super(...args);
-        this.cacheTime = this.$config.cache.app_sql_cache_time;
-    }
-
     // 评论列表
     async getPageList(article_id, page = 1) {
         const comment_ids = await this.db.where({article_id, pid: 0}).order('id', 'desc').page(page, 10).cache(this.cacheTime).column('id');

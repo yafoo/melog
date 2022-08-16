@@ -1,12 +1,7 @@
-const {Model} = require('jj.js');
+const Base = require('./base');
 
-class Link extends Model
+class Link extends Base
 {
-    constructor(...args) {
-        super(...args);
-        this.cacheTime = this.$config.cache.app_sql_cache_time;
-    }
-
     // 获取列表
     async getLinkList(pid, rows=100) {
         const link = await this.db.order('sort', 'asc').limit(rows).cache(this.cacheTime).select();
