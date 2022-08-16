@@ -1,0 +1,128 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+    {{if ~special_modules.indexOf('markdown')}}
+    <link href="/static/common/highlight/default.min.css" rel="stylesheet">
+    {{/if}}
+    {{if ~special_modules.indexOf('map')}}
+    <link href="/static/common/bmap/1.0.1.css" rel="stylesheet">
+    {{/if}}
+    {{if special.page_width}}
+    <style>.container { width: {{special.page_width}};}</style>
+    {{/if}}
+{{/block}}
+
+{{block 'header'}}
+        <div class="container jumbotron">
+            <h1>{{special.title}}</h1>
+            <p>{{special.description}}</p>
+        </div>
+{{/block}}
+
+{{block 'content'}}
+<div class="container row">
+    <main class="main">
+    {{each special_item sp_item}}
+
+        {{if sp_item.type == 'list'}}
+            {{if !sp_item.data.style}}
+                <div class="list">
+                    {{each sp_item.data.list item}}
+                    <dl class="list-item {{item.thumb && 'thumb'}}">
+                        <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
+                        <dd>
+                            {{@item.thumb && '<a class="image" href="'+url(':article', {id: item.id})+'"><img src="'+item.thumb+'" /></a>'}}
+                            {{item.description}}
+                        </dd>
+                        <ul>
+                            <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
+                            <li>浏览: {{item.click}}</li>
+                            <li>关键词: {{item.keywords}}</li>
+                        </ul>
+                    </dl>
+                    {{/each}}
+                </div>
+            {{else if ~['imagetitle', 'image', 'title'].indexOf(sp_item.data.style)}}
+                <div class="{{sp_item.data.style == 'title' ? 'list-title' : 'list-image'}}">
+                    {{each sp_item.data.list item}}
+                    <dl class="list-item">
+                        {{if ~['imagetitle', 'image'].indexOf(sp_item.data.style)}}
+                        <dd>{{@item.thumb && '<a class="image" href="'+url(':article', {id: item.id})+'"><img src="'+item.thumb+'" /></a>'}}</dd>
+                        {{/if}}
+                        {{if ~['imagetitle', 'title'].indexOf(sp_item.data.style)}}
+                        <dt><h3 class="title"><a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
+                        {{/if}}
+                    </dl>
+                    {{/each}}
+                </div>
+            {{/if}}
+        {{else if sp_item.type == 'markdown' || sp_item.type == 'html'}}
+            <article class="content">
+                {{@sp_item.data.content}}
+            </article>
+        {{else if sp_item.type == 'map'}}
+            <div class="map map-{{sp_item.id}}" style="height: {{sp_item.data.height || '300px'}}">
+                <el-bmap
+                    :zoom="parseFloat(mapData.zoom)"
+                    :center="mapData.center ? [...mapData.center.split(',')] : ['116.403424', '39.924079']"
+                    :map-type="mapData.map_type == 'earth' ? 'B_EARTH_MAP' : 'B_NORMAL_MAP'"
+                    :heading="parseFloat(mapData.rotate) || 0"
+                    @zoomend="zoomEnd"
+                >
+                    <template v-for="(item, index) in mapData.list" :key="index">
+                        <template v-if="item.point_type == 'point'" v-for="(point, index) in item.points">
+                            <el-bmap-marker
+                                :position="point.split(',')"
+                            ></el-bmap-marker>
+                        </template>
+                        <template v-else-if="item.point_type == 'line'">
+                            <el-bmap-polyline
+                                :path="item.points.map(p => p.split(','))"
+                                :stroke-color="color(item.line_color)"
+                                :stroke-opacity="opacity(item.line_color)"
+                                :stroke-weight="parseInt(item.line_width || 1)"
+                                :stroke-style="item.line_type || 'solid'"
+                            ></el-bmap-polyline>
+                        </template>
+                        <template v-else-if="item.point_type == 'area'">
+                            <el-bmap-polygon
+                                :path="item.points.map(p => p.split(','))"
+                                :stroke-color="color(item.line_color)"
+                                :stroke-opacity="opacity(item.line_color)"
+                                :stroke-weight="parseInt(item.line_width || 1)"
+                                :stroke-style="item.line_type || 'solid'"
+                                :fill-color="color(item.fill_color)"
+                                :fill-opacity="opacity(item.fill_color)"
+                            ></el-bmap-polygon>
+                        </template>
+        
+                        <el-bmap-label v-if="item.text && item.text_point"
+                            :position="point(item.text_point || item.points[0])"
+                            :is-custom="true"
+                        >
+                            <div :style="textStyle(item)">{$text(item.text)}</div>
+                        </el-bmap-label>
+                    </template>
+                </el-bmap>
+            </div>
+        {{/if}}
+        <hr class="m-hr" />
+
+    {{/each}}
+    </main>
+    {{if special.aside}}{{include './aside.htm'}}{{/if}}
+</div>
+{{/block}}
+
+{{block 'js'}}
+    {{if ~special_modules.indexOf('markdown')}}
+    <script src="/static/common/highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    {{/if}}
+    {{if ~special_modules.indexOf('map')}}
+    <script src="/static/common/vue/3.2.37.min.js"></script>
+    <script src="/static/common/bmap/1.0.1.js"></script>
+    <script>const map_ak = '{{map_ak}}'; var map_data = {{@map_data}};</script>
+    <script src="/static/map.js"></script>
+    {{/if}}
+{{/block}}

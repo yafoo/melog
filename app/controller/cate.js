@@ -4,7 +4,7 @@ class Cate extends Base
 {
     async _init() {
         // admin跳过(分类路由会匹配到后台admin)
-        if(this.ctx.APP == 'admin') {
+        if(this.ctx.APP == 'admin' || this.ctx.APP == 'special') {
             await this.$next();
             return false;
         }
