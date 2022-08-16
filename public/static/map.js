@@ -1,8 +1,9 @@
 VueBMap.initBMapApiLoader({
     ak: map_ak,
 });
-const {createApp, onMounted, ref, reactive, toRefs, computed, watch, defineComponent, getCurrentInstance, nextTick} = Vue;
+
 const creat_app = data => {
+    const {createApp, onMounted, ref, computed} = Vue;
     const app = {
         setup() {
             onMounted(() => {
@@ -39,17 +40,6 @@ const creat_app = data => {
             }
 
             const zoom = ref(data.zoom);
-            // const textStyle = computed(() => {
-            //     return data => {
-            //         const obj = {color: color(data.text_color), opacity: opacity(data.text_color), fontSize: data.text_size + 'px'};
-            //         if(data.text_scale == 1) {
-            //             obj.transformOrigin = '0 0';
-            //             const scale = 2 ** (parseFloat(zoom.value).toFixed(2) - zoom.value);
-            //             obj.transform = 'scale(' + scale + ')';
-            //         }
-            //         return obj;
-            //     }
-            // });
             const scale = computed(() => {
                 return 2 ** (parseFloat(zoom.value).toFixed(2) - data.zoom);
             });
