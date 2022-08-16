@@ -26,7 +26,10 @@
                     <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
+                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
+                        {{else if item.type == 'radio'}}
+                        {{each item.options option}}
+                        <input type="radio" name="{{item.kname}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
                         <textarea name="{{item.kname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
@@ -42,7 +45,10 @@
                     <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
+                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
+                        {{else if item.type == 'radio'}}
+                        {{each item.options option}}
+                        <input type="radio" name="{{item.kname}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
                         <textarea name="{{item.kname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
@@ -58,7 +64,10 @@
                     <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
+                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
+                        {{else if item.type == 'radio'}}
+                        {{each item.options option}}
+                        <input type="radio" name="{{item.kname}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
                         <textarea name="{{item.kname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
@@ -74,7 +83,10 @@
                     <label class="layui-form-label">{{item.intro}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
-                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}">
+                        <input type="text" name="{{item.kname}}" lay-verify="required" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
+                        {{else if item.type == 'radio'}}
+                        {{each item.options option}}
+                        <input type="radio" name="{{item.kname}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
                         <textarea name="{{item.kname}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}

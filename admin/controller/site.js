@@ -23,6 +23,11 @@ class Site extends Base
             }
         } else {
             const list = await this.$model.site.getSiteList();
+            list.forEach(item => {
+                if(~['radio', 'select'].indexOf(item.type)) {
+                    item.options = item.options.split('||').map(option => option.split('|'));
+                }
+            });
             this.$assign('list', list);
             await this.$fetch();
         }
