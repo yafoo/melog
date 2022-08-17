@@ -3,18 +3,18 @@ const Base = require('./base');
 class Cate extends Base
 {
     async _init() {
-        // admin跳过(分类路由会匹配到后台admin)
-        if(this.ctx.APP == 'admin' || this.ctx.APP == 'special') {
+        // admin、special直接跳过
+        if(~['admin', 'special'].indexOf(this.ctx.APP)) {
             await this.$next();
             return false;
         }
 
         this._cate_dir = this.ctx.params.cate;
+        const cate_dirs = await this.$model.cate.getCateDirs();
 
         // 栏目不存在跳过
-        const cate_dirs = await this.$model.cate.getCateDirs();
         if(!~cate_dirs.indexOf(this._cate_dir)) {
-            this.ctx.params = {};
+            delete this.ctx.params.cate; // 清除参数
             await this.$next();
             return false;
         }
