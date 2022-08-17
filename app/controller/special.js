@@ -4,13 +4,13 @@ const md = require('markdown-it')({html: true});
 class Special extends Base
 {
     async _init() {
-        const special_id = this.ctx.params.id;
-        if((this._special_id = parseInt(special_id)) != special_id) {
-            this._sp_dir = special_id;
+        const id = this.ctx.params.id;
+        if((this._sp_id = parseInt(id)) != id) {
+            this._sp_dir = id;
         }
 
         // 参数为空
-        if(!this._special_id && !this._sp_dir) {
+        if(!this._sp_id && !this._sp_dir) {
             return false;
         }
 
@@ -22,7 +22,7 @@ class Special extends Base
         if(this._sp_dir) {
             condition.sp_dir = this._sp_dir;
         } else {
-            condition.id = this._special_id;
+            condition.id = this._sp_id;
         }
 
         const special = await this.$model.special.getSpecialInfo(condition);
