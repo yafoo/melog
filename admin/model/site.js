@@ -8,7 +8,7 @@ class Site extends Model
         this.cacheTime = this.$config.cache.app_sql_cache_time;
     }
 
-    async getSiteList(condition, order='id', sort='asc') {
+    async getSiteList(condition, order='sort', sort='asc') {
         return await this.db.where(condition).order(order, sort).select();
     }
 
