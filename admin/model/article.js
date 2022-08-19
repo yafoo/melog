@@ -20,8 +20,8 @@ class Article extends Model
 
     // 更新评论总数
     async updateCommentTotal(id) {
-        const comment_total = await this.$model.comment.db.where({article_id: id}).count();
-        return await this.save({id, comment_total});
+        const comment_count = await this.$model.comment.db.where({article_id: id}).count();
+        return await this.save({id, comment_count});
     }
 }
 

@@ -9,11 +9,11 @@ class Comment extends Controller
     async list() {
         const id = parseInt(this.ctx.query.id) || 0;
         const page = parseInt(this.ctx.query.page) || 1;
-        const article = await this.$model.article.getArticle({id}, 'id,is_comment');
+        const article = await this.$model.article.getArticle({id}, 'id,comment_set');
         if(!article) {
             return this.$error('文章不存在或已删除！');
         }
-        if(article.is_comment + this.site.is_comment < 1) {
+        if(article.comment_set + this.site.is_comment < 1) {
             if(this.site.is_comment == 0) {
                 return this.$error('系统已关闭评论功能！');
             } else {
@@ -39,11 +39,11 @@ class Comment extends Controller
         }
 
         data.article_id = parseInt(data.article_id);
-        const article = await this.$model.article.getArticle({id: data.article_id}, 'id,is_comment');
+        const article = await this.$model.article.getArticle({id: data.article_id}, 'id,comment_set');
         if(!article) {
             return this.$error('文章不存在或已删除！');
         }
-        if(article.is_comment + this.site.is_comment < 1) {
+        if(article.comment_set + this.site.is_comment < 1) {
             if(this.site.is_comment == 0) {
                 return this.$error('系统已关闭评论功能！');
             } else {

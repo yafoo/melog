@@ -40,12 +40,12 @@ class Article extends Base
         this.$assign('article', article);
         this.$assign('uname', this.user.uname);
 
-        const is_comment_option = [
+        const comment_set_option = [
             {value: 0, name: '跟随系统'},
             {value: 1, name: '强制开启'},
             {value: -1, name: '强制关闭'}
         ];
-        this.$assign('is_comment_option', is_comment_option);
+        this.$assign('comment_set_option', comment_set_option);
 
         await this.$fetch();
     }

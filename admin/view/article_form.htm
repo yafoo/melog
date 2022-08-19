@@ -76,9 +76,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">开放评论</label>
                     <div class="layui-input-block">
-                        <select name="is_comment" lay-verify="required">
-                            {{each is_comment_option item}}
-                            <option value="{{item.value}}" {{(item.value == article.is_comment) && 'selected'}}>{{item.name}}</option>{{/each}}
+                        <select name="comment_set" lay-verify="required">
+                            {{each comment_set_option item}}
+                            <option value="{{item.value}}" {{(item.value == article.comment_set) && 'selected'}}>{{item.name}}</option>{{/each}}
                         </select>
                     </div>
                 </div>

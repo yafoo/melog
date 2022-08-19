@@ -24,7 +24,7 @@ class Article extends Base
         model_article.db.where({id: article.id}).inc('click');
         // markdown
         article.content = md.render(article.content);
-        const is_comment = this.site.is_comment + article.is_comment >= 1 ? true : false;
+        const is_comment = this.site.is_comment + article.comment_set >= 1 ? true : false;
 
         this.$assign('title', article.title + ' - ' + cate.cate_name + ' - ' + this.site.webname);
         this.$assign('description', article.description);
