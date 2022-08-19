@@ -1,0 +1,67 @@
+{{extend './layout.htm'}}
+
+{{block 'css'}}
+<style>
+    .layui-form-label {width: 90px;}
+    .layui-input-block {margin-left: 120px;}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<form method="post" action="{{url('save')}}" class="layui-form">
+    <input type="hidden" name="id" value="{{data.kname}}">
+    <div class="layui-tab-item layui-show">
+        <div class="layui-form-item">
+            <label class="layui-form-label">参数名字</label>
+            <div class="layui-input-block">
+                <input type="text" name="intro" required lay-verType="tips" class="layui-input" value="{{data.intro}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">参数key</label>
+            <div class="layui-input-block">
+                <input type="text" name="kname" required lay-verType="tips" class="layui-input" value="{{data.kname}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">参数值</label>
+            <div class="layui-input-block">
+                <input type="text" name="value" class="layui-input" value="{{data.value}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">参数类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" required lay-verType="tips" value="input" title="单行文本" {{data.type == 'input' || !data.kname ? 'checked' : ''}}>
+                <input type="radio" name="type" required lay-verType="tips" value="textarea" title="多行文本" {{data.type == 'textarea' ? 'checked' : ''}}>
+                <input type="radio" name="type" required lay-verType="tips" value="radio" title="单选框" {{data.type == 'radio' ? 'checked' : ''}}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文本框提示语</label>
+            <div class="layui-input-block">
+                <input type="text" name="tips" class="layui-input" value="{{data.tips}}" placeholder="仅参数类型为文本时有效">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单选框列表项</label>
+            <div class="layui-input-block">
+                <input type="text" name="options" class="layui-input" value="{{data.options}}" placeholder="示例：项目1|value1||项目2|value2">
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'element'], function(){
+        var form = layui.form;
+        var element = layui.element;
+    });
+</script>
+{{/block}}

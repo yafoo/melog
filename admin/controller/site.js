@@ -33,6 +33,56 @@ class Site extends Base
         }
     }
 
+    async form() {
+        const id = this.ctx.query.id;
+        
+        let data = {};
+        if(id) {
+            data = await this.$model.site.get({kname: id});
+        }
+
+        this.$assign('id', id);
+        this.$assign('data', data);
+        this.$assign('uname', this.user.uname);
+        await this.$fetch();
+    }
+
+    async save() {
+        if(this.ctx.method != 'POST') {
+            return this.$error('非法请求！');
+        }
+
+        const data = this.ctx.request.body;
+        const id = data.id;
+        delete data.id;
+        data.group = 'self';
+
+        // 判断是否已存在
+        if(!id || data.kname != id) {
+            const res = await this.$model.site.get({kname: data.kname});
+            if(res) {
+                return this.$error('参数' + data.kname + '已存在！');
+            }
+        }
+        const result = await this.$model.site.save(data, id ? {kname: id} : undefined);
+
+        if(result) {
+            this.$success(id ? '保存成功！' : '新增成功！', 'index');
+        } else {
+            this.$error(id ? '保存失败！' : '新增失败！');
+        }
+    }
+
+    async delete() {
+        const id = this.ctx.query.id;
+        const result = await this.$model.site.del({kname: id, group: 'self'});
+        if(result) {
+            this.$success('删除成功！', 'index');
+        } else {
+            this.$error('删除失败！');
+        }
+    }
+
     async clear(msg = '') {
         try {
             await this.$middleware.cache.clear(); // 不建议这样调用中间件

@@ -1,11 +1,12 @@
 {{extend './layout.htm'}}
 
 {{block 'css'}}
-<link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/default.min.css" rel="stylesheet">
 <style>
-.layui-tab-content{padding: 10px 0 0;}
-.layui-form-label{width: 90px;}
-.layui-input-block{margin-left: 120px;}
+    .layui-tab-content {padding: 10px 0 0;}
+    .layui-form-label {width: 90px;}
+    .layui-input-block {margin-left: 120px;}
+    .tab-item-self .layui-input-block {margin-right: 150px;}
+    .tab-item-self .form-action {float: right; padding: 4px 15px;}
 </style>
 {{/block}}
 
@@ -16,7 +17,7 @@
             <li class="layui-this">站点设置</li>
             <li>图片上传</li>
             <li>其他</li>
-            <li style="display: none;">自定义</li>
+            <li>自定义</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -76,11 +77,12 @@
                 {{/if}}
                 {{/each}}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tab-item tab-item-self">
                 {{each list item}}
                 {{if item.group == 'self'}}
                 <div class="layui-form-item">
                     <label class="layui-form-label">{{item.intro}}</label>
+                    <div class="form-action"><a class="layui-btn layui-btn-sm" href="{{url('form', {id: item.kname})}}">编辑</a><a href="{{url('delete', {id: item.kname})}}" class="layui-btn layui-btn-danger layui-btn-sm btn-del">删除</a></div>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
                         <input type="text" name="{{item.kname}}" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
@@ -98,7 +100,7 @@
         </div>
     </div>
     <div style="text-align: center;">
-        <button class="layui-btn" lay-submit>提交</button>
+        <button class="layui-btn" lay-submit>提交</button><a class="layui-btn btn-add layui-hide" href="{{url('form')}}">新增</a>
     </div>
 </form>
 {{/block}}
@@ -108,6 +110,32 @@
     layui.use(['form', 'element'], function(){
         var form = layui.form
         ,element = layui.element;
+
+        $('a.btn-del').each(function() {
+            var url = $(this).attr('href');
+            $(this).attr('href', 'javascript:;').click(function() {
+                layer.confirm("确定删除吗？", function(index) {
+                    layer.close(index);
+                    $.get(url, function(re) {
+                        if(re.state) {
+                            layer.msg(re.msg, function() {
+                                history.go(0);
+                            });
+                        }else{
+                            layer.msg(re.msg);
+                        }
+                    });
+                });
+            });
+        });
+
+        element.on('tab(demo)', function(e) {
+            if(e.index == 3) {
+                $('.btn-add').removeClass('layui-hide');
+            } else {
+                $('.btn-add').addClass('layui-hide');
+            }
+        });
     });
 </script>
 {{/block}}
