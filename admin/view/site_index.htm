@@ -24,7 +24,7 @@
                 {{each list item}}
                 {{if item.group == 'web'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.intro}}</label>
+                    <label class="layui-form-label">{{item.title}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
                         <input type="text" name="{{item.key}}" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
@@ -32,7 +32,7 @@
                         {{each item.options option}}
                         <input type="radio" name="{{item.key}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
-                        <textarea name="{{item.key}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
+                        <textarea name="{{item.key}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 {{each list item}}
                 {{if item.group == 'image'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.intro}}</label>
+                    <label class="layui-form-label">{{item.title}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
                         <input type="text" name="{{item.key}}" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
@@ -51,7 +51,7 @@
                         {{each item.options option}}
                         <input type="radio" name="{{item.key}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
-                        <textarea name="{{item.key}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
+                        <textarea name="{{item.key}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 {{each list item}}
                 {{if item.group == 'other'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.intro}}</label>
+                    <label class="layui-form-label">{{item.title}}</label>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
                         <input type="text" name="{{item.key}}" lay-verType="tips" class="layui-input" value="{{item.value}}" placeholder="{{item.tips}}">
@@ -70,7 +70,7 @@
                         {{each item.options option}}
                         <input type="radio" name="{{item.key}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
-                        <textarea name="{{item.key}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
+                        <textarea name="{{item.key}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 {{each list item}}
                 {{if item.group == 'self'}}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">{{item.intro}}</label>
+                    <label class="layui-form-label">{{item.title}}</label>
                     <div class="form-action"><a class="layui-btn layui-btn-sm" href="{{url('form', {id: item.key})}}">编辑</a><a href="{{url('delete', {id: item.key})}}" class="layui-btn layui-btn-danger layui-btn-sm btn-del">删除</a></div>
                     <div class="layui-input-block">
                         {{if item.type == 'input'}}
@@ -90,7 +90,7 @@
                         {{each item.options option}}
                         <input type="radio" name="{{item.key}}" lay-verType="tips" value="{{option[1]}}" title="{{option[0]}}" {{option[1] == item.value ? 'checked' : ''}}>{{/each}}
                         {{else}}
-                        <textarea name="{{item.key}}" placeholder="请输入{{item.intro}}" class="layui-textarea">{{item.value}}</textarea>
+                        <textarea name="{{item.key}}" placeholder="请输入{{item.title}}" class="layui-textarea">{{item.value}}</textarea>
                         {{/if}}
                     </div>
                 </div>
