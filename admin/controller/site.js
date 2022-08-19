@@ -5,13 +5,13 @@ class Site extends Base
     async index() {
         if(this.ctx.method == 'POST') {
             const data = this.ctx.request.body;
-            const list = await this.$model.site.db.column('value', 'kname');
+            const list = await this.$model.site.db.column('value', 'key');
             try {
                 await this.$model.site.db.startTrans();
                 const keys = Object.keys(data);
                 for(const key of keys) {
                     if((key in list) && data[key] !== list[key]) {
-                        await this.$model.site.save({value: data[key]}, {kname: key});
+                        await this.$model.site.save({value: data[key]}, {key: key});
                     }
                 }
                 await this.$model.site.db.commit();
@@ -38,7 +38,7 @@ class Site extends Base
         
         let data = {};
         if(id) {
-            data = await this.$model.site.get({kname: id});
+            data = await this.$model.site.get({key: id});
         }
 
         this.$assign('id', id);
@@ -58,13 +58,13 @@ class Site extends Base
         data.group = 'self';
 
         // 判断是否已存在
-        if(!id || data.kname != id) {
-            const res = await this.$model.site.get({kname: data.kname});
+        if(!id || data.key != id) {
+            const res = await this.$model.site.get({key: data.key});
             if(res) {
-                return this.$error('参数' + data.kname + '已存在！');
+                return this.$error('参数' + data.key + '已存在！');
             }
         }
-        const result = await this.$model.site.save(data, id ? {kname: id} : undefined);
+        const result = await this.$model.site.save(data, id ? {key: id} : undefined);
 
         if(result) {
             this.$success(id ? '保存成功！' : '新增成功！', 'index');
@@ -75,7 +75,7 @@ class Site extends Base
 
     async delete() {
         const id = this.ctx.query.id;
-        const result = await this.$model.site.del({kname: id, group: 'self'});
+        const result = await this.$model.site.del({key: id, group: 'self'});
         if(result) {
             this.$success('删除成功！', 'index');
         } else {

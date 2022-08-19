@@ -13,10 +13,10 @@ class Site extends Model
     }
 
     // 获取站点设置
-    async getConfig(kname) {
-        const result = await this.db.cache(this.cacheTime).column('value', 'kname');
-        if(kname) {
-            return result[kname];
+    async getConfig(key) {
+        const result = await this.db.cache(this.cacheTime).column('value', 'key');
+        if(key) {
+            return result[key];
         } else {
             result.VERSION = pjson.version;
             result.APP_TIME = this.ctx.APP_TIME;

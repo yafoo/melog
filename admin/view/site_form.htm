@@ -9,7 +9,7 @@
 
 {{block 'main'}}
 <form method="post" action="{{url('save')}}" class="layui-form">
-    <input type="hidden" name="id" value="{{data.kname}}">
+    <input type="hidden" name="id" value="{{data.key}}">
     <div class="layui-tab-item layui-show">
         <div class="layui-form-item">
             <label class="layui-form-label">参数名字</label>
@@ -20,7 +20,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">参数key</label>
             <div class="layui-input-block">
-                <input type="text" name="kname" required lay-verType="tips" class="layui-input" value="{{data.kname}}">
+                <input type="text" name="key" required lay-verType="tips" class="layui-input" value="{{data.key}}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -32,7 +32,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">参数类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" required lay-verType="tips" value="input" title="单行文本" {{data.type == 'input' || !data.kname ? 'checked' : ''}}>
+                <input type="radio" name="type" required lay-verType="tips" value="input" title="单行文本" {{data.type == 'input' || !data.key ? 'checked' : ''}}>
                 <input type="radio" name="type" required lay-verType="tips" value="textarea" title="多行文本" {{data.type == 'textarea' ? 'checked' : ''}}>
                 <input type="radio" name="type" required lay-verType="tips" value="radio" title="单选框" {{data.type == 'radio' ? 'checked' : ''}}>
             </div>
