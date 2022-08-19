@@ -22,7 +22,7 @@
         <select name="pid">
             <option value="0">顶级分类</option>
             {{each link_list item}}
-            <option value="{{item.id}}" {{(item.id == pid) && 'selected'}}>{{item.lname}}</option>{{/each}}
+            <option value="{{item.id}}" {{(item.id == pid) && 'selected'}}>{{item.title}}</option>{{/each}}
         </select>
     </div>
     <div class="sp5"></div>
@@ -43,7 +43,7 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;&nbsp;<%}%>├─ {{item.lname}}</td>
+                <td><%for (var i=1;i<item.level;i++) {%>&nbsp;&nbsp;&nbsp;&nbsp;<%}%>├─ {{item.title}}</td>
                 <td>{{@~item.icon.indexOf('/') ? '<img src="'+item.icon+'">' : ~item.icon.indexOf('layui-icon') ? '<i class="layui-icon '+item.icon+'"></i>' : item.icon}}</td>
                 <td>{{item.url}}</td>
                 <td>{{item.sort}}</td>

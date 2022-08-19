@@ -27,7 +27,7 @@ class Base extends Controller
             nav_list = await this.$model.link.getNavLinks();console.log(nav_list);
             nav_list.forEach(item => {
                 item.nav_url = item.url;
-                item.nav_name = item.lname;
+                item.nav_name = item.title;
             });
         }
 
