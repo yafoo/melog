@@ -32,9 +32,9 @@
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':special', {id: item.sp_dir || item.id})}}" target="blank">{{item.title}}</a></td>
+                <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':special', {id: item.special_dir || item.id})}}" target="blank">{{item.title}}</a></td>
                 <td>{{item.click}}</td>
-                <td>{{item.sp_dir}}</td>
+                <td>{{item.special_dir}}</td>
                 <td>{{item.sort}}</td>
                 <td>{{item.flag == 1 ? '展示' : '隐藏'}}</td>
                 <td>{{item.aside ? '显示' : '隐藏'}}</td>

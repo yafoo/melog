@@ -26,7 +26,7 @@
     {{if special_list && special_list.length}}
     <div class="container subnav">
         <ul>{{each special_list item}}
-            <li><a href="{{url(':special', {id: item.sp_dir || item.id})}}">{{item.short_title || item.title}}</a></li>{{/each}}
+            <li><a href="{{url(':special', {id: item.special_dir || item.id})}}">{{item.short_title || item.title}}</a></li>{{/each}}
         </ul>
     </div>
     {{/if}}

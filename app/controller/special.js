@@ -20,7 +20,7 @@ class Special extends Base
     async special() {
         const condition = {};
         if(this._sp_dir) {
-            condition.sp_dir = this._sp_dir;
+            condition.special_dir = this._sp_dir;
         } else {
             condition.id = this._sp_id;
         }
