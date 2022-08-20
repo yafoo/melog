@@ -17,11 +17,6 @@ class Link extends Base
     async getFootLinks(rows=100) {
         return await this.getLinkList(2, rows);
     }
-
-    // 顶部导航
-    async getNavLinks(rows=100) {
-        return await this.getLinkList(10, rows);
-    }
 }
 
 module.exports = Link;
