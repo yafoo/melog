@@ -8,7 +8,13 @@
     <link href="/static/common/bmap/1.0.1.css" rel="stylesheet">
     {{/if}}
     {{if special.page_width}}
-    <style>.container { width: {{special.page_width}};}</style>
+    <style>
+        @media screen and (min-width: 961px) {
+            .container {
+                width: {{special.page_width}};
+            }
+        }
+    </style>
     {{/if}}
 {{/block}}
 
@@ -106,7 +112,6 @@
                 </el-bmap>
             </div>
         {{/if}}
-        <hr class="m-hr" />
 
     {{/each}}
     </main>
