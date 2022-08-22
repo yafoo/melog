@@ -700,6 +700,8 @@ ul>li {list-style: none;}
     .list .list-item.thumb {
         position: relative;
         padding-right: 130px;
+        min-height: 90px;
+        overflow: hidden;
     }
     .list .list-item .image {
         position: absolute;
