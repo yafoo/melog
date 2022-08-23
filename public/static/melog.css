@@ -108,7 +108,7 @@ ul>li {list-style: none;}
 .subnav ul {
     width: 100%;
     padding: 5px;
-    border: 1px solid #46bc998c;
+    border: 1px dashed #46bc998c;
 }
 .subnav li {
     height: 28px;
@@ -122,8 +122,7 @@ ul>li {list-style: none;}
     padding: 0 10px;
 }
 .subnav li a:hover {
-    /* text-shadow: 0 0 3px #70f7cf; */
-    text-shadow: 0 0 3px #a9dfbf;
+    text-shadow: 1px 1px 1px #a9dfbf;
 }
 
 /* footer */

@@ -44,6 +44,10 @@ class Special extends Base
         });
         map_data = JSON.stringify(map_data);
 
+        // 更新点击(页面及数据库)
+        special.click++;
+        this.$model.special.db.where({id: special.id}).inc('click');
+
         this.$assign('title', (special.seo_title || special.title) + ' - ' + this.site.webname);
         this.$assign('description', special.description);
         this.$assign('keywords', special.keywords);
