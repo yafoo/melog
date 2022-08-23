@@ -8,7 +8,7 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 码云镜像：[https://gitee.com/yafu/melog](https://gitee.com/yafu/melog "https://gitee.com/yafu/melog")
 
-官网地址：[https://me.i-i.me/melog/](https://me.i-i.me/melog/ "https://me.i-i.me/melog/")
+官网地址：[https://me.i-i.me/special/melog.html](https://me.i-i.me/special/melog.html "https://me.i-i.me/special/melog.html")
 
 演示demo：[https://js.i-i.me/](https://js.i-i.me/ "https://js.i-i.me/")（后台：[/admin](https://js.i-i.me/admin "https://js.i-i.me/admin")，账号：`melog@i-i.me`，密码：`123456`）
 
