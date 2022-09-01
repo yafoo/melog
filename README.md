@@ -18,14 +18,19 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 2. 轻量，前台无框架依赖，移动优先，自适应pc
 3. 简单，基于jj.js（类thinkphp）经典mvc框架，方便二次开发
 4. 安全，后台目录可自定义，密码重试次数限制
-5. 支持更换导航风格
-6. 支持切换主题，自定义主题可以共用默认主题文件
+5. 支持更换导航风格（cms或blog）
+6. 支持更换主题，自定义主题可以共用默认主题文件
 7. 专题功能，可以定制个性页面
+8. Markdown编辑，支持实时预览，支持手机端，支持截图、图片文件粘贴上传
 
+## 运行环境
+nodejs >= v12
+mysql >= 5.3
 
 ## 安装
 
 ```bash
+# 也可以直接到github或gitee上下载压缩文件
 git clone https://github.com/yafoo/melog.git
 cd melog
 npm i
@@ -35,7 +40,7 @@ npm i
 
 ### 1. 修改配置
 
-修改`/config/app.js`文件，关闭调试模式。如遇运行失败，请打开调试模式
+修改`/config/app.js`文件，关闭调试模式。如遇运行失败，请打开调试模式，查看错误提示。
 
 ```javascript
 app_debug: false,
@@ -58,7 +63,7 @@ prefix    : 'melog_' // 数据库表前缀
 
 将根目录下`melog.sql`文件导入数据库。
 
-> V2版本升级V3，请运行`v2_to_v3.sql`数据库文件。
+> V2版本升级V3，请运行`v2_to_v3.sql`数据库升级文件。
 
 ### 3. 运行程序
 
