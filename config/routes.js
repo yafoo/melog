@@ -1,4 +1,4 @@
-route = [
+routes = [
     {url: '/', path: 'index/index'},
     {url: '/article/:id.html', path: 'article/article', name: 'article'},
     {url: '/search', path: 'search/search', name: 'search'},
@@ -8,4 +8,4 @@ route = [
     {url: '/:app/:controller?/:action?', path: 'admin/auth/index', type: 'middleware'} // 后台登录验证
 ];
 
-module.exports = route;
+module.exports = routes;
