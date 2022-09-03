@@ -3,18 +3,11 @@ const Base = require('./base');
 class Cate extends Base
 {
     async _init() {
-        // admin、special直接跳过
-        if(~['admin', 'special'].indexOf(this.ctx.APP)) {
-            await this.$next();
-            return false;
-        }
-
         this._cate_dir = this.ctx.params.cate;
         const cate_dirs = await this.$model.cate.getCateDirs();
 
         // 栏目不存在跳过
         if(!~cate_dirs.indexOf(this._cate_dir)) {
-            delete this.ctx.params.cate; // 清除参数
             await this.$next();
             return false;
         }
