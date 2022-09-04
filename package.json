@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
-    "jimp": "^0.16.1",
+    "jimp-compact": "^0.16.1-2",
     "jj.js": "^0.8.6",
     "markdown-it": "^13.0.1"
   }

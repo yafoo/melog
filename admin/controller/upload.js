@@ -58,7 +58,7 @@ class Upload extends Base
         const result = await this.$upload.file('file').validate({size: limit_size}).save(upload_dir);
 
         if(result) {
-            const jimp = require('jimp');
+            const jimp = require('jimp-compact');
             let image;
             try {
                 image = await jimp.read(result.filepath);
