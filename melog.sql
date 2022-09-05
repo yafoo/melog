@@ -120,10 +120,11 @@ INSERT INTO `melog_link` VALUES (2, 0, '底部链接', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (3, 1, '爱主页', '', 'https://www.i-i.me/', 2, 0, 0);
 INSERT INTO `melog_link` VALUES (4, 1, 'melog', '', 'https://me.i-i.me/special/melog.html', 1, 0, 0);
 INSERT INTO `melog_link` VALUES (5, 2, 'github', '', 'https://github.com/yafoo/melog', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (6, 0, '顶部导航', '', '', 0, 0, 0);
-INSERT INTO `melog_link` VALUES (7, 6, '首页', '', '/', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (8, 6, '留言', '', '/article/2.html', 2, 0, 0);
-INSERT INTO `melog_link` VALUES (9, 6, '关于', '', '/article/1.html', 3, 0, 0);
+INSERT INTO `melog_link` VALUES (6, 2, '留言本', '', '/article/2.html', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (7, 0, '顶部导航', '', '', 0, 0, 0);
+INSERT INTO `melog_link` VALUES (8, 6, '首页', '', '/', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (9, 6, '留言', '', '/article/2.html', 2, 0, 0);
+INSERT INTO `melog_link` VALUES (10, 6, '关于', '', '/article/1.html', 3, 0, 0);
 
 -- ----------------------------
 -- Table structure for melog_site
