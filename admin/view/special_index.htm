@@ -26,13 +26,14 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>标题</th><th>点击</th><th>目录地址</th><th>排序</th><th>顶部展示</th><th>侧边栏</th><th>时间</th><th>操作</th></tr> 
+            <tr><th>ID</th><th>标题</th><th>短标题</th><th>点击</th><th>目录地址</th><th>排序</th><th>顶部展示</th><th>侧边栏</th><th>时间</th><th>操作</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
                 <td class="title">{{@item.thumb && '<img src="'+item.thumb+'" />'}}<a href="{{url(':special', {id: item.special_dir || item.id})}}" target="blank">{{item.title}}</a></td>
+                <td>{{item.short_title}}</td>
                 <td>{{item.click}}</td>
                 <td>{{item.special_dir}}</td>
                 <td>{{item.sort}}</td>

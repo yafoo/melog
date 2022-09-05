@@ -122,7 +122,19 @@
 {{block 'js'}}
     {{if ~special_modules.indexOf('markdown')}}
     <script src="/static/common/highlight/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <script>
+        hljs.highlightAll();
+        // 文章图片点击查看
+        $('article.content>p>img').each(function() {
+            var that = $(this);
+            if(that.attr('alt')) {
+                that.attr('title', that.attr('alt'));
+            }
+            that.click(function() {
+                window.open(that.attr('src'));
+            });
+        });
+    </script>
     {{/if}}
     {{if ~special_modules.indexOf('map')}}
     <script src="/static/common/vue/3.2.37.min.js"></script>
