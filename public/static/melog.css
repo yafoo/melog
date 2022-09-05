@@ -41,6 +41,7 @@ ul>li {list-style: none;}
 .danger {
     background-color: #f63;
 }
+.button.hover,
 .button:hover {
     opacity: .8;
 }
