@@ -13,8 +13,8 @@ function tips(msg, time, callback) {
     time === undefined && (time = 3000);
     tips.index === undefined && (tips.index = 1000);
     tips.index++;
-    var $tips_dom = $('<div style="display:none;position:fixed;z-index:' + tips.index + ';left:50%;top:50%;width:200px;margin-left:-100px;padding:10px;border-radius:3px;line-height:1.6;font-size:14px;text-align:center;color:#fff;background-color:rgba(0,0,0,0.5);">' + msg + '</div>');
-    $tips_dom.appendTo("body").fadeIn();
+    var $tips_dom = $('<div style="display:none;position:fixed;z-index:' + tips.index + ';left:50%;top:50%;width:200px;margin-left:-100px;padding:10px;border-radius:3px;line-height:1.6;font-size:14px;text-align:center;color:#fff;background-color:rgba(0,0,0,0.5);"></div>');
+    $tips_dom.appendTo("body").text(msg).fadeIn();
     setTimeout(function(){
         $tips_dom.fadeOut(function(){
             $tips_dom.remove();
