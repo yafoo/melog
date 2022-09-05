@@ -44,7 +44,7 @@ CREATE TABLE `melog_article`  (
 -- ----------------------------
 -- Records of melog_article
 -- ----------------------------
-INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 1, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/melog/ \"melog\")搭建。', '', 1577808000, 1631959741, 0, 0);
+INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 1, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/special/melog.html \"melog\")搭建。', '', 1577808000, 1631959741, 0, 0);
 INSERT INTO `melog_article` VALUES (2, 1, 1, '留言本', 'admin', 'Melog', '', 1, '留言本', '留言本', '## 我的留言本\r\n\r\n> 既然来了，就留个纪念吧，和我谈天说地！\r\n\r\n你有什么想说的，请在评论留言吧！', '', 1660967862, 0, 0, 1);
 
 -- ----------------------------
@@ -118,7 +118,7 @@ CREATE TABLE `melog_link`  (
 INSERT INTO `melog_link` VALUES (1, 0, '友情链接', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (2, 0, '底部链接', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (3, 1, '爱主页', '', 'https://www.i-i.me/', 2, 0, 0);
-INSERT INTO `melog_link` VALUES (4, 1, 'melog', '', 'https://me.i-i.me/melog/', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (4, 1, 'melog', '', 'https://me.i-i.me/special/melog.html', 1, 0, 0);
 INSERT INTO `melog_link` VALUES (5, 2, 'github', '', 'https://github.com/yafoo/melog', 1, 0, 0);
 INSERT INTO `melog_link` VALUES (6, 0, '顶部导航', '', '', 0, 0, 0);
 INSERT INTO `melog_link` VALUES (7, 6, '首页', '', '/', 1, 0, 0);
