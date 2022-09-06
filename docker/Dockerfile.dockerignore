@@ -1,0 +1,7 @@
+/.vscode
+/.git
+/.gitignore
+/node_modules
+/public/upload/*
+/config/install.js
+/v2_to_v3.sql
