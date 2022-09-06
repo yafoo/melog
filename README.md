@@ -14,22 +14,37 @@ melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极�
 
 ## 特性
 
-1. 速度极快，超越大部分博客程序
+1. 速度极快
 2. 轻量，前台无框架依赖，移动优先，自适应pc
 3. 简单，基于jj.js（类thinkphp）经典mvc框架，方便二次开发
 4. 安全，后台目录可自定义，密码重试次数限制
 5. 支持更换导航风格（cms或blog）
 6. 支持更换主题，自定义主题可以共用默认主题文件
 7. 专题功能，可以定制个性页面
-8. Markdown编辑，支持实时预览，支持手机端，支持截图、图片文件粘贴上传
+8. Markdown编辑、实时预览，支持手机端，支持截图、图片文件粘贴上传
 
 ## 运行环境
 nodejs >= v12
-mysql >= 5.5
+mysql >= v5.5
 
 ## 安装
 
-### 1. Git方式下载文件
+### 1、程序部署
+
+- Docker方式部署
+
+```bash
+# 镜像拉取
+docker pull yafoo/melog
+
+# 容器运行
+docker run -p 3003:3003 --restart unless-stopped --name melog -d yafoo/melog
+
+# 容器运行（配置文件、站点数据保存到宿主机）
+docker run -p 3003:3003 --restart unless-stopped --name melog -d -v $PWD/melog/config:/melog/config -v $PWD/melog/upload:/melog/public/upload yafoo/melog
+```
+
+- Git方式部署
 
 ```bash
 # 也可以直接到github或gitee上下载压缩文件
@@ -41,13 +56,11 @@ npm i
 node server.js
 ```
 
-### 2. 访问系统安装页，填写数据库连接信息，点击安装
+### 2、配置数据库
 
-```
-http://127.0.0.1:3003/install
-```
+- 浏览器打开网址 `http://127.0.0.1:3003/install`，配置并点击安装
 
-> 提示：如果网址打开出错，或者安装失败，可以修改 `/config/app.js` 文件，将 `app_debug` 设置为 `true`，打开调试模式，并重启程序，然后在控制台可以看到更多错误信息。
+> 提示：如果网址打开出错，或者安装失败，可以修改 `/config/app.js` 文件，将 `app_debug` 设置为 `true`，打开调试模式，重启程序并重新安装，在控制台可以看到运行日志。
 
 ## 访问首页
 
@@ -61,11 +74,13 @@ http://127.0.0.1:3003
 - 默认账号：`melog@i-i.me`  
 - 默认密码：`123456`
 
+> 提示：登录后请及时在后台修改账号密码
+
 ## 旧版升级
 
-### 1. V2版本升级
+### 1、V2版本升级
 
-v2版本升级v3，请手工运行 `v2_to_v3.sql` 数据库升级文件。然后创建文件 `/config/install.js`，内容如下：
+v2版本升级v3，请手工运行 `v2_to_v3.sql` 文件升级数据库，然后创建文件 `/config/install.js`，内容如下：
 
 ```javascript
 module.exports = {
@@ -73,7 +88,7 @@ module.exports = {
 };
 ```
 
-### 2. V3.0版本升级
+### 2、V3.0版本升级
 
 系统从v3.1版开始支持系统安装。v3.0版升级后，也需手工创建 `/config/install.js` 文件，内容同v2升级。
 
