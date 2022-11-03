@@ -13,8 +13,9 @@
 
 {{block 'content'}}
 <div class="container row">
+    <div class="ztree"></div>
     <main class="main">
-        <article class="content">
+        <article class="content main-content">
             {{@article.content}}
             <p>
                 关键词：{{each keywords_list item}}<span class="tag">{{item}}</span>{{/each}}<br>
@@ -80,4 +81,38 @@
 <script src="/static/common/jdenticon/jdenticon.js"></script>
 <script src="/static/common/highlight/highlight.min.js"></script>
 <script src="/static/content.js"></script>
+<script src="/static/common/ztree/jquery.ztree.core-3.5.js"></script>
+<script src="/static/common/ztree/ztree_toc.min.js"></script>
+<script>
+  let treeLeft, treeShow, $tree, $mainContent;
+
+  $(document).ready(function() {
+    $tree = $('.ztree');
+    $mainContent = $('.main-content');
+    treeLeft = $tree.offset().left;
+    treeShow = $tree.is(':visible');
+    $tree.ztree_toc({
+      _header_nodes: [],
+      documment_selector: '.main-content',
+      ztreeStyle: {
+        width:'260px',
+        overflow: 'auto',
+        // position: 'fixed',
+        'z-index': 2147483647,
+        border: '0px none',
+      }
+    });
+  });
+
+  $(document).scroll(function() {
+    if (!treeShow) return;
+    if ($(this).scrollTop() > 160) {
+      $tree.css({ position: 'fixed', top: '20px', left: treeLeft + 'px' });
+      $mainContent.css({ paddingLeft: '260px' });
+    } else {
+      $tree.css({ position: 'static' });
+      $mainContent.css({ paddingLeft: '0px' });
+    }
+  });
+</script>
 {{/block}}

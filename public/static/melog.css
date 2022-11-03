@@ -687,9 +687,15 @@ ul>li {list-style: none;}
     }
 }
 
-@media screen and (min-width: 961px) {
+@media screen and (max-width: 961px) {
+  .ztree {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1401px) {
     .container {
-        width: 960px;
+        width: 1440px;
         margin-right: auto;
         margin-left: auto;
     }
