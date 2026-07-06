@@ -1,0 +1,143 @@
+<style>
+    /* module(list) */
+    .list-item {
+        padding: 10px 0;
+        line-height: 1.6;
+    }
+    .list-item:not(:last-child) {
+        border-bottom: 1px solid #eee;
+    }
+    .list-item dt {
+        padding: 3px 0;
+    }
+    .list-item dt .title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .list-item dd {
+        font-size: 13px;
+        color: #888;
+        padding: 5px 0;
+        overflow: hidden;
+    }
+
+    .list-item ul {
+        font-size: 13px;
+        height: 21px;
+        line-height: 21px;
+        color: #888;
+        display: flex;
+        overflow: hidden;
+    }
+    .list-item ul li:not(:first-child) {
+        margin-left: 7px;
+        padding-left: 7px;
+        border-left: 1px solid #EEE;
+    }
+    .list-item ul li:not(:last-child) {
+        white-space: nowrap;
+    }
+
+    .list .list-item .image {
+        width: 120px;
+        display: block;
+        float: right;
+        margin-left: 5px;
+    }
+    .list-item .image img {
+        width: 100%;
+    }
+
+    @media screen and (min-width: 961px) {
+        .list .list-item.thumb {
+            position: relative;
+            padding-right: 130px;
+        }
+        .list .list-item .image {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+        }
+    }
+
+    .list-image {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .list-image::after {
+        content: '';
+        display: block;
+        flex: 0.9;
+    }
+    .list-image .list-item {
+        width: 48%;
+        max-width: 200px;
+    }
+    .list-image .list-item .image {
+        display: block;
+        width: 100%;
+    }
+</style>
+<script type="text/x-template" id="module-list">
+    <template v-if="data.list.length">
+        <div class="list" v-if="!data.style">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index" :class="item.thumb && 'thumb' || ''">
+                <dt><h3 class="title">[<a :href="item.cate_url">{$item.cate_name}</a>] <a :href="item.url">{$item.title}</a></h3></dt>
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                    {$item.description}
+                </dd>
+                <ul>
+                    <li>时间: {$item.add_date}</li>
+                    <li>浏览: {$item.click}</li>
+                    <li>关键词: {$item.keywords}</li>
+                </ul>
+            </dl>
+        </div>
+        <div class="list-image" v-else-if="data.style == 'imagetitle'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                </dd>
+                <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
+            </dl>
+        </div>
+        <div class="list-image" v-else-if="data.style == 'image'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dd>
+                    <a class="image" v-if="item.thumb"><img :src="item.thumb" /></a>
+                </dd>
+            </dl>
+        </div>
+        <div class="list-title" v-else-if="data.style == 'title'">
+            <dl class="list-item" v-for="(item, index) in data.list" :key="index">
+                <dt><p class="title"><a :href="item.url">{$item.title}</a></p></dt>
+            </dl>
+        </div>
+    </template>
+    <div class="special-item-empty" v-else>[文章列表] 点击编辑内容</div>
+</script>
+<script>
+    components['module-list'] = defineComponent({
+        template: '#module-list',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            onMounted(() => {
+                console.log('module-list mounted');
+            });
+        },
+        inheritAttrs: false
+    });
+
+    modules['list'] = {
+        module_type: 'list',
+        module_name: '文章列表',
+        module_icon: 'list'
+    }
+</script>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}"/>
+    <meta name="keywords" content="{{keywords}}"/>
+    <link rel="stylesheet" href="/static/melog.css">
+    <style>
+        .content {
+            width: 600px;
+            max-width: 100%;
+            margin: auto;
+        }
+        .form-item {
+            display: flex;
+            align-items: center;
+            height: 32px;
+            margin: 10px 0;
+        }
+        .form-item .label {
+            width: 80px;
+        }
+        .form-item .data {
+            flex: 1;
+            width: 200px;
+            max-width: 100%;
+        }
+        .form-item .input {
+            height: 32px;
+        }
+        .form-item .button {
+            margin: auto;
+        }
+        .form-tips {
+            margin: auto;
+            color: red;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav class="container navbar">
+            <div class="navbar-header">
+                <a class="logo" href="/">Melog</a>
+                <div class="navbar-menu">☰</div>
+            </div>
+            <ul class="navbar-item">
+                <li><a href="/install">系统安装</a></li>
+                <li><a href="https://me.i-i.me/special/melog.html">melog文档</a></li>
+            </ul>
+        </nav>
+        <div class="container jumbotron">
+            <h1>{{title}}</h1>
+        </div>
+    </header>
+
+    <div class="container row">
+        <main class="main">
+            <div class="content">
+                <h2>数据库设置</h2>
+                <form class="form" action="{{url('install')}}">
+                    <div class="form-item">
+                        <div class="label">数据库类型</div><div class="data">mysql</div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">数据库主机</div><div class="data"><input class="input" type="text" name="host" value="{{config.db.host}}"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">数据库用户</div><div class="data"><input class="input" type="text" name="user" value="{{config.db.user}}"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">数据库密码</div><div class="data"><input class="input" type="text" name="password" value="{{config.db.password}}"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">数据库名字</div><div class="data"><input class="input" type="text" name="database" value="{{config.db.database}}"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">数据库端口</div><div class="data"><input class="input" type="text" name="port" value="{{config.db.port}}"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="button">安装</div>
+                    </div>
+                    <div class="tips"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="beian">{{description}}</p>
+        </div>
+        <div class="copy-right">
+            <span>© 2020 <span>Powered by <a href="https://me.i-i.me/special/melog.html" target="_blank">Melog</a> · {{config.VERSION}} · {{new Date() - config.APP_TIME}}ms</span>
+        </div>
+    </footer>
+
+    <div id="go-top"></div>
+    <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/melog.js?v=0.1"></script>
+    <script>
+        $(function() {
+            $('.button').click(function() {
+                var button = $(this);
+                if(button.hasClass('hover')) {
+                    return;
+                } else {
+                    button.addClass('hover').text('安装中..');
+                    $('.form-tips').hide();
+                }
+
+                var $form = $(".form");
+                var data = $form.serializeObject();
+
+                $.post($form.attr("action"), data, function(re) {
+                    button.removeClass('hover').text('安装');
+                    if(re.state) {
+                        tips(re.msg, 2000, function() {
+                            location.href = '/';
+                        });
+                    } else {
+                        tips(re.msg);
+                        $('.form-tips').show().text(re.msg);
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+</html>

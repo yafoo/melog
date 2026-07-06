@@ -1,0 +1,28 @@
+<script type="text/x-template" id="module-html">
+    <div v-if="data.content" v-html="data.content"></div>
+    <div class="special-item-empty" v-else>[html] 点击编辑内容</div>
+</script>
+
+<script>
+    components['module-html'] = defineComponent({
+        template: '#module-html',
+        props: {
+            data: {
+                type: Object,
+                default: {}
+            }
+        },
+        setup(props, ctx) {
+            onMounted(() => {
+                console.log('module-html mounted');
+            });
+        },
+        inheritAttrs: false
+    });
+
+    modules['html'] = {
+        module_type: 'html',
+        module_name: 'Html源码',
+        module_icon: 'fonts-code'
+    }
+</script>

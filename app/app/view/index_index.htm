@@ -1,0 +1,40 @@
+{{extend './layout.htm'}}
+
+{{block 'header'}}
+        <div class="container jumbotron">
+            <h1>{{site.webname}}</h1>
+            <p>{{site.description}}</p>
+        </div>
+{{/block}}
+
+{{block 'content'}}
+<div class="container row">
+    <main class="main">
+        <div class="list">
+            {{each list item}}
+            <dl class="list-item {{item.thumb && 'thumb'}}">
+                <dt><h3 class="title">[<a href="{{url(':cate', {cate: item.cate_dir})}}">{{item.cate_name}}</a>] <a href="{{url(':article', {id: item.id})}}">{{item.title}}</a></h3></dt>
+                <dd>
+                    {{@item.thumb && '<a class="image" href="'+url(':article', {id: item.id})+'"><img src="'+item.thumb+'" /></a>'}}
+                    {{item.description}}
+                </dd>
+                <ul>
+                    <li>时间: {{item.add_time | dateFormat 'YYYY-mm-dd'}}</li>
+                    <li>浏览: {{item.click}}</li>
+                    <li>关键词: {{item.keywords}}</li>
+                </ul>
+            </dl>{{/each}}
+        </div>
+        {{if pagination}}<hr class="m-hr" />{{/if}}
+        {{@pagination}}
+    </main>
+    {{include './aside.htm'}}
+</div>
+
+{{if friend_links}}
+<div class="container">
+    <hr class="m-hr" />
+    <div class="friend-links">友情链接：{{each friend_links item}}<a href="{{item.url}}" target="_blank">{{item.title}}</a>{{/each}}</div>
+</div>
+{{/if}}
+{{/block}}
