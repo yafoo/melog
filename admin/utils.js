@@ -52,4 +52,19 @@ const time = () => Math.round(new Date() / 1000);
 // 日期格式化
 const date = (format, value) => require('jj.js').utils.date.format(format, value);
 
-module.exports = {randomString, toTreeArray, toTree, getIP, md5, time, date}
+// 发送通知消息
+async function pushme({push_key, ...params}) {
+    try {
+        if (!push_key) throw new Error('push_key is required');
+        const res = await fetch('https://push.i-i.me/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ push_key, ...params })
+        });
+        return res.text();
+    } catch (error) {
+        return error.message;
+    }
+}
+
+module.exports = {randomString, toTreeArray, toTree, getIP, md5, time, date, pushme}

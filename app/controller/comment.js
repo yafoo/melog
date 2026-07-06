@@ -39,7 +39,7 @@ class Comment extends Controller
         }
 
         data.article_id = parseInt(data.article_id);
-        const article = await this.$model.article.getArticle({id: data.article_id}, 'id,comment_set');
+        const article = await this.$model.article.getArticle({id: data.article_id}, 'id,title,comment_set');
         if(!article) {
             return this.$error('文章不存在或已删除！');
         }
@@ -66,7 +66,11 @@ class Comment extends Controller
         if(err) {
             this.$error(err);
         } else {
-            this.$success(data.pid ? '回复成功！' : '评论成功！');
+            const action_name = data.pid ? '回复' : '评论';
+            if(this.site.push_key) {
+                this.$utils.pushme({push_key: this.site.push_key, title: `[melog]${data.uname}发表了${action_name}`, content: `> ${data.content}\n\n[${article.title}](${this.site.basehost}/article/${article.id}.html)`, type: 'markdown'});
+            }
+            this.$success(action_name + '成功！');
         }
     }
 }
