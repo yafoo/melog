@@ -1,4 +1,4 @@
-routes = [
+const routes = [
     {url: '/', path: 'index/index'},
     {url: '/article/:id.html', path: 'article/article', name: 'article'},
     {url: '/search', path: 'search/search', name: 'search'},
