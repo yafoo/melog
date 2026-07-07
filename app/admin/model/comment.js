@@ -4,7 +4,7 @@ class Comment extends Model
 {
     // 后台评论管理
     async getCommentList(condition) {
-        return await this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').pagination();
+        return await this.db.table('comment comment').field('comment.*,a.title').join('article a', 'comment.article_id=a.id').where(condition).order('comment.id', 'desc').paginate();
     }
 
     // 删除评论

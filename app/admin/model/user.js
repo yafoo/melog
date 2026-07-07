@@ -44,11 +44,11 @@ class User extends Model
         }
 
         await this.db.update({is_lock: -5, login_time: this.$utils.time()}, {id: user.id});
-        this.$service.cookie.set('user', user.id);
+        this.$cookie.set('user', user.id);
     }
 
     async logout() {
-        this.$service.cookie.delete('user');
+        this.$cookie.delete('user');
     }
 
     is_lock(user) {

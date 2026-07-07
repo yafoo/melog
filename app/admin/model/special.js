@@ -4,7 +4,7 @@ class Special extends Model
 {
     // 后台专题列表
     async getSpecialList(condition) {
-        return await this.db.where(condition).order('id', 'desc').pagination();
+        return await this.db.where(condition).order('id', 'desc').paginate();
     }
 
     // 专题新增修改

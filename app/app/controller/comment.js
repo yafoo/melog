@@ -59,7 +59,7 @@ class Comment extends Controller
             }
             data.comment_id = reply.comment_id;
         }
-        data.user_id = this.$service.cookie.get('user') || 0;
+        data.user_id = this.$cookie.get('user') || 0;
         data.ip = this.$utils.getIP(this.ctx.req);
 
         const err = await this.$model.comment.addComment(data);

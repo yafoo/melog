@@ -4,7 +4,7 @@ class Upload extends Model
 {
     // 后台文件列表
     async getPageList(condition) {
-        const [list, pagination] = await this.db.where(condition).order('id', 'desc').pagination();
+        const [list, pagination] = await this.db.where(condition).order('id', 'desc').paginate();
         
         if(list && list.length) {
             const site_config = await this.$model.site.getConfig();

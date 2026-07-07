@@ -4,11 +4,11 @@ class Comment extends Base
 {
     // 评论列表
     async getPageList(article_id, page = 1) {
-        const comment_ids = await this.db.where({article_id, pid: 0}).order('id', 'desc').page(page, 10).cache(this.cacheTime).column('id');
+        const comment_ids = await this.db.where({article_id, pid: 0}).order('id', 'desc').page(page, 10).withCache(this.cacheTime).column('id');
         if(!comment_ids.length) {
             return [];
         }
-        return await this.db.field('id,pid,article_id,user_id,uname,url,content,add_time').where({comment_id: ['in', comment_ids]}).order('id', 'asc').limit(100).cache(this.cacheTime).select();
+        return await this.db.field('id,pid,article_id,user_id,uname,url,content,add_time').where({comment_id: ['in', comment_ids]}).order('id', 'asc').limit(100).withCache(this.cacheTime).select();
     }
 
     // 新增评论

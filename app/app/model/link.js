@@ -4,7 +4,7 @@ class Link extends Base
 {
     // 获取列表
     async getLinkList(pid, rows=100) {
-        const link = await this.db.order('sort', 'asc').limit(rows).cache(this.cacheTime).select();
+        const link = await this.db.order('sort', 'asc').limit(rows).withCache(this.cacheTime).select();
         return this.$utils.toTreeArray(link, pid);
     }
 
