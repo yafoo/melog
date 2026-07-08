@@ -32,7 +32,7 @@ class Comment extends Model
             });
 
             // 清理数据库缓存
-            this.db.deleteCache();
+            this.db._$cache.delete();
         } catch (e) {
             this.$logger.error('删除失败：' + e.message);
             return '删除失败！';

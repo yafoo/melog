@@ -24,7 +24,7 @@ class Comment extends Base
             });
 
             // 清理数据库缓存
-            this.db.deleteCache();
+            this.db._$cache.delete();
         } catch (e) {
             this.$logger.error('新增评论出错：' + e.message);
             return '新增评论出错';
