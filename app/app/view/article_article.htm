@@ -42,7 +42,7 @@
         {{if is_comment}}
         <hr class="m-hr" />
         <div class="comment">
-            <h3 class="title">评论</h3>
+            <h3 class="title">评论<span class="reply-tips">提示: 点击头像可以回复评论</span></h3>
             <form class="comment-form" action="{{url('comment/post')}}">
                 <input type="hidden" name="article_id" value="{{article.id}}" />
                 <input type="hidden" name="pid" value="0" />
