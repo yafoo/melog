@@ -59,7 +59,7 @@ class Article extends Base
         /** @type {Object} */
         const where = {};
         keywords.forEach(keyword => {
-            where[keyword] = ['exp', `keywords like '%${keyword}%'`, 'or'];
+            where[keyword] = ['exp', 'keywords like ?', 'or', `%${keyword}%`];
         });
         return await this.db.field(field).where(condition).where(where).order('id', 'desc').limit(rows).withCache(this.cacheTime).select();
     }

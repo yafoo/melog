@@ -9,7 +9,7 @@ class Cache extends Middleware
         }
         
         this.$cache.delete();
-        this.$db.deleteCache();
+        this.$db._$cache.delete();
     }
 }
 
