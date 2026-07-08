@@ -1,7 +1,7 @@
 const Base = require('./base');
 const {utils} = require('jj.js');
 const path = require('path');
-const fs = require('fs');
+const {renameSync, promises: {stat}} = require('fs');
 
 class Upload extends Base
 {
@@ -49,7 +49,7 @@ class Upload extends Base
 
     async upload() {
         if(this.ctx.method != 'POST') {
-            return this.error('非法请求！');
+            return this.$error('非法请求！');
         }
 
         const limit_size = parseInt(this.site.limit_size);
@@ -78,7 +78,7 @@ class Upload extends Base
                 // 保留原图
                 if(this.site.img_origin == 1) {
                     origin_path = this._getOri(result.filepath, result.extname);
-                    fs.renameSync(result.filepath, origin_path);
+                    renameSync(result.filepath, origin_path);
 
                     img_path = this._getMid(img_path, result.extname);
                 }
@@ -123,13 +123,13 @@ class Upload extends Base
             const save_name = '/' + result.savename;
             data.image = origin_path ? this._getMid(save_name, data.extname) : save_name;
             data.thumb = thumb_path != img_path ? this._getLit(save_name, data.extname) : data.image;
-            const stats = await utils.fs.stat(img_path);
+            const stats = await stat(img_path);
             data.size = stats.size;
             data.add_time = this.$utils.time();
 
             if(origin_path) {
                 data.original = this._getOri(save_name, data.extname);
-                const origin_stats = await utils.fs.stat(origin_path);
+                const origin_stats = await stat(origin_path);
                 data.origin_size = origin_stats.size;
             }
             
