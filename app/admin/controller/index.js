@@ -21,11 +21,11 @@ class Index extends Base
 
     async login() {
         if(this.ctx.method == 'POST'){
-            const email = this.ctx.request.body.email;
-            const password = this.ctx.request.body.password;
+            const email = this.$request.post('email');
+            const password = this.$request.post('password');
             if(!email) {
                 this.$error('邮箱不能为空！');
-            } else if(!this.ctx.request.body.password) {
+            } else if(!password) {
                 this.$error('密码不能为空！');
             }
 

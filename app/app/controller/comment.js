@@ -7,8 +7,8 @@ class Comment extends Controller
     }
 
     async list() {
-        const id = parseInt(this.ctx.query.id) || 0;
-        const page = parseInt(this.ctx.query.page) || 1;
+        const id = this.$request.get('id', 0);
+        const page = this.$request.get('page', 1);
         const article = await this.$model.article.getArticle({id}, 'id,comment_set');
         if(!article) {
             return this.$error('文章不存在或已删除！');
@@ -30,7 +30,7 @@ class Comment extends Controller
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.uname) {
             return this.$error('昵称不能为空！');
         }

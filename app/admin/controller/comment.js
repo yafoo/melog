@@ -4,7 +4,7 @@ class Comment extends Base
 {
     async index() {
         const condition = {};
-        const keyword = this.ctx.query.keyword;
+        const keyword = this.$request.get('keyword');
         if(keyword) {
             condition['concat(comment.uname, comment.email, comment.url, comment.content, comment.ip)'] = ['like', '%' + keyword + '%'];
         }
@@ -18,7 +18,7 @@ class Comment extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         
         const err = await this.$model.comment.delComment(id);
         if(err) {

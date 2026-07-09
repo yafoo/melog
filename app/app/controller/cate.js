@@ -3,7 +3,7 @@ const Base = require('./base');
 class Cate extends Base
 {
     async _init() {
-        this._cate_dir = this.ctx.params.cate;
+        this._cate_dir = this.$request.param('cate', '');
         const cate_dirs = await this.$model.cate.getCateDirs();
 
         // 栏目不存在跳过

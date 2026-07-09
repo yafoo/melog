@@ -9,7 +9,7 @@ class User extends Base
     }
 
     async form() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         let user = {};
         if(id) {
             user = await this.$model.user.get({id});
@@ -24,7 +24,7 @@ class User extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.email) {
             return this.$error('账号不能为空！');
         }
@@ -44,7 +44,7 @@ class User extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         if(id == 1) {
             return this.$error('管理员账号请手工在数据库删除！');
         }

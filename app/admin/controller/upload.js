@@ -1,13 +1,13 @@
 const Base = require('./base');
-const {utils} = require('jj.js');
+const {utils: {fs: {isFileSync}}} = require('jj.js');
 const path = require('path');
-const {renameSync, promises: {stat}} = require('fs');
+const {renameSync, promises: {stat, unlink}} = require('fs');
 
 class Upload extends Base
 {
     async index() {
         const condition = {};
-        const keyword = this.ctx.query.keyword;
+        const keyword = this.$request.get('keyword', '');
         if(keyword) {
             condition['title'] = ['like', '%' + keyword + '%'];
         }
@@ -16,12 +16,12 @@ class Upload extends Base
         this.$assign('keyword', keyword);
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
-        this.$assign('callback', this.ctx.query.callback || 'callback');
+        this.$assign('callback', this.$request.get('callback', 'callback'));
         await this.$fetch();
     }
 
     async form() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         let data = {};
         if(id) {
             data = await this.$model.upload.get({id});
@@ -36,7 +36,7 @@ class Upload extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         const result = await this.$model.upload.save(data);
 
@@ -57,13 +57,13 @@ class Upload extends Base
         const upload_dir = this.$config.app.static_dir + cfg_upload;
         const result = await this.$upload.file('file').validate({size: limit_size}).save(upload_dir);
 
-        if(result) {
+        if(typeof result == 'object') {
             const jimp = require('jimp-compact');
             let image;
             try {
                 image = await jimp.read(result.filepath);
             } catch(e) {
-                await utils.fs.unlink(result.filepath);
+                await unlink(result.filepath);
                 return this.$error(e.message);
             }
             const cfg_width = parseInt(this.site.img_width) || 0;
@@ -104,7 +104,7 @@ class Upload extends Base
             // 添加图片水印（不知为何，水印加不上）
             // const watermark = this.site.watermark || '';
             // const watermark_path = path.join(this.$config.app.base_dir, this.$config.app.static_dir, watermark);
-            // if(watermark && utils.fs.isFileSync(watermark_path)) {
+            // if(watermark && isFileSync(watermark_path)) {
             //     const image = await jimp.read(img_path);
             //     const mask = await jimp.read(watermark_path);
             //     const x = image.getWidth() - mask.getWidth() - 20;
@@ -143,14 +143,14 @@ class Upload extends Base
                 };
                 this.$success('上传成功！', re_data);
             } else {
-                if(utils.fs.isFileSync(img_path)) {
-                    await utils.fs.unlink(img_path);
+                if(isFileSync(img_path)) {
+                    await unlink(img_path);
                 }
-                if(thumb_path != img_path && utils.fs.isFileSync(thumb_path)) {
-                    await utils.fs.unlink(thumb_path);
+                if(thumb_path != img_path && isFileSync(thumb_path)) {
+                    await unlink(thumb_path);
                 }
-                if(origin_path && utils.fs.isFileSync(origin_path)) {
-                    await utils.fs.unlink(origin_path);
+                if(origin_path && isFileSync(origin_path)) {
+                    await unlink(origin_path);
                 }
                 this.$error('文件保存失败！', 'index');
             }
@@ -160,7 +160,7 @@ class Upload extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         const file = await this.$model.upload.get({id});
         if(!file) {
             return this.$error('数据不存在！');
@@ -171,11 +171,11 @@ class Upload extends Base
             const img_path = upload_dir + file.image;
             const thumb_path = upload_dir + file.thumb;
 
-            if(utils.fs.isFileSync(img_path)) {
-                await utils.fs.unlink(img_path);
+            if(isFileSync(img_path)) {
+                await unlink(img_path);
             }
-            if(thumb_path != img_path && utils.fs.isFileSync(thumb_path)) {
-                await utils.fs.unlink(thumb_path);
+            if(thumb_path != img_path && isFileSync(thumb_path)) {
+                await unlink(thumb_path);
             }
             await this.$model.upload.del({id});
             

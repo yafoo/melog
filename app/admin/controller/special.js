@@ -3,7 +3,7 @@ const Base = require('./base');
 class Special extends Base
 {
     async index() {
-        const keyword = this.ctx.query.keyword;
+        const keyword = this.$request.get('keyword', '');
 
         const condition = {};
         if(keyword) {
@@ -20,7 +20,7 @@ class Special extends Base
     }
     
     async form() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         
         let special = {};
         if(id) {
@@ -37,7 +37,7 @@ class Special extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         data.aside = data.aside ? 1 : 0;
         data.flag = data.flag ? 1 : 0;
@@ -51,7 +51,7 @@ class Special extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
 
         const result = await this.$model.special.del({id});
         if(result) {
@@ -62,7 +62,7 @@ class Special extends Base
     }
 
     async special() {
-        const id = parseInt(this.ctx.query.id) || 0;
+        const id = this.$request.get('id', 0);
         this.$assign('id', id);
 
         const {resolve} = require('path');
@@ -77,14 +77,14 @@ class Special extends Base
     }
 
     async specialItemList() {
-        const special_id = parseInt(this.ctx.query.special_id);
+        const special_id = this.$request.get('special_id', 0);
         const item_list = await this.$model.specialItem.specialItemList(special_id);
         await this.$success(item_list);
     }
 
     async specialItemAdd() {
         if(this.ctx.method == 'POST') {
-            const data = this.ctx.request.body;
+            const data = this.$request.postAll();
             const msg = await this.$model.specialItem.specialItemSave(data);
             if(msg === true) {
                 return this.$success('新增成功！');
@@ -98,7 +98,7 @@ class Special extends Base
 
     async specialItemSave() {
         if(this.ctx.method == 'POST') {
-            const form_data = this.ctx.request.body;
+            const form_data = this.$request.postAll();
 
             const data = {};
             data.id = form_data.id;
@@ -121,7 +121,7 @@ class Special extends Base
 
     async specialItemSort() {
         if(this.ctx.method == 'POST') {
-            const form_data = this.ctx.request.body;
+            const form_data = this.$request.postAll();
             const post_sort = form_data.sort.split(',');
             const item_ids = [];
 
@@ -151,7 +151,7 @@ class Special extends Base
 
     async specialItemDel() {
         if(this.ctx.method == 'POST') {
-            const data = this.ctx.request.body;
+            const data = this.$request.postAll();
             const id = data.id;
 
             const msg = await this.$model.specialItem.specialItemDel(id);

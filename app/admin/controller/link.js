@@ -8,7 +8,7 @@ class Link extends Base
     }
 
     async index() {
-        const pid = this.ctx.query.pid || 0;
+        const pid = this.$request.get('pid', 0);
         const list = await this.$model.link.getLinkList(undefined, pid);
         const link_list = await this.$model.link.getLinkList({pid: 0});
 
@@ -20,8 +20,8 @@ class Link extends Base
 
     async form() {
         const link_list = await this.$model.link.getLinkList();
-        const pid = parseInt(this.ctx.query.pid);
-        const id = parseInt(this.ctx.query.id);
+        const pid = this.$request.get('pid', 0);
+        const id = this.$request.get('id', 0);
         let link = {};
         if(id) {
             link = await this.$model.link.get({id});
@@ -38,7 +38,7 @@ class Link extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         const result = await this.$model.link.save(data);
 
@@ -50,7 +50,7 @@ class Link extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         if(id == 1 || id == 2) {
             return this.$error('系统固定链接不可删除！');
         }

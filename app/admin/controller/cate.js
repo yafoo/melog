@@ -14,7 +14,7 @@ class Cate extends Base
     }
 
     async form() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         let cate = {};
         if(id) {
             cate = await this.$model.cate.get({id});
@@ -29,7 +29,7 @@ class Cate extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         data.is_show = data.is_show ? 1 : 0;
 
@@ -42,7 +42,7 @@ class Cate extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
 
         const result = await this.$model.cate.del({id});
         if(result) {

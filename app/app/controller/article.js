@@ -4,7 +4,7 @@ const md = require('markdown-it')({html: true});
 class Article extends Base
 {
     async article() {
-        const aid = parseInt(this.ctx.params.id);
+        const aid = this.$request.param('id', 0);
         const model_article = this.$model.article;
 
         // 文章信息

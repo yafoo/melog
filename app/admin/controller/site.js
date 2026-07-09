@@ -4,7 +4,7 @@ class Site extends Base
 {
     async index() {
         if(this.ctx.method == 'POST') {
-            const data = this.ctx.request.body;
+            const data = this.$request.postAll();
             const list = await this.$model.site.db.column('value', 'key');
             try {
                 await this.$model.site.db.startTrans();
@@ -34,7 +34,7 @@ class Site extends Base
     }
 
     async form() {
-        const id = this.ctx.query.id;
+        const id = this.$request.get('id', 0);
         
         let data = {};
         if(id) {
@@ -52,7 +52,7 @@ class Site extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         delete data.id;
         data.group = 'self';
@@ -74,7 +74,7 @@ class Site extends Base
     }
 
     async delete() {
-        const id = this.ctx.query.id;
+        const id = this.$request.get('id', 0);
         const result = await this.$model.site.del({key: id, group: 'self'});
         if(result) {
             this.$success('删除成功！', 'index');

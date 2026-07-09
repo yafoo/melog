@@ -4,7 +4,7 @@ const md = require('markdown-it')({html: true});
 class Special extends Base
 {
     async _init() {
-        const id = this.ctx.params.id;
+        const id = this.$request.param('id', 0);
         if((this._sp_id = parseInt(id)) != id) {
             this._sp_dir = id;
         }

@@ -3,8 +3,8 @@ const Base = require('./base');
 class Article extends Base
 {
     async index() {
-        const cate_id = this.ctx.query.cate_id;
-        const keyword = this.ctx.query.keyword;
+        const cate_id = this.$request.get('cate_id', 0);
+        const keyword = this.$request.get('keyword', '');
 
         const condition = {};
         if(cate_id > 0) {
@@ -22,14 +22,14 @@ class Article extends Base
         this.$assign('cate_list', cate_list);
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
-        this.$assign('callback', this.ctx.query.callback || 'callback');
+        this.$assign('callback', this.$request.query('callback', 'callback'));
 
         await this.$fetch();
     }
     
     async form() {
         const cate_list = await this.$model.cate.getCateList();
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         
         let article = {};
         if(id) {
@@ -55,7 +55,7 @@ class Article extends Base
             return this.$error('非法请求！');
         }
 
-        const data = this.ctx.request.body;
+        const data = this.$request.postAll();
         const id = data.id;
         const result = await this.$model.article.saveArticle(data);
 
@@ -67,7 +67,7 @@ class Article extends Base
     }
 
     async delete() {
-        const id = parseInt(this.ctx.query.id);
+        const id = this.$request.get('id', 0);
         
         try {
             await this.$db.startTrans(async () => {

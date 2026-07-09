@@ -70,7 +70,7 @@ module.exports = {
             return this.$error('非法请求！');
         }
 
-        const form_data = this.ctx.request.body;
+        const form_data = this.$request.postAll();
         let db = null;
         let error = '';
 

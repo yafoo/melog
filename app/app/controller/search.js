@@ -9,7 +9,7 @@ class Search extends Base
             return false;
         }
 
-        const keyword = this.ctx.query.keyword;
+        const keyword = this.$request.get('keyword', '');
         let [list, pagination] = [[], ''];
 
         if(!keyword) {
