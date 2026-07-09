@@ -85,7 +85,7 @@ class Site extends Base
 
     async clear(msg = '') {
         try {
-            await this.$middleware.cache.clear(); // 不建议这样调用中间件
+            await this.$service.cache.clear();
             this.$success(msg || '清理成功！');
         } catch(e) {
             this.$logger.error('清理失败：' + e.message);

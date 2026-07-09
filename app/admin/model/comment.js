@@ -8,6 +8,7 @@ class Comment extends Model
     }
 
     // 删除评论
+    /** @returns {Promise<string|undefined>} */
     async delComment(id) {
         const comment = await this.get({id});
         if(!comment) {
