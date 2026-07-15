@@ -20,7 +20,7 @@
             margin: 10px 0;
         }
         .form-item .label {
-            width: 80px;
+            width: 100px;
         }
         .form-item .data {
             flex: 1;
@@ -29,6 +29,8 @@
         }
         .form-item .input {
             height: 32px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .form-item .button {
             margin: auto;
@@ -38,6 +40,31 @@
             color: red;
             margin-bottom: 10px;
             display: none;
+        }
+        .db-type-switch {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .db-type-switch label {
+            flex: 1;
+        }
+        .db-type-switch label:not(.active) {
+            background-color: #fff;
+            color: #46bc99;
+            border: 1px solid #46bc99;
+            line-height: 32px;
+        }
+        .db-type-switch input[type="radio"] {
+            display: none;
+        }
+        .mysql-fields {
+            display: none;
+        }
+        .section-title {
+            margin-top: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
         }
     </style>
 </head>
@@ -61,30 +88,41 @@
     <div class="container row">
         <main class="main">
             <div class="content">
-                <h2>数据库设置</h2>
+                <h2 class="section-title">数据库设置</h2>
                 <form class="form" action="{{url('install')}}">
+                    <input type="hidden" name="db_type" value="sqlite">
+                    <div class="db-type-switch">
+                        <label class="button active" data-type="sqlite"><input type="radio" name="db_type_radio" value="sqlite" checked> SQLite（默认）</label>
+                        <label class="button" data-type="mysql"><input type="radio" name="db_type_radio" value="mysql"> MySQL</label>
+                    </div>
+                    <div class="mysql-fields">
+                        <div class="form-item">
+                            <div class="label">数据库主机</div><div class="data"><input class="input" type="text" name="host" value="{{mysql.host}}"></div>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">数据库用户</div><div class="data"><input class="input" type="text" name="user" value="{{mysql.user}}"></div>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">数据库密码</div><div class="data"><input class="input" type="password" name="password" value="{{mysql.password}}"></div>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">数据库名字</div><div class="data"><input class="input" type="text" name="database" value="{{mysql.database}}"></div>
+                        </div>
+                        <div class="form-item">
+                            <div class="label">数据库端口</div><div class="data"><input class="input" type="text" name="port" value="{{mysql.port}}"></div>
+                        </div>
+                    </div>
+                    <h2 class="section-title">管理员账号设置</h2>
                     <div class="form-item">
-                        <div class="label">数据库类型</div><div class="data">mysql</div>
+                        <div class="label">登录邮箱</div><div class="data"><input class="input" type="text" name="admin_email" value="melog@i-i.me" placeholder="请输入登录邮箱"></div>
                     </div>
                     <div class="form-item">
-                        <div class="label">数据库主机</div><div class="data"><input class="input" type="text" name="host" value="{{config.db.host}}"></div>
+                        <div class="label">登录密码</div><div class="data"><input class="input" type="password" name="admin_password" value="" placeholder="请输入登录密码"></div>
                     </div>
                     <div class="form-item">
-                        <div class="label">数据库用户</div><div class="data"><input class="input" type="text" name="user" value="{{config.db.user}}"></div>
+                        <div class="button submit">安装</div>
                     </div>
-                    <div class="form-item">
-                        <div class="label">数据库密码</div><div class="data"><input class="input" type="text" name="password" value="{{config.db.password}}"></div>
-                    </div>
-                    <div class="form-item">
-                        <div class="label">数据库名字</div><div class="data"><input class="input" type="text" name="database" value="{{config.db.database}}"></div>
-                    </div>
-                    <div class="form-item">
-                        <div class="label">数据库端口</div><div class="data"><input class="input" type="text" name="port" value="{{config.db.port}}"></div>
-                    </div>
-                    <div class="form-item">
-                        <div class="button">安装</div>
-                    </div>
-                    <div class="tips"></div>
+                    <div class="form-tips"></div>
                 </form>
             </div>
         </main>
@@ -95,7 +133,7 @@
             <p class="beian">{{description}}</p>
         </div>
         <div class="copy-right">
-            <span>© 2020 <span>Powered by <a href="https://me.i-i.me/special/melog.html" target="_blank">Melog</a> · {{config.VERSION}} · {{new Date() - config.APP_TIME}}ms</span>
+            <span>© 2020 <span>Powered by <a href="https://me.i-i.me/special/melog.html" target="_blank">Melog</a> · {{VERSION}} · {{new Date() - APP_TIME}}ms</span>
         </div>
     </footer>
 
@@ -104,7 +142,22 @@
     <script src="/static/melog.js?v=0.1"></script>
     <script>
         $(function() {
-            $('.button').click(function() {
+            // 数据库类型切换
+            $('.db-type-switch label').click(function() {
+                var type = $(this).data('type');
+                $('.db-type-switch label').removeClass('active');
+                $(this).addClass('active');
+                $(this).find('input').prop('checked', true);
+                $('input[name="db_type"]').val(type);
+                if(type === 'mysql') {
+                    $('.mysql-fields').show();
+                } else {
+                    $('.mysql-fields').hide();
+                }
+            });
+
+            // 安装按钮
+            $('.submit').click(function() {
                 var button = $(this);
                 if(button.hasClass('hover')) {
                     return;

@@ -1,19 +1,16 @@
-const {Controller} = require('jj.js');
-const pjson = require('../../package.json');
+const {Controller, loader} = require('jj.js');
+const {version: VERSION} = require('../../../package.json');
+const {join} = require('path');
+const {readFile, writeFile} = require('fs').promises;
 
 class Index extends Controller
 {
     async _init() {
-        this.config = {
-            db: this.$config.db.default,
-            VERSION: pjson.version,
-            APP_TIME: this.ctx.APP_TIME
-        };
-        
         this.base_dir = this.$config.app.base_dir;
-        this.installFile = this.base_dir + '/config/install.js';
+        this.lockFile = this.base_dir + '/config/lock.js';
         this.dbFile = this.base_dir + '/config/db.js';
         this.sqlFile = this.base_dir + '/melog.sql';
+        this.mysqlFile = this.base_dir + '/melog_mysql.sql';
 
         if(await this._isInstalled()) {
             this.$error('系统已安装！');
@@ -23,42 +20,28 @@ class Index extends Controller
         this.$assign('title', 'Melog系统安装');
         this.$assign('description', 'melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极简，无需编译，方便二次开发。');
         this.$assign('keywords', 'melog');
-        this.$assign('config', this.config);
+        this.$assign('VERSION', VERSION);
+        this.$assign('APP_TIME', this.ctx.APP_TIME);
+        this.$assign('sqlite', this.$config.db.sqlite);
+        this.$assign('mysql', this.$config.db.mysql);
     }
 
     async _isInstalled() {
-        if(this.$config.install) {
+        if(this.$config.lock) {
             return true;
         }
 
-        if(await this.$.utils.fs.isFile(this.installFile)) {
+        if(await this.$.utils.fs.isFile(this.lockFile)) {
             return true;
         }
 
         return false;
     }
 
-    async _writeInstallFile(config_db) {
-        const install_content = `// 本文件用来标识系统已安装，不可删除。如需重新安装，请删除本文件并重启系统。
-module.exports = {
-    install: true,
-    version: '${this.config.VERSION}'
-};`;
-        await this.$.utils.fs.writeFile(this.installFile, install_content);
-
-        const db_content = `module.exports = {
-    default: {
-        type      : 'mysql', // 数据库类型
-        host      : '${config_db.host}', // 服务器地址
-        database  : '${config_db.database}', // 数据库名
-        user      : '${config_db.user}', // 数据库用户名
-        password  : '${config_db.password}', // 数据库密码
-        port      : '${config_db.port}', // 数据库连接端口
-        charset   : 'utf8', // 数据库编码默认采用utf8
-        prefix    : 'melog_' // 数据库表前缀
-    }
-};`;
-        await this.$.utils.fs.writeFile(this.dbFile, db_content);
+    // 加密密码（与user模型一致）
+    _passmd5(password, salt) {
+        const md5 = this.$utils.md5;
+        return md5(salt + md5(salt + md5(password + salt) + salt));
     }
 
     async index() {
@@ -71,50 +54,94 @@ module.exports = {
         }
 
         const form_data = this.$request.postAll();
-        let db = null;
+        const db_type = form_data.db_type || 'sqlite';
+        const admin_email = form_data.admin_email || 'melog@i-i.me';
+        const admin_password = form_data.admin_password || '123456';
         let error = '';
 
         try {
-            const config_db = {...this.config.db, ...form_data};
-            delete config_db.database;
-            const database = form_data.database;
-
-            // 新建db实例
-            db = new this.$db(this.ctx, config_db);
-            // 创建数据库
-            await db.query(`create database if not exists \`${database}\` DEFAULT CHARACTER SET utf8mb4;`);
-            // 设置数据库并重新连接
-            config_db.database = database;
-            (await db.close()).connect(config_db);
-            // 获取sql文件
-            let sql_data = await this.$.utils.fs.readFile(this.sqlFile);
-            sql_data = sql_data.split(/;\r\n/);
-            // 使用事务执行sql语句
-            await db.startTrans(async () => {
-                for(let i=0; i<sql_data.length; i++) {
-                    await db.query(sql_data[i]);
-                }
-            });
-
-            // 写入安装文件
-            await this._writeInstallFile(config_db);
-
-            // 修改默认db配置
-            this.$config.db.default.host = config_db.host;
-            this.$config.db.default.database = config_db.database;
-            this.$config.db.default.user = config_db.user;
-            this.$config.db.default.password = config_db.password;
-            this.$config.db.default.port = config_db.port;
-            // 重启默认数据库连接
-            (await this.$db.close()).connect();
+            await this._writeDbFile(form_data, db_type);
+            loader.clearPathCache();
+            delete require.cache[require.resolve(this.dbFile)];
+            await this._initSql(db_type, admin_email, admin_password);
+            await this._writeLockFile();
         } catch(e) {
             this.$logger.debug(e);
             error = e.message || '安装出错！';
         }
 
-        db && db.close();
-
         error ? this.$error(error) : this.$success('安装成功！');
+    }
+
+    /**
+     * 初始化数据库
+     * @param {string} db_type - 数据库类型
+     * @param {string} admin_email - 登录email
+     * @param {string} admin_password - 登录密码
+     */
+    async _initSql(db_type, admin_email, admin_password) {
+        try {
+            const sql_data = (await readFile(db_type == 'sqlite' ? this.sqlFile : this.mysqlFile, 'utf8')).split(/;\r\n/);
+            const db = this.$db;
+            db.startTrans(async () => {
+                // 执行sql语句
+                for(let i = 0; i < sql_data.length; i++) {
+                    const sql = sql_data[i].trim();
+                    if(sql) await db.query(sql);
+                }
+            });
+            await this.$admin.model.user.saveUser({email: admin_email, password: admin_password});
+        } catch(e) {
+            this.$db.close();
+            throw e;
+        } finally {
+            this.$db.close();
+        }
+    }
+
+    /**
+     * 写入数据库配置文件
+     * @param {object} config_db - 数据库配置
+     * @param {string} db_type - 数据库类型
+     */
+    async _writeDbFile(config_db, db_type) {
+        let db_content;
+        if(db_type === 'sqlite') {
+            const database = config_db.database || join(this.base_dir, 'config', 'melog.db');
+            db_content = `module.exports = {
+    default: {
+        type      : 'sqlite', // 数据库类型
+        database  : '${database}', // 数据库文件绝对地址，支持:memory:内存数据库
+        prefix    : 'melog_' // 数据库表前缀
+    }
+};`;
+        } else {
+            db_content = `module.exports = {
+    default: {
+        type      : 'mysql', // 数据库类型
+        host      : '${config_db.host}', // 服务器地址
+        database  : '${config_db.database}', // 数据库名
+        user      : '${config_db.user}', // 数据库用户名
+        password  : '${config_db.password}', // 数据库密码
+        port      : '${config_db.port}', // 数据库连接端口
+        charset   : 'utf8mb4', // 数据库编码默认采用utf8mb4
+        prefix    : 'melog_' // 数据库表前缀
+    }
+};`;
+        }
+        await writeFile(this.dbFile, db_content);
+    }
+
+    /**
+     * 写入锁定文件
+     */
+    async _writeLockFile() {
+        const lock_content = `// 本文件用来标识系统已安装，不可删除。如需重新安装，请删除本文件并重启系统。
+module.exports = {
+    install: true,
+    version: '${VERSION}'
+};`;
+        await writeFile(this.lockFile, lock_content);
     }
 }
 
