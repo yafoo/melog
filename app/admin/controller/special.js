@@ -1,4 +1,5 @@
 const Base = require('./base');
+const fs = require('fs').promises;
 
 class Special extends Base
 {
@@ -67,7 +68,7 @@ class Special extends Base
 
         const {resolve} = require('path');
         const dir = resolve(__dirname, '../view/components');
-        const component_files = await this.$.utils.fs.readdir(dir);
+        const component_files = await fs.readdir(dir);
         this.$assign('component_files', component_files);
 
         // 地图sdk
