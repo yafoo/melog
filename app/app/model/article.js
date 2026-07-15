@@ -1,8 +1,16 @@
 const Base = require('./base');
 
+/**
+ * @typedef {import("jj.js/types").PaginateResult} PaginateResult
+ */
+
 class Article extends Base
 {
-    // 首页文章列表
+    /**
+     * 首页文章列表
+     * @param condition
+     * @returns {Promise<PaginateResult>}
+     */
     async getIndexList(page_size=10, with_page=false) {
         const modle = this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,a.thumb,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').order('a.id', 'desc').limit(page_size).withCache(this.cacheTime);
         if(with_page) {
@@ -12,12 +20,20 @@ class Article extends Base
         }
     }
 
-    // 栏目文章列表及分页
+    /**
+     * 栏目文章列表及分页
+     * @param condition
+     * @returns {Promise<PaginateResult>}
+     */
     async getPageList(condition, page_size=10) {
         return await this.db.field('id,cate_id,user_id,title,writer,source,click,keywords,description,add_time,thumb').where(condition).order('id', 'desc').withCache(this.cacheTime).paginate({page_size, pagination: this.$pagination.cate});
     }
 
-    // 搜索文章列表及分页
+    /**
+     * 搜索文章列表及分页
+     * @param condition
+     * @returns {Promise<PaginateResult>}
+     */
     async getSearchList(condition, page_size=10) {
         return await this.db.table('article a').field('a.id,a.cate_id,a.user_id,a.title,a.writer,a.keywords,a.click,a.description,a.add_time,a.thumb,c.cate_name,c.cate_dir').join('cate c', 'a.cate_id=c.id').where(condition).order('a.id', 'desc').withCache(this.cacheTime).paginate({page_size});
     }

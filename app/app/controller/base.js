@@ -2,6 +2,11 @@ const {Controller} = require('jj.js');
 
 class Base extends Controller
 {
+    /**
+     * 初始化方法，在控制器方法执行前自动执行
+     * @protected
+     * @returns {Promise<any>} - 返回Bool值false，则不会执行控制器及后续方法
+     */
     async _init() {
         // 文章模型
         const model_article = this.$model.article;

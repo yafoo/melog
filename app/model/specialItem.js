@@ -1,4 +1,4 @@
-const {Model, utils} = require('jj.js');
+const {Model} = require('jj.js');
 
 class SpecialItem extends Model
 {

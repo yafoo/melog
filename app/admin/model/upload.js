@@ -1,8 +1,16 @@
 const {Model} = require('jj.js');
 
+/**
+ * @typedef {import("jj.js/types").PaginateResult} PaginateResult
+ */
+
 class Upload extends Model
 {
-    // 后台文件列表
+    /**
+     * 后台文件列表
+     * @param condition
+     * @returns {Promise<PaginateResult>}
+     */
     async getPageList(condition) {
         const [list, pagination] = await this.db.where(condition).order('id', 'desc').paginate();
         
