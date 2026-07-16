@@ -18,7 +18,7 @@ class Index extends Controller
         }
 
         this.$assign('title', 'Melog系统安装');
-        this.$assign('description', 'melog，一个基于jj.js(nodejs)构建的简单轻量级blog系统。代码极简，无需编译，方便二次开发。');
+        this.$assign('description', 'melog，一个基于jj.js开发的简单轻量级blog系统。代码极简，无需编译，方便二次开发。');
         this.$assign('keywords', 'melog');
         this.$assign('VERSION', VERSION);
         this.$assign('APP_TIME', this.ctx.APP_TIME);

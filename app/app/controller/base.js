@@ -2,6 +2,8 @@ const {Controller} = require('jj.js');
 
 class Base extends Controller
 {
+    middleware = ['/install/check'];
+
     /**
      * 初始化方法，在控制器方法执行前自动执行
      * @protected

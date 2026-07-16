@@ -2,8 +2,10 @@ const {Controller} = require('jj.js');
 
 class Base extends Controller
 {
-    // 验证登录中间件
-    middleware = [{middleware: 'admin/auth/index', except: 'login'}];
+    middleware = [
+        '/install/check',
+        {middleware: 'admin/auth/index', except: 'login'} // 验证登录中间件
+    ];
 
     async _init() {
         this.user_id = this.$cookie.get('user');

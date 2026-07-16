@@ -61,7 +61,7 @@ CREATE INDEX `idx_cate_sort` ON `melog_cate` (`sort`);
 -- ----------------------------
 -- Records of melog_cate
 -- ----------------------------
-INSERT INTO `melog_cate` VALUES (1, 'melog', 'melog', '', 'melog,jj.js,nodejs,blog,博客', '一个基于jj.js(nodejs)构建的简单轻量级blog系统', 1, 1);
+INSERT INTO `melog_cate` VALUES (1, 'melog', 'melog', '', 'melog,jj.js,nodejs,blog,博客', '一个基于jj.js开发的简单轻量级blog系统', 1, 1);
 
 -- ----------------------------
 -- Table structure for melog_comment
