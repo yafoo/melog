@@ -38,12 +38,6 @@ class Index extends Controller
         return false;
     }
 
-    // 加密密码（与user模型一致）
-    _passmd5(password, salt) {
-        const md5 = this.$utils.md5;
-        return md5(salt + md5(salt + md5(password + salt) + salt));
-    }
-
     async index() {
         await this.$fetch();
     }
@@ -55,47 +49,47 @@ class Index extends Controller
 
         const form_data = this.$request.postAll();
         const db_type = form_data.db_type || 'sqlite';
-        const admin_email = form_data.admin_email || 'melog@i-i.me';
-        const admin_password = form_data.admin_password || '123456';
-        let error = '';
+        const username = form_data.username;
+        const user_password = form_data.user_password;
+        if(!username || !user_password) {
+            return this.$error('用户名或密码不能为空！');
+        }
 
+        let error = '';
         try {
             await this._writeDbFile(form_data, db_type);
             loader.clearPathCache();
             delete require.cache[require.resolve(this.dbFile)];
-            await this._initSql(db_type, admin_email, admin_password);
+            await this._initSql(db_type, username, user_password);
             await this._writeLockFile();
+            loader.clearPathCache();
         } catch(e) {
             this.$logger.debug(e);
             error = e.message || '安装出错！';
         }
-
         error ? this.$error(error) : this.$success('安装成功！');
     }
 
     /**
      * 初始化数据库
      * @param {string} db_type - 数据库类型
-     * @param {string} admin_email - 登录email
-     * @param {string} admin_password - 登录密码
+     * @param {string} username - 登录用户名
+     * @param {string} password - 登录密码
      */
-    async _initSql(db_type, admin_email, admin_password) {
+    async _initSql(db_type, username, password) {
         try {
             const sql_data = (await readFile(db_type == 'sqlite' ? this.sqlFile : this.mysqlFile, 'utf8')).split(/;\r\n/);
             const db = this.$db;
-            db.startTrans(async () => {
+            await db.startTrans(async () => {
                 // 执行sql语句
                 for(let i = 0; i < sql_data.length; i++) {
                     const sql = sql_data[i].trim();
                     if(sql) await db.query(sql);
                 }
             });
-            await this.$admin.model.user.saveUser({email: admin_email, password: admin_password});
+            await this.$admin.model.user.saveUser({username, password});
         } catch(e) {
-            this.$db.close();
             throw e;
-        } finally {
-            this.$db.close();
         }
     }
 
@@ -105,19 +99,15 @@ class Index extends Controller
      * @param {string} db_type - 数据库类型
      */
     async _writeDbFile(config_db, db_type) {
-        let db_content;
+        let default_content;
         if(db_type === 'sqlite') {
-            const database = config_db.database || join(this.base_dir, 'config', 'melog.db');
-            db_content = `module.exports = {
-    default: {
+            default_content = `    default: {
         type      : 'sqlite', // 数据库类型
-        database  : '${database}', // 数据库文件绝对地址，支持:memory:内存数据库
+        database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
         prefix    : 'melog_' // 数据库表前缀
-    }
-};`;
+    }`;
         } else {
-            db_content = `module.exports = {
-    default: {
+            default_content = `    default: {
         type      : 'mysql', // 数据库类型
         host      : '${config_db.host}', // 服务器地址
         database  : '${config_db.database}', // 数据库名
@@ -126,10 +116,12 @@ class Index extends Controller
         port      : '${config_db.port}', // 数据库连接端口
         charset   : 'utf8mb4', // 数据库编码默认采用utf8mb4
         prefix    : 'melog_' // 数据库表前缀
-    }
-};`;
+    }`;
         }
-        await writeFile(this.dbFile, db_content);
+        // 读取现有文件，替换default部分
+        let content = await readFile(this.dbFile, 'utf8');
+        content = content.replace(/    default: \{[\s\S]*?\n    \}/, default_content);
+        await writeFile(this.dbFile, content);
     }
 
     /**

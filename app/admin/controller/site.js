@@ -43,7 +43,6 @@ class Site extends Base
 
         this.$assign('id', id);
         this.$assign('data', data);
-        this.$assign('uname', this.user.uname);
         await this.$fetch();
     }
 

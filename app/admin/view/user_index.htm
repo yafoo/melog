@@ -9,14 +9,14 @@
 <div class="table-wrap">
     <table class="layui-table">
         <thead>
-            <tr><th>ID</th><th>昵称</th><th>本名</th><th>账号</th><th>操作</th></tr> 
+            <tr><th>ID</th><th>用户名</th><th>昵称</th><th>邮箱</th><th>操作</th></tr> 
         </thead>
         <tbody>
             {{each list item}}
             <tr>
                 <td>{{item.id}}</td>
-                <td>{{item.uname}}</td>
-                <td>{{item.true_name}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.nickname}}</td>
                 <td>{{item.email}}</td>
                 <td><a href="{{url('form', {id: item.id})}}" class="layui-btn layui-btn-sm">编辑</a><a href="{{url('delete', {id: item.id})}}" class="layui-btn layui-btn-danger layui-btn-sm">删除</a></td>
             </tr>{{/each}}

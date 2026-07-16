@@ -7,7 +7,7 @@ class User extends Model
     }
 
     async saveUser(data) {
-        if(data.id) {
+        if(!data.id) {
             data.add_time = this.$utils.time();
         } else {
             data.update_time = this.$utils.time();
@@ -27,8 +27,8 @@ class User extends Model
         return await this.db.where({id}).inc('is_lock');
     }
 
-    async login(email, password) {
-        const user = await this.get({email});
+    async login(username, password) {
+        const user = await this.get({username});
 
         if(!user) {
             return '账号或密码错误！';

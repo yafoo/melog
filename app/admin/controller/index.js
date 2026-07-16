@@ -21,15 +21,15 @@ class Index extends Base
 
     async login() {
         if(this.ctx.method == 'POST'){
-            const email = this.$request.post('email');
+            const username = this.$request.post('username');
             const password = this.$request.post('password');
-            if(!email) {
-                this.$error('邮箱不能为空！');
+            if(!username) {
+                this.$error('用户名不能为空！');
             } else if(!password) {
                 this.$error('密码不能为空！');
             }
 
-            const err = await this.$model.user.login(email, password);
+            const err = await this.$model.user.login(username, password);
             if(err) {
                 this.$error(err);
             } else {

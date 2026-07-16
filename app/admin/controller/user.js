@@ -25,21 +25,22 @@ class User extends Base
         }
 
         const data = this.$request.postAll();
-        if(!data.email) {
+        const isUpdate = data.id > 0;
+        if(!data.username) {
             return this.$error('账号不能为空！');
         }
-        if(!data.id && !data.password) {
+        if(!isUpdate && !data.password) {
             return this.$error('密码不能为空！');
         }
-        if(data.password != data.password2) {
+        if(data.password && data.password != data.password2) {
             return this.$error('两次输入密码不一致！');
         }
 
         const result = await this.$model.user.saveUser(data);
         if(result) {
-            this.$success(data.id ? '保存成功！' : '新增成功！', 'index');
+            this.$success(isUpdate ? '保存成功！' : '新增成功！', 'index');
         } else {
-            this.$error(data.id ? '保存失败！' : '新增失败！');
+            this.$error(isUpdate ? '保存失败！' : '新增失败！');
         }
     }
 

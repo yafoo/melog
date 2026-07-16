@@ -4,7 +4,7 @@ class Base extends Controller
 {
     middleware = [
         '/install/check',
-        {middleware: 'admin/auth/index', except: 'login'} // 验证登录中间件
+        {middleware: 'admin/auth/index', except: 'login,register'} // 验证登录中间件
     ];
 
     async _init() {

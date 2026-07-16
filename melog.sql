@@ -218,8 +218,8 @@ CREATE TABLE `melog_upload` (
 DROP TABLE IF EXISTS `melog_user`;
 CREATE TABLE `melog_user` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `uname` VARCHAR(50) NOT NULL DEFAULT '',
-  `true_name` VARCHAR(50) NOT NULL DEFAULT '',
+  `username` VARCHAR(50) NOT NULL DEFAULT '',
+  `nickname` VARCHAR(50) NOT NULL DEFAULT '',
   `email` VARCHAR(50) NOT NULL DEFAULT '',
   `password` VARCHAR(50) NOT NULL DEFAULT '',
   `salt` VARCHAR(20) NOT NULL DEFAULT '',
@@ -228,8 +228,3 @@ CREATE TABLE `melog_user` (
   `login_time` INTEGER NOT NULL DEFAULT 0,
   `is_lock` INTEGER NOT NULL DEFAULT -5
 );
-
--- ----------------------------
--- Records of melog_user
--- ----------------------------
-INSERT INTO `melog_user` VALUES (1, 'admin', '', 'melog@i-i.me', '64ce231b2bd266afc8d14c1ca426d55f', 'B6wotRyO', 0, 1630380592, 1630381454, -5);

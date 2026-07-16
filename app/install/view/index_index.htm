@@ -113,10 +113,13 @@
                     </div>
                     <h2 class="section-title">管理员账号设置</h2>
                     <div class="form-item">
-                        <div class="label">登录邮箱</div><div class="data"><input class="input" type="text" name="admin_email" value="melog@i-i.me" placeholder="请输入登录邮箱"></div>
+                        <div class="label">用 户 名</div><div class="data"><input class="input" type="text" name="username" value="admin" placeholder="请输入登录邮箱"></div>
                     </div>
                     <div class="form-item">
-                        <div class="label">登录密码</div><div class="data"><input class="input" type="password" name="admin_password" value="" placeholder="请输入登录密码"></div>
+                        <div class="label">登录密码</div><div class="data"><input class="input" type="password" name="user_password" value="" placeholder="请输入登录密码"></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="label">重复密码</div><div class="data"><input class="input" type="password" name="user_password2" value="" placeholder="请再次输入密码"></div>
                     </div>
                     <div class="form-item">
                         <div class="button submit">安装</div>
@@ -157,6 +160,18 @@
 
             // 安装按钮
             $('.submit').click(function() {
+                var $form = $(".form");
+                var data = $form.serializeObject();
+
+                if(!data.username || !data.user_password) {
+                    tips('用户名或密码不能为空！');
+                    return;
+                }
+                if(data.user_password !== data.user_password2) {
+                    tips('两次输入的密码不一致！');
+                    return;
+                }
+
                 var button = $(this);
                 if(button.hasClass('hover')) {
                     return;
@@ -164,9 +179,6 @@
                     button.addClass('hover').text('安装中..');
                     $('.form-tips').hide();
                 }
-
-                var $form = $(".form");
-                var data = $form.serializeObject();
 
                 $.post($form.attr("action"), data, function(re) {
                     button.removeClass('hover').text('安装');

@@ -38,7 +38,7 @@ class Article extends Base
 
         this.$assign('cate_list', cate_list);
         this.$assign('article', article);
-        this.$assign('uname', this.user.uname);
+        this.$assign('writer', this.user.nickname);
 
         const comment_set_options = [
             {value: 0, name: '跟随系统'},

@@ -228,8 +228,8 @@ CREATE TABLE `melog_upload`  (
 DROP TABLE IF EXISTS `melog_user`;
 CREATE TABLE `melog_user`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `uname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '昵称',
-  `true_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '真实名字',
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '昵称',
   `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '邮箱',
   `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '密码',
   `salt` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '加盐',
@@ -239,10 +239,5 @@ CREATE TABLE `melog_user`  (
   `is_lock` tinyint(1) NOT NULL DEFAULT -5 COMMENT '账号锁定',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of melog_user
--- ----------------------------
-INSERT INTO `melog_user` VALUES (1, 'admin', '', 'melog@i-i.me', '64ce231b2bd266afc8d14c1ca426d55f', 'B6wotRyO', 0, 1630380592, 1630381454, -5);
 
 SET FOREIGN_KEY_CHECKS = 1;
