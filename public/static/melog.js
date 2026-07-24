@@ -30,6 +30,7 @@ function htmlEscape(text) {
             case ">": return "&gt;";
             case "&": return "&amp;";
             case "\"": return "&quot;";
+            case "'": return '&#039;';
             case "\n": return "<br>";
         }
     });
