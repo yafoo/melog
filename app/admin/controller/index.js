@@ -1,4 +1,3 @@
-const { assign } = require('markdown-it/lib/common/utils');
 const Base = require('./base');
 
 class Index extends Base
