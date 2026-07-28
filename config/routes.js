@@ -3,8 +3,8 @@ const routes = [
     {url: '/article/:id.html', path: 'app/article/article', name: 'article'},
     {url: '/search', path: 'app/search/search', name: 'search'},
     {url: '/special/:id.html', path: 'app/special/special', name: 'special'},
-    {url: '/:cate((?!admin|install)[^/]+)/', path: 'app/cate/cate', name: 'cate'}, // 会匹配到自定义后台地址，所以程序内需执行this.$next()
-    {url: '/:cate((?!admin|install)[^/]+)/list_:page.html', path: 'app/cate/cate', name: 'cate_page'},
+    {url: '/:cate/', path: 'app/cate/cate', name: 'cate'}, // 会匹配到admin|install等地址，所以程序内需执行this.$next()
+    {url: '/:cate/list_:page.html', path: 'app/cate/cate', name: 'cate_page'},
     {url: '/install', path: 'install/index/index'},
     {url: '/admin', path: 'admin/index/index'},
 ];

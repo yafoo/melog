@@ -26,10 +26,10 @@
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
     "jimp-compact": "^0.16.1-2",
-    "jj.js": "^1.0.0-rc.1",
+    "jj.js": "^1.0.0-rc.2",
     "markdown-it": "^14.3.0"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.19.0"
   }
 }
