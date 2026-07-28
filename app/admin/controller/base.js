@@ -13,8 +13,7 @@ class Base extends Controller
             this.user = await this.$model.user.get({id: this.user_id});
             if(!this.user) {
                 this.$model.user.logout();
-                this.$redirect('admin/index/login');
-                return false;
+                return this.$redirect('admin/index/login');
             }
             this.$assign('user', this.user);
         }

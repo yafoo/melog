@@ -9,7 +9,7 @@ class Cate extends Base
         // 栏目不存在跳过
         if(!~cate_dirs.indexOf(this._cate_dir)) {
             await this.$next();
-            return false;
+            return this.$exit();
         }
 
         await super._init();

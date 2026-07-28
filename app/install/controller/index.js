@@ -13,8 +13,7 @@ class Index extends Controller
         this.mysqlFile = this.base_dir + '/melog_mysql.sql';
 
         if(await this._isInstalled()) {
-            this.$error('系统已安装！');
-            return false;
+            return this.$error('系统已安装！');
         }
 
         this.$assign('title', 'Melog系统安装');

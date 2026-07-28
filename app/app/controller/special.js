@@ -11,7 +11,7 @@ class Special extends Base
 
         // 参数为空
         if(!this._sp_id && !this._sp_dir) {
-            return false;
+            return this.$exit();
         }
 
         await super._init();
