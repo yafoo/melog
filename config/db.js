@@ -1,6 +1,10 @@
 const {join} = require('path');
 const database = join(__dirname, 'melog.db');
 
+/**
+ * @module db
+ * @type {import('jj.js/types').DbConfig}
+ */
 module.exports = {
     default: {
         type      : 'sqlite', // 数据库类型
