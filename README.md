@@ -1,110 +1,86 @@
-# melog
+<p align="center">
+  <img src="https://me.i-i.me/static/images/melog_360.png" alt="melog" width="120">
+</p>
 
-![melog](https://me.i-i.me/static/images/melog_360.png "melog")
+<h1 align="center">melog</h1>
 
-melog，一个基于jj.js开发的简单轻量级blog系统。代码极简，无需编译，方便二次开发。
+<p align="center">
+  一个基于 <a href="https://github.com/yafoo/jj.js">jj.js</a> 开发的简单轻量级博客系统
+</p>
 
-仓库地址：[https://github.com/yafoo/melog](https://github.com/yafoo/melog "https://github.com/yafoo/melog")
+<p align="center">
+  <a href="https://github.com/yafoo/melog"><img src="https://img.shields.io/badge/GitHub-melog-181717?logo=github" alt="GitHub"></a>
+  <a href="https://gitee.com/yafu/melog"><img src="https://img.shields.io/badge/Gitee-melog-C71D23?logo=gitee" alt="Gitee"></a>
+  <a href="https://js.i-i.me/"><img src="https://img.shields.io/badge/Demo-在线演示-0969da" alt="Demo"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
+</p>
 
-码云镜像：[https://gitee.com/yafu/melog](https://gitee.com/yafu/melog "https://gitee.com/yafu/melog")
+---
 
-官网地址：[https://me.i-i.me/special/melog.html](https://me.i-i.me/special/melog.html "https://me.i-i.me/special/melog.html")
+代码极简，无需编译，方便二次开发。
 
-演示demo：[https://js.i-i.me/](https://js.i-i.me/ "https://js.i-i.me/")（后台：[/admin](https://js.i-i.me/admin "https://js.i-i.me/admin")，账号：`melog@i-i.me`，密码：`123456`）
+## ✨ 特性
 
-## 特性
+- **极速** — 轻量内核，响应迅速
+- **简洁** — 前台无框架依赖，移动优先，自适应 PC
+- **易用** — 基于 jj.js（类 ThinkPHP）经典 MVC 架构，上手快，方便二次开发
+- **安全** — 后台目录可自定义，密码重试次数限制
+- **灵活** — 支持更换导航风格（cms / blog），支持主题切换，自定义主题可共用默认主题文件
+- **专题** — 内置专题功能，轻松定制个性页面
+- **编辑** — Markdown 实时预览，支持手机端，支持截图及图片粘贴上传
 
-1. 速度极快
-2. 轻量，前台无框架依赖，移动优先，自适应pc
-3. 简单，基于jj.js（类thinkphp）经典mvc框架，方便二次开发
-4. 安全，后台目录可自定义，密码重试次数限制
-5. 支持更换导航风格（cms或blog）
-6. 支持更换主题，自定义主题可以共用默认主题文件
-7. 专题功能，可以定制个性页面
-8. Markdown编辑、实时预览，支持手机端，支持截图、图片文件粘贴上传
+## 🔧 运行环境
 
-## 运行环境
-nodejs >= v12
-mysql >= v5.5
+| 环境 | 要求 |
+|------|------|
+| Node.js | >= 20.19.0 |
+| 数据库 | MySQL >= 5.5 或 SQLite |
 
-## 安装
+## 🚀 快速开始
 
-### 1、程序部署
-
-- Docker方式部署
+### 1. Docker 部署（推荐）
 
 ```bash
-# 镜像拉取
+# 拉取镜像
 docker pull yafoo/melog
 
-# 容器运行
+# 运行容器
 docker run -p 3003:3003 --restart unless-stopped --name melog -d yafoo/melog
 
-# 容器运行（配置文件、站点数据保存到宿主机）
-docker run -p 3003:3003 --restart unless-stopped --name melog -d -v $PWD/melog/config:/melog/config -v $PWD/melog/upload:/melog/public/upload yafoo/melog
+# 持久化配置与上传目录
+docker run -p 3003:3003 --restart unless-stopped --name melog -d \
+  -v $PWD/melog/config:/melog/config \
+  -v $PWD/melog/upload:/melog/public/upload \
+  yafoo/melog
 ```
 
-- Git方式部署
+### 2. Git 部署
 
 ```bash
-# 也可以直接到github或gitee上下载压缩文件
 git clone https://github.com/yafoo/melog.git
 cd melog
-npm i
+npm install
 
-# 运行程序，系统默认运行在3003端口
+# 启动服务（默认端口 3003）
 node server.js
 ```
 
-### 2、配置数据库
+> 💡 也可以直接到 [GitHub](https://github.com/yafoo/melog) 或 [Gitee](https://gitee.com/yafu/melog) 下载压缩包。
 
-- 浏览器打开网址 `http://127.0.0.1:3003/install`，配置并点击安装
+### 3. 初始化配置
 
-> 提示：如果网址打开出错，或者安装失败，可以修改 `/config/app.js` 文件，将 `app_debug` 设置为 `true`，打开调试模式，重启程序并重新安装，在控制台可以看到运行日志。
+浏览器打开 `http://127.0.0.1:3003/install`，配置数据库并点击安装即可完成部署。
 
-## 访问首页
+> 💡 如遇问题，可将 `/config/app.js` 中的 `app_debug` 设为 `true` 开启调试模式，重启后在控制台查看运行日志。
 
-```
-http://127.0.0.1:3003
-```
+## 📖 使用
 
-## 访问后台
+| 页面 | 地址 |
+|------|------|
+| 前台首页 | `http://127.0.0.1:3003` |
+| 后台管理 | `http://127.0.0.1:3003/admin` |
 
-- 后台地址：`http://127.0.0.1:3003/admin`  
-- 默认账号：`melog@i-i.me`  
-- 默认密码：`123456`
-
-> 提示：登录后请及时在后台修改账号密码
-
-## 旧版升级
-
-### 1、V2版本升级
-
-v2版本升级v3，请手工运行 `v2_to_v3.sql` 文件升级数据库，然后创建文件 `/config/install.js`，内容如下：
-
-```javascript
-module.exports = {
-    install: true
-};
-```
-
-### 2、V3.0版本升级
-
-系统从v3.1版开始支持系统安装。v3.0版升级后，也需手工创建 `/config/install.js` 文件，内容同v2升级。
-
-## 其他
-
-#### 开发者博客
--  [https://me.i-i.me/](https://me.i-i.me/ "https://me.i-i.me/")
-
-#### jj.js MVC框架
--  Github: [https://github.com/yafoo/jj.js](https://github.com/yafoo/jj.js "https://github.com/yafoo/jj.js")
--  Gitee: [https://gitee.com/yafu/jj.js](https://gitee.com/yafu/jj.js "https://gitee.com/yafu/jj.js")
-
-#### 爱主页网址导航
--  [https://www.i-i.me/](https://www.i-i.me/ "https://www.i-i.me/")
-
-## Nginx代理设置
+## ⚙️ Nginx 反向代理
 
 ```nginx
 location / {
@@ -119,6 +95,12 @@ location / {
 }
 ```
 
-## License
+## 🔗 相关链接
 
-[MIT](LICENSE)
+- **开发者博客**：[https://me.i-i.me/](https://me.i-i.me/)
+- **jj.js 框架**：[GitHub](https://github.com/yafoo/jj.js) · [Gitee](https://gitee.com/yafu/jj.js)
+- **爱主页导航**：[https://www.i-i.me/](https://www.i-i.me/)
+
+## 📄 License
+
+[MIT](LICENSE) © 雨思

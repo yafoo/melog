@@ -8,7 +8,8 @@ class Article extends Base
 {
     /**
      * 首页文章列表
-     * @param condition
+     * @param {number} page_size
+     * @param {boolean} with_page
      * @returns {Promise<PaginateResult>}
      */
     async getIndexList(page_size=10, with_page=false) {
@@ -16,13 +17,15 @@ class Article extends Base
         if(with_page) {
             return await modle.paginate({page_size, pagination: this.$pagination.index});
         } else {
+            // @ts-ignore
             return [await modle.select()];
         }
     }
 
     /**
      * 栏目文章列表及分页
-     * @param condition
+     * @param {Object} condition
+     * @param {number} page_size
      * @returns {Promise<PaginateResult>}
      */
     async getPageList(condition, page_size=10) {
@@ -67,7 +70,8 @@ class Article extends Base
     async getRelated(condition, rows=10) {
         let keywords = condition.keywords;
         delete condition.keywords;
-        typeof keywords != 'array' && (keywords = keywords.split(',').filter(val => val !== ''));
+        typeof keywords !== 'string' && (keywords = keywords.join(','));
+        keywords = keywords.split(',').filter(val => val !== '');
         if(keywords.length == 0) {
             return [];
         }
@@ -78,6 +82,17 @@ class Article extends Base
             where[keyword] = ['exp', 'keywords like ?', 'or', `%${keyword}%`];
         });
         return await this.db.field(field).where(condition).where(where).order('id', 'desc').limit(rows).withCache(this.cacheTime).select();
+    }
+
+    // 根据栏目ID获取文章列表
+    async getArticlesByCateId(cate_id, rows=8, cate_dir='') {
+        const articles = await this.db.field('id,cate_id,title,click,thumb').where({cate_id}).order('id', 'desc').limit(rows).withCache(this.cacheTime).select();
+        if(cate_dir && articles.length > 0) {
+            articles.forEach(item => {
+                item.cate_dir = cate_dir;
+            });
+        }
+        return articles;
     }
 }
 
