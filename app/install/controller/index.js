@@ -9,7 +9,7 @@ class Index extends Controller
         this.base_dir = this.$config.app.base_dir;
         this.lockFile = this.base_dir + '/config/lock.js';
         this.dbFile = this.base_dir + '/config/db.js';
-        this.sqlFile = this.base_dir + '/melog.sql';
+        this.sqlFile = this.base_dir + '/melog_sqlite.sql';
         this.mysqlFile = this.base_dir + '/melog_mysql.sql';
 
         if(await this._isInstalled()) {
