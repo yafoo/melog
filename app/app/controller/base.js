@@ -31,7 +31,7 @@ class Base extends Controller
                 item.nav_name = item.cate_name;
             });
         } else if(site_config.style == 'blog') {
-            nav_list = await this.$model.link.getLinkList(site_config.nav_id);
+            nav_list = await this.$model.link.getBlogLinks();
             nav_list.forEach(item => {
                 item.nav_url = item.url;
                 item.nav_name = item.title;

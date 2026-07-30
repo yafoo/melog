@@ -115,16 +115,15 @@ CREATE TABLE `melog_link`  (
 -- ----------------------------
 -- Records of melog_link
 -- ----------------------------
-INSERT INTO `melog_link` VALUES (1, 0, '友情链接', '', '', 0, 0, 0);
-INSERT INTO `melog_link` VALUES (2, 0, '底部链接', '', '', 0, 0, 0);
-INSERT INTO `melog_link` VALUES (3, 1, '爱主页', '', 'https://www.i-i.me/', 2, 0, 0);
-INSERT INTO `melog_link` VALUES (4, 1, 'melog', '', 'https://me.i-i.me/special/melog.html', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (5, 2, 'github', '', 'https://github.com/yafoo/melog', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (6, 2, '留言本', '', '/article/2.html', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (7, 0, '顶部导航', '', '', 0, 0, 0);
-INSERT INTO `melog_link` VALUES (8, 6, '首页', '', '/', 1, 0, 0);
-INSERT INTO `melog_link` VALUES (9, 6, '留言', '', '/article/2.html', 2, 0, 0);
-INSERT INTO `melog_link` VALUES (10, 6, '关于', '', '/article/1.html', 3, 0, 0);
+INSERT INTO `melog_link` VALUES (1, 0, 'Blog链接（导航风格设置为blog有效）', '', '', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (2, 0, 'Banner链接（全局banner位置）', '', '', 2, 0, 0);
+INSERT INTO `melog_link` VALUES (3, 0, '友情链接（仅首页显示）', '', '', 3, 0, 0);
+INSERT INTO `melog_link` VALUES (4, 0, '底部链接（底部footer显示）', '', '', 4, 0, 0);
+INSERT INTO `melog_link` VALUES (5, 1, '首页', '', '/', 1, 0, 0);
+INSERT INTO `melog_link` VALUES (6, 1, '关于', '', '/article/1.html', 2, 0, 0);
+INSERT INTO `melog_link` VALUES (7, 1, '留言', '', '/article/2.html', 3, 0, 0);
+INSERT INTO `melog_link` VALUES (8, 3, 'melog', '', 'https://me.i-i.me/article/14.html', 2, 0, 0);
+INSERT INTO `melog_link` VALUES (9, 3, 'github', '', 'https://github.com/yafoo/melog', 3, 0, 0);
 
 -- ----------------------------
 -- Table structure for melog_site
@@ -146,26 +145,24 @@ CREATE TABLE `melog_site`  (
 -- ----------------------------
 -- Records of melog_site
 -- ----------------------------
-INSERT INTO `melog_site` VALUES (1, 'web', 'input', 'basehost', '网站根网址', 'http://127.0.0.1:3003', '', '需要带http或https，结尾不要带斜杠', 0);
-INSERT INTO `melog_site` VALUES (3, 'web', 'input', 'webname', '网站名字', 'Melog', '', '', 1);
-INSERT INTO `melog_site` VALUES (4, 'image', 'input', 'upload', '文件上传目录', '/upload', '', '目录前需带斜杠，默认为\"/upload\"', 0);
-INSERT INTO `melog_site` VALUES (5, 'web', 'input', 'keywords', '网站关键词', 'melog', '', '', 3);
-INSERT INTO `melog_site` VALUES (6, 'web', 'textarea', 'description', '网站简介', '一个基于melog搭建的简单轻量级博客！', '', '', 4);
-INSERT INTO `melog_site` VALUES (7, 'web', 'textarea', 'beian', '网站备案信息', '<a href=\"https://icp.gov.moe/?keyword=20200002\" rel=\"nofollow\" target=\"_blank\">萌ICP备 20200002号</a> <script>!function(p){\"use strict\";!function(t){var s=window,e=document,i=p,c=\"\".concat(\"https:\"===e.location.protocol?\"https://\":\"http://\",\"sdk.51.la/js-sdk-pro.min.js\"),n=e.createElement(\"script\"),r=e.getElementsByTagName(\"script\")[0];n.type=\"text/javascript\",n.setAttribute(\"charset\",\"UTF-8\"),n.async=!0,n.src=c,n.id=\"LA_COLLECT\",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:\"JFnMP2IgdFm3vb1n\",ck:\"JFnMP2IgdFm3vb1n\"});</script>', '', '支持html、javascript代码', 5);
-INSERT INTO `melog_site` VALUES (15, 'image', 'input', 'img_width', '图片限制宽度', '1920', '', '', 1);
-INSERT INTO `melog_site` VALUES (16, 'image', 'input', 'img_height', '图片限制高度', '2000', '', '', 2);
-INSERT INTO `melog_site` VALUES (19, 'other', 'input', 'list_rows', '列表显示行数', '10', '', '', 0);
-INSERT INTO `melog_site` VALUES (22, 'self', 'input', 'keyname', '自定义参数', 'keyvalue', '', '', 0);
-INSERT INTO `melog_site` VALUES (31, 'other', 'radio', 'is_comment', '开启评论', '1', '开启|1||关闭|0', '', 1);
-INSERT INTO `melog_site` VALUES (32, 'image', 'input', 'thumb_width', '缩略图宽度', '400', '', '', 3);
-INSERT INTO `melog_site` VALUES (33, 'image', 'input', 'thumb_height', '缩略图高度', '300', '', '', 4);
-INSERT INTO `melog_site` VALUES (34, 'image', 'radio', 'img_origin', '保留原始图片', '1', '保留|1||不保留|0', '', 5);
-INSERT INTO `melog_site` VALUES (35, 'web', 'input', 'seo_title', '主页SEO标题', '', '', '', 2);
-INSERT INTO `melog_site` VALUES (36, 'web', 'radio', 'style', '网站导航风格', 'cms', 'cms|cms||blog|blog', '', 7);
-INSERT INTO `melog_site` VALUES (37, 'web', 'input', 'nav_id', 'blog导航ID', '6', '', '即顶级链接ID', 8);
-INSERT INTO `melog_site` VALUES (38, 'web', 'input', 'theme', '网站模板主题', '', '', '即模板目录名，为空时默认为\"view\"', 9);
-INSERT INTO `melog_site` VALUES (39, 'other', 'input', 'map_ak', '百度地图ak', '465c0734722cfde06f7d7eac68559354', '', '', 2);
-INSERT INTO `melog_site` VALUES (40, 'other', 'input', 'push_key', 'PushMe推送Key', '', '', '用于评论通知推送，填写PushMe的push_key', 3);
+INSERT INTO `melog_site` VALUES (1, 'web', 'input', 'basehost', '网站地址', 'http://127.0.0.1:3003', '', '需要带http或https，结尾不要带斜杠', 0);
+INSERT INTO `melog_site` VALUES (2, 'web', 'input', 'webname', '网站名字', 'Melog', '', '', 1);
+INSERT INTO `melog_site` VALUES (3, 'web', 'input', 'seo_title', '主页SEO标题', '', '', '', 2);
+INSERT INTO `melog_site` VALUES (4, 'web', 'input', 'keywords', '网站关键词', 'melog', '', '', 3);
+INSERT INTO `melog_site` VALUES (5, 'web', 'textarea', 'description', '网站简介', '一个基于melog搭建的简单轻量级博客！', '', '', 4);
+INSERT INTO `melog_site` VALUES (6, 'web', 'textarea', 'beian', '网站备案信息', '<a href=\"https://icp.gov.moe/?keyword=20200002\" rel=\"nofollow\" target=\"_blank\">萌ICP备 20200002号</a> <script>!function(p){\"use strict\";!function(t){var s=window,e=document,i=p,c=\"\".concat(\"https:\"===e.location.protocol?\"https://\":\"http://\",\"sdk.51.la/js-sdk-pro.min.js\"),n=e.createElement(\"script\"),r=e.getElementsByTagName(\"script\")[0];n.type=\"text/javascript\",n.setAttribute(\"charset\",\"UTF-8\"),n.async=!0,n.src=c,n.id=\"LA_COLLECT\",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:\"JFnMP2IgdFm3vb1n\",ck:\"JFnMP2IgdFm3vb1n\"});</script>', '', '支持html、javascript代码', 5);
+INSERT INTO `melog_site` VALUES (7, 'web', 'radio', 'style', '网站导航风格', 'cms', 'cms|cms||blog|blog', '', 7);
+INSERT INTO `melog_site` VALUES (8, 'web', 'input', 'theme', '网站模板主题', '', '', '即模板目录名，为空时默认为\"view\"', 9);
+INSERT INTO `melog_site` VALUES (9, 'image', 'input', 'upload', '文件上传目录', '/upload', '', '目录前需带斜杠，默认为\"/upload\"', 0);
+INSERT INTO `melog_site` VALUES (10, 'image', 'input', 'img_width', '图片限制宽度', '1920', '', '', 1);
+INSERT INTO `melog_site` VALUES (11, 'image', 'input', 'img_height', '图片限制高度', '2000', '', '', 2);
+INSERT INTO `melog_site` VALUES (12, 'image', 'input', 'thumb_width', '缩略图宽度', '400', '', '', 3);
+INSERT INTO `melog_site` VALUES (13, 'image', 'input', 'thumb_height', '缩略图高度', '300', '', '', 4);
+INSERT INTO `melog_site` VALUES (14, 'image', 'radio', 'img_origin', '保留原始图片', '1', '保留|1||不保留|0', '', 5);
+INSERT INTO `melog_site` VALUES (15, 'other', 'input', 'list_rows', '列表显示条数', '10', '', '', 0);
+INSERT INTO `melog_site` VALUES (16, 'other', 'radio', 'is_comment', '开启评论', '1', '开启|1||关闭|0', '', 1);
+INSERT INTO `melog_site` VALUES (17, 'other', 'input', 'push_key', 'PushMe推送Key', '', '', '用于评论通知推送，填写PushMe的push_key', 3);
+INSERT INTO `melog_site` VALUES (18, 'self', 'input', 'keyname', '自定义参数', 'keyvalue', '', '', 0);
 
 -- ----------------------------
 -- Table structure for melog_special

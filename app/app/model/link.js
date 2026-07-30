@@ -8,14 +8,24 @@ class Link extends Base
         return this.$utils.toTreeArray(link, pid);
     }
 
+    // Blog导航
+    async getBlogLinks(rows=100) {
+        return await this.getLinkList(1, rows);
+    }
+
+    // Banner导航
+    async getBannerLinks(rows=100) {
+        return await this.getLinkList(2, rows);
+    }
+
     // 友情链接
     async getFriendLinks(rows=100) {
-        return await this.getLinkList(1, rows);
+        return await this.getLinkList(3, rows);
     }
 
     // 底部导航
     async getFootLinks(rows=100) {
-        return await this.getLinkList(2, rows);
+        return await this.getLinkList(4, rows);
     }
 }
 
