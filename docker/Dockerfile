@@ -9,7 +9,9 @@ VOLUME /public/upload
 
 WORKDIR /melog
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN apk add --no-cache --virtual .build-deps python3 make g++ && \
+    npm ci --omit=dev && \
+    apk del .build-deps
 COPY . .
 COPY config config.demo
 
