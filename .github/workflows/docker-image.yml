@@ -105,7 +105,5 @@ jobs:
           TEMP_ARM64="${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}"
 
           for TAG in $TAGS; do
-            docker buildx imagetools create -t "$TAG" \
-              --append "$TEMP_AMD64" \
-              --append "$TEMP_ARM64"
+            docker buildx imagetools create -t "$TAG" "$TEMP_AMD64" "$TEMP_ARM64"
           done
