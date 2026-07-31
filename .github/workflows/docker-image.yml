@@ -100,23 +100,26 @@ jobs:
 
       - name: Create and push multi-platform manifest
         run: |
+          TAGS="${{ steps.meta.outputs.tags }}"
           TEMP_AMD64="${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}"
           TEMP_ARM64="${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}"
 
-          echo "${TAGS}" | while read -r TAG; do
-            [ -z "$TAG" ] && continue
+          for TAG in $TAGS; do
             docker buildx imagetools create -t "$TAG" "$TEMP_AMD64" "$TEMP_ARM64"
           done
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
+
+      - name: Install hub-tool
+        run: |
+          curl -L https://github.com/docker/hub-tool/releases/latest/download/hub-tool_linux_amd64.tar.gz | tar xz
+          sudo mv hub-tool /usr/local/bin/
 
       - name: Clean up temp tags
         if: always()
         run: |
-          for TAG in "temp-amd64-${{ github.sha }}" "temp-arm64-${{ github.sha }}"; do
-            echo "Deleting tag: $TAG"
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
-              -u "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" \
-              "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/melog/tags/${TAG}/")
-            echo "  Status: $HTTP_CODE"
-          done
+          hub-tool tag delete \
+            --user "${{ secrets.DOCKERHUB_USERNAME }}" \
+            --password "${{ secrets.DOCKERHUB_TOKEN }}" \
+            "${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}" || true
+          hub-tool tag delete \
+            --password "${{ secrets.DOCKERHUB_TOKEN }}" \
+            "${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}" || true
