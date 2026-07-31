@@ -19,32 +19,32 @@ env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/melog
 
 jobs:
-  # ---- 构建 amd64（QEMU 模拟，有预编译包无需编译） ----
+  # ---- 构建 amd64 ----
   build-amd64:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push (amd64)
+      - name: Build (amd64)
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           context: .
           file: ./docker/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}
+          outputs: type=docker,name=local/amd64:latest,dest=/tmp/image-amd64.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Upload artifact (amd64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-amd64
+          path: /tmp/image-amd64.tar
+          retention-days: 1
 
   # ---- 构建 arm64（原生 ARM 构建器，避免 QEMU 模拟编译崩溃） ----
   build-arm64:
@@ -53,25 +53,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push (arm64)
+      - name: Build (arm64)
         uses: docker/build-push-action@v6
         with:
           platforms: linux/arm64
           context: .
           file: ./docker/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}
+          outputs: type=docker,name=local/arm64:latest,dest=/tmp/image-arm64.tar
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Upload artifact (arm64)
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-arm64
+          path: /tmp/image-arm64.tar
+          retention-days: 1
 
   # ---- 合并为多平台 manifest ----
   merge:
@@ -98,28 +98,22 @@ jobs:
             type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{version}}
 
-      - name: Create and push multi-platform manifest
-        run: |
-          TAGS="${{ steps.meta.outputs.tags }}"
-          TEMP_AMD64="${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}"
-          TEMP_ARM64="${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}"
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: image-*
+          path: /tmp
 
-          for TAG in $TAGS; do
-            docker buildx imagetools create -t "$TAG" "$TEMP_AMD64" "$TEMP_ARM64"
-          done
-
-      - name: Clean up temp tags
-        if: always()
+      - name: Load images and create manifest
         run: |
-          TEMP_AMD64="${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}"
-          TEMP_ARM64="${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}"
-          
-          # Delete temp tags from Docker Hub
-          for TAG in "$TEMP_AMD64" "$TEMP_ARM64"; do
-            DIGEST=$(docker buildx imagetools inspect "$TAG" --format '{{json .}}' | jq -r '.manifest.digest' 2>/dev/null || echo "")
-            if [ -n "$DIGEST" ]; then
-              echo "Deleting $TAG ($DIGEST)"
-              curl -X DELETE -u "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" \
-                "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/melog/tags/${TAG##*:}/"
-            fi
+          docker load -i /tmp/image-amd64/image-amd64.tar
+          docker load -i /tmp/image-arm64/image-arm64.tar
+
+          # 使用 docker manifest 从本地镜像创建多平台 manifest
+          echo "${TAGS}" | while read -r TAG; do
+            [ -z "$TAG" ] && continue
+            docker manifest create "$TAG" local/amd64:latest local/arm64:latest
+            docker manifest push "$TAG"
           done
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
