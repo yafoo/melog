@@ -113,13 +113,15 @@ jobs:
           curl -L https://github.com/docker/hub-tool/releases/latest/download/hub-tool_linux_amd64.tar.gz | tar xz
           sudo mv hub-tool /usr/local/bin/
 
-      - name: Clean up temp tags
+      - name: Clean up temp tags using Docker Hub API
         if: always()
         run: |
-          hub-tool tag delete \
-            --user "${{ secrets.DOCKERHUB_USERNAME }}" \
-            --password "${{ secrets.DOCKERHUB_TOKEN }}" \
-            "${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}" || true
-          hub-tool tag delete \
-            --password "${{ secrets.DOCKERHUB_TOKEN }}" \
-            "${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}" || true
+          # 删除 amd64 临时标签
+          curl -X DELETE \
+            -u "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" \
+            "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/melog/tags/temp-amd64-${{ github.sha }}/" || true
+          
+          # 删除 arm64 临时标签
+          curl -X DELETE \
+            -u "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" \
+            "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/melog/tags/temp-arm64-${{ github.sha }}/" || true
