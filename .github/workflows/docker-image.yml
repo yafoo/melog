@@ -108,11 +108,6 @@ jobs:
             docker buildx imagetools create -t "$TAG" "$TEMP_AMD64" "$TEMP_ARM64"
           done
 
-      - name: Install hub-tool
-        run: |
-          curl -L https://github.com/docker/hub-tool/releases/latest/download/hub-tool_linux_amd64.tar.gz | tar xz
-          sudo mv hub-tool /usr/local/bin/
-
       - name: Clean up temp tags using Docker Hub API
         if: always()
         run: |
