@@ -107,3 +107,19 @@ jobs:
           for TAG in $TAGS; do
             docker buildx imagetools create -t "$TAG" "$TEMP_AMD64" "$TEMP_ARM64"
           done
+
+      - name: Clean up temp tags
+        if: always()
+        run: |
+          TEMP_AMD64="${{ env.IMAGE_NAME }}:temp-amd64-${{ github.sha }}"
+          TEMP_ARM64="${{ env.IMAGE_NAME }}:temp-arm64-${{ github.sha }}"
+          
+          # Delete temp tags from Docker Hub
+          for TAG in "$TEMP_AMD64" "$TEMP_ARM64"; do
+            DIGEST=$(docker buildx imagetools inspect "$TAG" --format '{{json .}}' | jq -r '.manifest.digest' 2>/dev/null || echo "")
+            if [ -n "$DIGEST" ]; then
+              echo "Deleting $TAG ($DIGEST)"
+              curl -X DELETE -u "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }}" \
+                "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/melog/tags/${TAG##*:}/"
+            fi
+          done
