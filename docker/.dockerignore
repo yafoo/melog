@@ -1,0 +1,14 @@
+/.vscode
+/.q
+/.git
+/.github
+/.gitignore
+/node_modules
+/public/upload/*
+/config/lock.js
+/config/melog.db
+/config/melog.db-shm
+/config/melog.db-wal
+/docker/.dockerignore
+/docker/Dockerfile
+/CHANGE.md
