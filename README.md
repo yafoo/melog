@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://me.i-i.me/static/images/melog_360.png" alt="melog" width="120">
+  <img src="./public/logo.png" alt="melog" width="120">
 </p>
 
 <h1 align="center">melog</h1>
