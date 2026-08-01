@@ -13,7 +13,7 @@ class Index extends Controller
         this.mysqlFile = this.base_dir + '/melog_mysql.sql';
 
         if(await this._isInstalled()) {
-            return this.$error('系统已安装！');
+            return this.$error('系统已安装！', '/');
         }
 
         this.$assign('title', 'Melog系统安装');
@@ -57,11 +57,10 @@ class Index extends Controller
         let error = '';
         try {
             await this._writeDbFile(form_data, db_type);
-            loader.clearPathCache();
-            delete require.cache[require.resolve(this.dbFile)];
+            delete require.cache[require.resolve(this.dbFile)]; // 清除配置缓存
             await this._initSql(db_type, username, user_password);
             await this._writeLockFile();
-            loader.clearPathCache();
+            loader.clearPathCache(); // 清除路径缓存
         } catch(e) {
             this.$logger.debug(e);
             error = e.message || '安装出错！';
