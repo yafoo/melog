@@ -26,7 +26,7 @@
   "homepage": "https://github.com/yafoo/melog#readme",
   "dependencies": {
     "jimp-compact": "^0.16.1-2",
-    "jj.js": "^1.0.3",
+    "jj.js": "^1.0.4",
     "markdown-it": "^14.3.0",
     "mysql": "^2.18.1",
     "sqlite3": "^6.0.1"
