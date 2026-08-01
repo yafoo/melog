@@ -1,4 +1,3 @@
-
 -- ----------------------------
 -- Table structure for melog_article
 -- ----------------------------
@@ -34,7 +33,7 @@ INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 
 本人兴趣广泛，爱好很多，喜欢一切新奇的事物！
 
 # melog
-本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/special/melog.html "melog")搭建。', '', 1577808000, 1631959741, 0, 0);
+本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/article/14.html "melog")搭建。', '', 1577808000, 1631959741, 0, 0);
 INSERT INTO `melog_article` VALUES (2, 1, 1, '留言本', 'admin', 'Melog', '', 1, '留言本', '留言本', '## 我的留言本
 
 > 既然来了，就留个纪念吧，和我谈天说地！
@@ -156,41 +155,6 @@ INSERT INTO `melog_site` VALUES (15, 'other', 'input', 'list_rows', '列表显�
 INSERT INTO `melog_site` VALUES (16, 'other', 'radio', 'is_comment', '开启评论', '1', '开启|1||关闭|0', '', 1);
 INSERT INTO `melog_site` VALUES (17, 'other', 'input', 'push_key', 'PushMe推送Key', '', '', '用于评论通知推送，填写PushMe的push_key', 3);
 INSERT INTO `melog_site` VALUES (18, 'self', 'input', 'keyname', '自定义参数', 'keyvalue', '', '', 0);
-
--- ----------------------------
--- Table structure for melog_special
--- ----------------------------
-DROP TABLE IF EXISTS `melog_special`;
-CREATE TABLE `melog_special` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `title` VARCHAR(150) NOT NULL DEFAULT '',
-  `short_title` VARCHAR(150) NOT NULL DEFAULT '',
-  `seo_title` VARCHAR(255) NOT NULL DEFAULT '',
-  `click` INTEGER NOT NULL DEFAULT 0,
-  `keywords` VARCHAR(100) NOT NULL DEFAULT '',
-  `description` VARCHAR(255) NOT NULL DEFAULT '',
-  `thumb` VARCHAR(255) NOT NULL DEFAULT '',
-  `special_dir` VARCHAR(100) NOT NULL DEFAULT '',
-  `aside` INTEGER NOT NULL DEFAULT 1,
-  `page_width` VARCHAR(50) NOT NULL DEFAULT '',
-  `sort` INTEGER NOT NULL DEFAULT 0,
-  `flag` INTEGER NOT NULL DEFAULT 0,
-  `add_time` INTEGER NOT NULL DEFAULT 0
-);
-
--- ----------------------------
--- Table structure for melog_special_item
--- ----------------------------
-DROP TABLE IF EXISTS `melog_special_item`;
-CREATE TABLE `melog_special_item` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `special_id` INTEGER NOT NULL DEFAULT 0,
-  `type` VARCHAR(50) NOT NULL DEFAULT '',
-  `data` TEXT NOT NULL DEFAULT '',
-  `sort` INTEGER NOT NULL DEFAULT 0,
-  `enable` INTEGER NOT NULL DEFAULT 0,
-  `add_time` INTEGER NOT NULL DEFAULT 0
-);
 
 -- ----------------------------
 -- Table structure for melog_upload

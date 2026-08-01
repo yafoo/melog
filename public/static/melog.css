@@ -326,30 +326,6 @@ ul>li {list-style: none;}
     width: 100%;
 }
 
-/* special list */
-.list-image {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-.list-image::after {
-    content: '';
-    display: block;
-    flex: 0.9;
-}
-.list-image .list-item {
-    width: 48%;
-    max-width: 200px;
-}
-.list-image .list-item .image {
-    display: block;
-    width: 100%;
-}
-.list-image .list-item dt .title {
-    font-size: 15px;
-    font-weight: bold;
-}
-
 /* content markdown */
 .content {
     overflow: hidden;

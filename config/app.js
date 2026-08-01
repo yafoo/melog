@@ -13,7 +13,7 @@ const app = {
         formLimit: '10mb',      // 表单请求体限制
         textLimit: '10mb',      // 文本请求体限制
         formidable: {keepExtensions: true, maxFieldsSize: 10 * 1024 * 1024}
-    } //koa-body配置参数，为false时，关闭koa-body
+    }
 }
 
 module.exports = app;

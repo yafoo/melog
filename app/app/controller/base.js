@@ -14,12 +14,12 @@ class Base extends Controller
         const model_article = this.$model.article;
 
         // 站点配置、最新、热门列表、底部链接、顶部专题列表
-        const [site_config, latest, hot, foot_links, special_list] = await Promise.all([
+        const [site_config, latest, hot, foot_links, banner_links] = await Promise.all([
             this.$model.site.getConfig(),
             model_article.getNew(),
             model_article.getHot(),
             this.$model.link.getFootLinks(),
-            this.$model.special.getTopList()
+            this.$model.link.getBannerLinks()
         ]);
 
         // 顶部导航
@@ -46,7 +46,7 @@ class Base extends Controller
         this.$assign('latest', latest);
         this.$assign('hot', hot);
         this.$assign('foot_links', foot_links);
-        this.$assign('special_list', special_list);
+        this.$assign('banner_links', banner_links);
     }
 
     // 支持更换模板主题

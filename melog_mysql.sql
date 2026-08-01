@@ -1,17 +1,3 @@
-/*
- Source Server         : 127.0.0.1
- Source Server Type    : MySQL
- Source Server Version : 50651
- Source Host           : localhost:3306
- Source Schema         : melog
-
- Target Server Type    : MySQL
- Target Server Version : 50651
- File Encoding         : 65001
-
- Date: 20/08/2022 12:10:12
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -44,7 +30,7 @@ CREATE TABLE `melog_article`  (
 -- ----------------------------
 -- Records of melog_article
 -- ----------------------------
-INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 1, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/special/melog.html \"melog\")搭建。', '', 1577808000, 1631959741, 0, 0);
+INSERT INTO `melog_article` VALUES (1, 1, 1, '我的博客上线了', '雨思', 'me', '', 1, 'melog,博客', '我的个人博客上线了，基于melog搭建', '# me\r\n我的个人博客上线了，博客名字：`me`，网址：[https://me.i-i.me](https://me.i-i.me \"me\")\r\n\r\n本人兴趣广泛，爱好很多，喜欢一切新奇的事物！\r\n\r\n# melog\r\n本博客使用简单、轻量级博客程序[melog](https://me.i-i.me/article/14.html \"melog\")搭建。', '', 1577808000, 1631959741, 0, 0);
 INSERT INTO `melog_article` VALUES (2, 1, 1, '留言本', 'admin', 'Melog', '', 1, '留言本', '留言本', '## 我的留言本\r\n\r\n> 既然来了，就留个纪念吧，和我谈天说地！\r\n\r\n你有什么想说的，请在评论留言吧！', '', 1660967862, 0, 0, 1);
 
 -- ----------------------------
@@ -163,43 +149,6 @@ INSERT INTO `melog_site` VALUES (15, 'other', 'input', 'list_rows', '列表显�
 INSERT INTO `melog_site` VALUES (16, 'other', 'radio', 'is_comment', '开启评论', '1', '开启|1||关闭|0', '', 1);
 INSERT INTO `melog_site` VALUES (17, 'other', 'input', 'push_key', 'PushMe推送Key', '', '', '用于评论通知推送，填写PushMe的push_key', 3);
 INSERT INTO `melog_site` VALUES (18, 'self', 'input', 'keyname', '自定义参数', 'keyvalue', '', '', 0);
-
--- ----------------------------
--- Table structure for melog_special
--- ----------------------------
-DROP TABLE IF EXISTS `melog_special`;
-CREATE TABLE `melog_special`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '专题ID',
-  `title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '标题',
-  `short_title` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '短标题',
-  `seo_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'SEO标题',
-  `click` int(255) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点击',
-  `keywords` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '关键词',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '简介',
-  `thumb` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '缩略图',
-  `special_dir` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '目录地址（标识）',
-  `aside` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '侧边栏',
-  `page_width` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '页面宽度',
-  `sort` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序',
-  `flag` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '标识（0默认，1banner展示）',
-  `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for melog_special_item
--- ----------------------------
-DROP TABLE IF EXISTS `melog_special_item`;
-CREATE TABLE `melog_special_item`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '模块ID',
-  `special_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '专题ID',
-  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '模块类型',
-  `data` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '模块数据',
-  `sort` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序',
-  `enable` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '启用',
-  `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for melog_upload
