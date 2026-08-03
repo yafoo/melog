@@ -54,7 +54,22 @@ docker run -p 3003:3003 --restart unless-stopped --name melog -d \
   yafoo/melog
 ```
 
-### 2. Git 部署
+### 2. npx 部署
+
+```bash
+# 创建博客项目
+npx melog init myblog
+
+# 进入项目目录
+cd myblog
+
+# 启动服务
+npx melog start
+```
+
+> 💡 不指定目录名时，会提示输入，直接回车则在当前目录初始化。
+
+### 3. Git 部署
 
 ```bash
 git clone https://github.com/yafoo/melog.git
@@ -67,7 +82,7 @@ node server.js
 
 > 💡 也可以直接到 [GitHub](https://github.com/yafoo/melog) 或 [Gitee](https://gitee.com/yafu/melog) 下载压缩包。
 
-### 3. 初始化配置
+### 4. 初始化配置
 
 浏览器打开 `http://127.0.0.1:3003/install`，配置数据库并点击安装即可完成部署。
 

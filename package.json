@@ -3,6 +3,25 @@
   "version": "3.2.0",
   "description": "一个基于jj.js开发的简单轻量级blog系统",
   "main": "server.js",
+  "bin": {
+    "melog": "./bin/melog.js"
+  },
+  "files": [
+    "app",
+    "config",
+    "public",
+    "bin",
+    "server.js",
+    "jsconfig.json",
+    "CHANGE.md",
+    "LICENSE",
+    "README.md",
+    "!public/upload",
+    "!config/lock.js",
+    "!config/melog.db",
+    "!config/melog.db-shm",
+    "!config/melog.db-wal"
+  ],
   "scripts": {
     "start": "node server.js"
   },
