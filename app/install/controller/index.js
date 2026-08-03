@@ -23,6 +23,22 @@ class Index extends Controller
         this.$assign('APP_TIME', this.ctx.APP_TIME);
         this.$assign('sqlite', this.$config.db.sqlite);
         this.$assign('mysql', this.$config.db.mysql);
+        this.$assign('sqljs', this.$config.db.sqljs);
+
+        // 检测可用的数据库驱动
+        const db_drivers = [
+            {type: 'sqlite', name: 'SQLite', driver: 'sqlite3', install_cmd: 'npm install sqlite3'},
+            {type: 'mysql', name: 'MySQL', driver: 'mysql', install_cmd: 'npm install mysql'},
+            {type: 'sqljs', name: 'SQL.js', driver: 'sql.js', install_cmd: 'npm install sql.js'}
+        ];
+        for(const d of db_drivers) {
+            try { require(d.driver); d.available = true; } catch(e) { d.available = false; }
+        }
+        this.$assign('db_drivers', db_drivers);
+
+        // 计算默认选中的数据库类型：优先sqlite，否则第一个可用的
+        const default_db = db_drivers.find(d => d.available && d.type === 'sqlite') || db_drivers.find(d => d.available);
+        this.$assign('default_db_type', default_db ? default_db.type : '');
     }
 
     async _isInstalled() {
@@ -47,21 +63,29 @@ class Index extends Controller
         }
 
         const form_data = this.$request.postAll();
-        const db_type = form_data.db_type || 'sqlite';
+        const db_type = form_data.db_type || '';
         const username = form_data.username;
         const user_password = form_data.user_password;
         if(!username || !user_password) {
             return this.$error('用户名或密码不能为空！');
         }
 
+        // 检测所选数据库驱动是否可用
+        const driver_map = {sqlite: 'sqlite3', mysql: 'mysql', sqljs: 'sql.js'};
+        try { require(driver_map[db_type]); } catch(e) {
+            return this.$error(`数据库驱动 ${driver_map[db_type]} 未安装，请先执行: npm install ${driver_map[db_type]}`);
+        }
+
         let error = '';
         try {
             await this._writeDbFile(form_data, db_type);
-            delete require.cache[require.resolve(this.dbFile)]; // 清除配置缓存
+            // delete require.cache[require.resolve(this.dbFile)]; // 清除配置缓存
+            // loader.clearPathCache(); // 清除路径缓存
+            this.$utils.config.reload();
             await this._initSql(db_type, username, user_password);
             await this._writeLockFile();
             loader.clearPathCache(); // 清除路径缓存
-        } catch(e) {
+        } catch(e) {console.log(e);
             this.$logger.debug(e);
             error = e.message || '安装出错！';
         }
@@ -76,7 +100,7 @@ class Index extends Controller
      */
     async _initSql(db_type, username, password) {
         try {
-            const sql_data = (await readFile(db_type == 'sqlite' ? this.sqlFile : this.mysqlFile, 'utf8')).split(/;\r\n/);
+            const sql_data = (await readFile((db_type === 'mysql') ? this.mysqlFile : this.sqlFile, 'utf8')).split(/;\r\n/);
             const db = this.$db;
             await db.startTrans(async () => {
                 // 执行sql语句
@@ -101,6 +125,12 @@ class Index extends Controller
         if(db_type === 'sqlite') {
             default_content = `    default: {
         type      : 'sqlite', // 数据库类型
+        database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
+        prefix    : 'melog_' // 数据库表前缀
+    }`;
+        } else if(db_type === 'sqljs') {
+            default_content = `    default: {
+        type      : 'sqljs', // 数据库类型（基于sql.js的纯JS SQLite驱动）
         database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
         prefix    : 'melog_' // 数据库表前缀
     }`;

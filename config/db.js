@@ -25,5 +25,10 @@ module.exports = {
         port      : '3306', // 数据库连接端口
         charset   : 'utf8mb4', // 数据库编码默认采用utf8mb4
         prefix    : 'melog_' // 数据库表前缀
+    },
+    sqljs: {
+        type      : 'sqljs', // 数据库类型（基于sql.js的纯JS SQLite驱动）
+        database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
+        prefix    : 'melog_' // 数据库表前缀
     }
 };
