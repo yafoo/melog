@@ -3,7 +3,7 @@
  * @type {import('jj.js/types').AppConfig}
  */
 const app = {
-    app_debug: true, //调试模式
+    app_debug: false, //调试模式
     default_deep: 'app', //默认应用深度
     static_dir: './public', //静态文件目录，相对于应用根目录，为空或false时，关闭静态访问
     koa_body: {
