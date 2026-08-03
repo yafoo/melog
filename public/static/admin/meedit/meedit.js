@@ -122,7 +122,7 @@
                         '<i class="layui-icon" title="删除线" command="delete">&#xe64f;</i>' +
                         '<span class="meedit-tool-mid"></span>' +
                         '<i class="layui-icon" title="引用" command="quote" style="font-size: 18px;">&#xe687;</i>' +
-                        '<i class="layui-icon" title="列表" command="list">&#xe66b;</i>' +
+                        '<i class="layui-icon" title="列表" command="list" style="font-size: 18px; font-weight: bold;">&#xe60a;</i>' +
                         '<i class="layui-icon" title="代码" command="code" style="font-size: 20px;">&#xe64e;</i>' +
                         '<span class="meedit-tool-mid"></span>' +
                         '<i class="layui-icon" title="插入链接" command="link">&#xe64c;</i>' +
