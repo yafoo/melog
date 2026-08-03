@@ -29,6 +29,7 @@ const log = {
 // 从 package.json 的 files 字段获取需要复制的目录/文件（排除 ! 开头的项）
 const pkg = require(path.join(MELOG_PKG, 'package.json'));
 const COPY_ITEMS = pkg.files.filter(f => !f.startsWith('!'));
+delete COPY_ITEMS['bin'];
 
 /**
  * 递归复制目录
@@ -135,7 +136,7 @@ function init(targetDir) {
     if (!isInPlace) {
         console.log(`    ${c.cyan}cd ${targetName}${c.reset}`);
     }
-    console.log(`    ${c.cyan}npx melog start${c.reset}`);
+    console.log(`    ${c.cyan}npx @yafoo/melog start${c.reset}`);
     console.log('');
     console.log(`  首次启动后访问 ${c.cyan}http://localhost:3003${c.reset} 完成数据库配置`);
     console.log('');
@@ -150,7 +151,7 @@ function start() {
     const configFile = path.resolve('config/lock.js');
 
     if (!fs.existsSync(serverFile)) {
-        log.error('当前目录不是 melog 项目，请先运行: npx melog init');
+        log.error('当前目录不是 melog 项目，请先运行: npx @yafoo/melog init');
         process.exit(1);
     }
 
@@ -172,14 +173,14 @@ function help() {
     console.log(`  ${c.cyan}Melog${c.reset} - 轻量级博客系统`);
     console.log('');
     console.log('  用法:');
-    console.log(`    ${c.cyan}npx melog init [项目名]${c.reset}   创建博客项目（不指定则在当前目录初始化）`);
-    console.log(`    ${c.green}npx melog start${c.reset}            启动博客服务`);
+    console.log(`    ${c.cyan}npx @yafoo/melog init [项目名]${c.reset}   创建博客项目（不指定则在当前目录初始化）`);
+    console.log(`    ${c.green}npx @yafoo/melog start${c.reset}            启动博客服务`);
     console.log('');
     console.log('  示例:');
-    console.log(`    npx melog init myblog    # 在 myblog 目录创建博客项目`);
-    console.log(`    npx melog init           # 在当前目录初始化`);
+    console.log(`    npx @yafoo/melog init myblog    # 在 myblog 目录创建博客项目`);
+    console.log(`    npx @yafoo/melog init           # 在当前目录初始化`);
     console.log(`    cd myblog`);
-    console.log(`    npx melog start          # 启动博客`);
+    console.log(`    npx @yafoo/melog start          # 启动博客`);
     console.log('');
 }
 

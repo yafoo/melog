@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/yafoo/melog"><img src="https://img.shields.io/badge/GitHub-melog-181717?logo=github" alt="GitHub"></a>
   <a href="https://gitee.com/yafu/melog"><img src="https://img.shields.io/badge/Gitee-melog-C71D23?logo=gitee" alt="Gitee"></a>
-  <a href="https://js.i-i.me/"><img src="https://img.shields.io/badge/Demo-在线演示-0969da" alt="Demo"></a>
+  <a href="https://stackblitz.com/edit/melog"><img src="https://img.shields.io/badge/StackBlitz-在线演示-1389fd?logo=stackblitz" alt="StackBlitz"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
 </p>
 
@@ -58,13 +58,13 @@ docker run -p 3003:3003 --restart unless-stopped --name melog -d \
 
 ```bash
 # 创建博客项目
-npx melog init myblog
+npx @yafoo/melog init myblog
 
 # 进入项目目录
 cd myblog
 
 # 启动服务
-npx melog start
+npx @yafoo/melog start
 ```
 
 > 💡 不指定目录名时，会提示输入，直接回车则在当前目录初始化。
@@ -94,6 +94,15 @@ node server.js
 |------|------|
 | 前台首页 | `http://127.0.0.1:3003` |
 | 后台管理 | `http://127.0.0.1:3003/admin` |
+
+### 🎮 在线演示
+
+[StackBlitz 在线体验](https://stackblitz.com/edit/melog)
+
+| 项目 | 值 |
+|------|------|
+| 账号 | `admin` |
+| 密码 | `123456` |
 
 ## ⚙️ Nginx 反向代理
 
