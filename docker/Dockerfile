@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:20.19.6-alpine3.22
+FROM node:20-alpine
 ENV NODE_ENV=production
 
 EXPOSE 3003
