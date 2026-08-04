@@ -4,9 +4,9 @@ class Article extends Base
 {
     // 获取文章列表
     async list() {
-        const page = parseInt(this.$request.get('page', 1));
-        const rows = parseInt(this.$request.get('rows', 10));
-        const cate_id = parseInt(this.$request.get('cate_id', 0));
+        const page = this.$request.get('page', 1);
+        const rows = this.$request.get('rows', 10);
+        const cate_id = this.$request.get('cate_id', 0);
         const keyword = this.$request.get('keyword', '');
 
         const condition = {};
@@ -34,9 +34,9 @@ class Article extends Base
 
     // 新增文章
     async create() {
-        if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
+        if(!this.$request.isPost()) return this.$error('请使用POST请求');
 
-        const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.title) return this.$error('标题不能为空');
         if(!data.cate_id) return this.$error('分类不能为空');
 
@@ -54,9 +54,9 @@ class Article extends Base
 
     // 编辑文章
     async edit() {
-        if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
+        if(!this.$request.isPost()) return this.$error('请使用POST请求');
 
-        const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.id) return this.$error('缺少id参数');
 
         const article = await this.$model.article.get({id: data.id});

@@ -21,9 +21,9 @@ class Cate extends Base
 
     // 新增分类
     async create() {
-        if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
+        if(!this.$request.isPost()) return this.$error('请使用POST请求');
 
-        const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.cate_name) return this.$error('分类名称不能为空');
         if(!data.cate_dir) return this.$error('分类目录不能为空');
 
@@ -40,9 +40,9 @@ class Cate extends Base
 
     // 编辑分类
     async edit() {
-        if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
+        if(!this.$request.isPost()) return this.$error('请使用POST请求');
 
-        const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
+        const data = this.$request.postAll();
         if(!data.id) return this.$error('缺少id参数');
 
         const cate = await this.$model.cate.get({id: data.id});
@@ -62,7 +62,7 @@ class Cate extends Base
 
     // 删除分类
     async delete() {
-        const id = this.$request.get('id', 0) || (this.ctx.request.body && this.ctx.request.body.id);
+        const id = this.$request.query('id', 0);
         if(!id) return this.$error('缺少id参数');
 
         const result = await this.$model.cate.del({id});

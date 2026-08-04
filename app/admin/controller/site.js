@@ -3,7 +3,7 @@ const Base = require('./base');
 class Site extends Base
 {
     async index() {
-        if(this.ctx.method == 'POST') {
+        if(this.$request.isPost()) {
             const data = this.$request.postAll();
             const list = await this.$model.site.db.column('value', 'key');
             try {
@@ -49,7 +49,7 @@ class Site extends Base
     }
 
     async save() {
-        if(this.ctx.method != 'POST') {
+        if(!this.$request.isPost()) {
             return this.$error('非法请求！');
         }
 

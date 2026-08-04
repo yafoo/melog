@@ -26,7 +26,7 @@ class Comment extends Controller
     }
 
     async post() {
-        if(this.ctx.method != 'POST') {
+        if(!this.$request.isPost()) {
             return this.$error('非法请求！');
         }
 
@@ -60,7 +60,7 @@ class Comment extends Controller
             data.comment_id = reply.comment_id;
         }
         data.user_id = this.$cookie.get('user') || 0;
-        data.ip = this.$utils.getIP(this.ctx.req);
+        data.ip = this.$request.ip();
 
         const err = await this.$model.comment.addComment(data);
         if(err) {

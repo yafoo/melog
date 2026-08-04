@@ -19,7 +19,7 @@ class Index extends Base
     }
 
     async login() {
-        if(this.ctx.method == 'POST'){
+        if(this.$request.isPost()) {
             const username = this.$request.post('username');
             const password = this.$request.post('password');
             if(!username) {

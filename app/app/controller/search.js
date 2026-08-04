@@ -3,7 +3,7 @@ const Base = require('./base');
 class Search extends Base
 {
     async search() {
-        const url = this.ctx.url;
+        const url = this.$request.url();
         if(!~url.indexOf('/search/')) {
             this.$redirect(url.replace('/search', '/search/'), 301);
             return false;

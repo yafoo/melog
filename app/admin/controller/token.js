@@ -42,7 +42,7 @@ class Token extends Base
     }
 
     async save() {
-        if(this.ctx.method != 'POST') {
+        if(!this.$request.isPost()) {
             return this.$error('非法请求！');
         }
 
