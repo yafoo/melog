@@ -3,6 +3,7 @@
 /.git
 /.github
 /.gitignore
+/bin
 /node_modules
 /public/upload/*
 /config/lock.js
@@ -11,4 +12,7 @@
 /config/melog.db-wal
 /docker/.dockerignore
 /docker/Dockerfile
-/CHANGE.md
+/melog-api.skill
+/CHANGED.md
+/publish.bat
+/types.js

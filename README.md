@@ -28,6 +28,7 @@
 - **灵活** — 支持更换导航风格（cms / blog），支持主题切换，自定义主题可共用默认主题文件
 - **专题** — 内置专题功能，轻松定制个性页面
 - **编辑** — Markdown 实时预览，支持手机端，支持截图及图片粘贴上传
+- **AI 友好** — 内置 Token 管理和 Skill 技能文件，支持 AI Agent 一键发表博客
 
 ## 🔧 运行环境
 
@@ -118,6 +119,23 @@ location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ```
+
+## 🤖 AI 技能
+
+Melog 内置了 Token 管理和 RESTful API 接口，配合 Skill 技能文件，可让 AI Agent 直接操作博客内容。
+
+### 使用方式
+
+1. 在后台 **系统管理 → Token管理** 中创建 API Token，按需分配权限
+2. 将根目录下的 `melog-api.skill` 加载到你的 AI 工具中
+3. AI 即可通过 API 实现：查看/创建/编辑/删除文章和分类
+
+### 支持的 AI 工具
+
+- Qoder / Cursor 等支持 Skill 的 IDE
+- 任何支持 MCP 或 Function Calling 的 AI Agent
+
+> 💡 API 使用 Bearer Token 认证，支持细粒度权限控制（分类增删改查、文章增删改查）。
 
 ## 🔗 相关链接
 
