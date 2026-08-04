@@ -1,3 +1,8 @@
+---
+name: melog-api
+description: 通过 RESTful API 管理 Melog 博客。触发条件：对话必须同时包含 "melog" 和明确的操作意图（如"查文章"、"写文章"、"删文章"、"改文章"、"看分类"、"加分类"、"改分类"、"删分类"、"发布"、"编辑博客"等）。仅提到 melog 但无操作意图时不触发。
+---
+
 # Melog Blog API Skill
 
 ## Description
@@ -15,9 +20,32 @@ Use this skill when the user wants to:
 - Query or list blog categories
 - Create, edit, or delete categories
 
+## Configuration
+
+Before making any API call, read the config file to get the token and base URL:
+
+- **Config file**: `config.json`（与 SKILL.md 同目录）
+- **Contents**:
+  ```json
+  {
+    "base_url": "http://127.0.0.1:3003",
+    "token": "ml_xxx..."
+  }
+  ```
+
+Always read this file at the start of each melog-api task to obtain the current `base_url` and `token`. Do NOT hardcode these values.
+
+## HTTP Headers
+
+Every API request **must** include this header to get a JSON response (without it the server returns an HTML redirect page):
+
+```
+X-Requested-With: XMLHttpRequest
+```
+
 ## Authentication
 
-All API requests require a valid token. The token can be passed in two ways:
+All API requests require a valid token. The token is stored in the config file above. It can be passed in two ways:
 
 1. **Query parameter**: `?token=YOUR_TOKEN_STRING`
 2. **Authorization header**: `Authorization: Bearer YOUR_TOKEN_STRING`
@@ -26,7 +54,7 @@ The token is generated from the blog admin panel (系统管理 → Token管理).
 
 ## API Base URL
 
-The API endpoints are relative to the blog's base URL. For example: `http://127.0.0.1:3003`
+The base URL is stored in the config file. All API endpoints are relative to it. For example, if `base_url` is `http://127.0.0.1:3003`, the full URL for listing articles would be `http://127.0.0.1:3003/api/article/list`.
 
 ## API Endpoints
 
@@ -109,9 +137,10 @@ Create a new blog category.
 {
   "state": 1,
   "msg": "新增成功",
-  "data": { "id": 2 }
+  "data": { "id": { "affectedRows": 1, "insertId": 2 } }
 }
 ```
+Note: `data.id.insertId` contains the new category's ID.
 
 #### Edit Category
 
@@ -252,9 +281,10 @@ Create a new blog article. The article content supports Markdown format.
 {
   "state": 1,
   "msg": "新增成功",
-  "data": { "id": 3 }
+  "data": { "id": { "affectedRows": 1, "insertId": 4 } }
 }
 ```
+Note: `data.id.insertId` contains the new article's ID.
 
 #### Edit Article
 
