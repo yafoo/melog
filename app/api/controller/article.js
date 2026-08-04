@@ -1,13 +1,9 @@
 const Base = require('./base');
-const TokenModel = require('../../admin/model/token');
 
 class Article extends Base
 {
     // 获取文章列表
     async list() {
-        const authResult = await this.auth(TokenModel.PERM_ARTICLE_READ);
-        if(authResult !== true) return;
-
         const page = parseInt(this.$request.get('page', 1));
         const rows = parseInt(this.$request.get('rows', 10));
         const cate_id = parseInt(this.$request.get('cate_id', 0));
@@ -27,9 +23,6 @@ class Article extends Base
 
     // 获取文章详情
     async detail() {
-        const authResult = await this.auth(TokenModel.PERM_ARTICLE_READ);
-        if(authResult !== true) return;
-
         const id = this.$request.get('id', 0);
         if(!id) return this.$error('缺少id参数');
 
@@ -41,9 +34,6 @@ class Article extends Base
 
     // 新增文章
     async create() {
-        const authResult = await this.auth(TokenModel.PERM_ARTICLE_CREATE);
-        if(authResult !== true) return;
-
         if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
 
         const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
@@ -64,16 +54,12 @@ class Article extends Base
 
     // 编辑文章
     async edit() {
-        const authResult = await this.auth(TokenModel.PERM_ARTICLE_EDIT);
-        if(authResult !== true) return;
-
         if(this.ctx.method != 'POST') return this.$error('请使用POST请求');
 
         const data = this.$request.postAll ? this.$request.postAll() : this.ctx.request.body;
         if(!data.id) return this.$error('缺少id参数');
 
-        const id = data.id;
-        const article = await this.$model.article.get({id});
+        const article = await this.$model.article.get({id: data.id});
         if(!article) return this.$error('文章不存在');
 
         data.update_time = this.$utils.time();
@@ -88,16 +74,13 @@ class Article extends Base
 
     // 删除文章
     async delete() {
-        const authResult = await this.auth(TokenModel.PERM_ARTICLE_DELETE);
-        if(authResult !== true) return;
-
-        const id = this.$request.get('id', 0) || (this.ctx.request.body && this.ctx.request.body.id);
+        const id = this.$request.query('id', 0);
         if(!id) return this.$error('缺少id参数');
 
         try {
             await this.$db.startTrans(async () => {
                 await this.$model.article.del({id});
-                await this.$model.comment.del({article_id: id});
+                await this.$db.table('comment').delete({article_id: id});
             });
             this.$success('删除成功');
         } catch (e) {
