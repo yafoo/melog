@@ -5,6 +5,7 @@ class User extends Base
     async index() {
         const list = await this.$model.user.getUserList(undefined, 100);
         this.$assign('list', list);
+        this.$assign('title', '账号管理');
         await this.$fetch();
     }
 
@@ -16,6 +17,7 @@ class User extends Base
         }
 
         this.$assign('user', user);
+        this.$assign('title', '账号编辑');
         await this.$fetch();
     }
 

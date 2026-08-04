@@ -21,6 +21,8 @@ class Base extends Controller
         this.site = await this.$model.site.getConfig();
         this.$assign('site', this.site);
         
+        // 当前控制器名，用于导航高亮
+        this.$assign('ctrl', this.ctx.CONTROLLER || 'index');
         this.$assign('title', '管理中心');
         this.$assign('description', this.site.description);
         this.$assign('keywords', this.site.keywords);

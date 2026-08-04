@@ -29,6 +29,7 @@ class Site extends Base
                 }
             });
             this.$assign('list', list);
+            this.$assign('title', '系统设置');
             await this.$fetch();
         }
     }
@@ -43,6 +44,7 @@ class Site extends Base
 
         this.$assign('id', id);
         this.$assign('data', data);
+        this.$assign('title', '系统设置');
         await this.$fetch();
     }
 

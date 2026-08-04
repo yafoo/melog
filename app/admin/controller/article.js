@@ -24,6 +24,7 @@ class Article extends Base
         this.$assign('pagination', pagination.render());
         this.$assign('callback', this.$request.query('callback', 'callback'));
 
+        this.$assign('title', '文章管理');
         await this.$fetch();
     }
     
@@ -47,6 +48,7 @@ class Article extends Base
         ];
         this.$assign('comment_set_options', comment_set_options);
 
+        this.$assign('title', '文章编辑');
         await this.$fetch();
     }
 

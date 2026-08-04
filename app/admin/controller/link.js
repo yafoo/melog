@@ -10,6 +10,7 @@ class Link extends Base
         this.$assign('pid', pid);
         this.$assign('list', list);
         this.$assign('link_list', link_list);
+        this.$assign('title', '链接管理');
         await this.$fetch();
     }
 
@@ -25,6 +26,7 @@ class Link extends Base
         this.$assign('pid', pid);
         this.$assign('link_list', link_list);
         this.$assign('link', link);
+        this.$assign('title', '链接编辑');
         await this.$fetch();
     }
 

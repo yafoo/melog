@@ -14,6 +14,7 @@ class Comment extends Base
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
 
+        this.$assign('title', '评论管理');
         await this.$fetch();
     }
 

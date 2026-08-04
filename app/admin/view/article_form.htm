@@ -4,7 +4,8 @@
 <link href="/static/common/highlight/default.min.css" rel="stylesheet">
 <link href="/static/admin/meedit/meedit.css" rel="stylesheet">
 <style>
-    .layui-tab-content {padding: 10px 0 0;}
+    .layui-form {background-color: #fff; padding: 10px 0;}
+    .layui-tabs-body {padding: 10px;}
     .input-thumb-block {display: flex;}
     .input-thumb {background-size: auto 100%; background-repeat: no-repeat; text-indent: 45px;}
     .select-thumb {margin-left: 10px;}
@@ -15,13 +16,13 @@
 <form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="id" value="{{article.id}}">
     <input type="hidden" name="user_id" value="{{article.user_id || user.id}}">
-    <div class="layui-tab" lay-filter="demo">
-        <ul class="layui-tab-title">
+    <div class="layui-tabs" lay-filter="demo" style="margin-top: 0;">
+        <ul class="layui-tabs-header">
             <li class="layui-this">文章信息</li>
             <li>内容/预览</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属栏目</label>
                     <div class="layui-input-block">
@@ -89,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-tab-item article">
+            <div class="layui-tabs-item article">
                 <textarea class="layui-textarea content" name="content" placeholder="请输入内容">{{@article.content || ''}}</textarea>
             </div>
         </div>
@@ -106,11 +107,10 @@
 <script src="/static/admin/meedit/meedit.js"></script>
 <script>
     layui.use(['form', 'element'], function() {
-        var form = layui.form
-        ,element = layui.element;
+        var form = layui.form;
 
         // 初始化高度
-        $('.article').height($(window).height() - $('header').height() - $('.layui-tab-title').height() - 30 - 60);
+        $('.article').height($(window).height() - $('.me-header').height() - $('.layui-tabs-title').height() - 30 - 60 - 30);
 
         // 缩略图选择
         $(".select-thumb").click(function() {

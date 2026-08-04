@@ -14,6 +14,7 @@ class Index extends Base
         ]);
         this.$assign('count', {article, cate, comment, upload, link, user});
 
+        this.$assign('title', '仪表盘');
         await this.$fetch();
     }
 

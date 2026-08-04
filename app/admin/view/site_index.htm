@@ -2,7 +2,7 @@
 
 {{block 'css'}}
 <style>
-    .layui-tab-content {padding: 10px 0 0;}
+    .layui-tabs-body {padding: 10px;}
     .layui-form-label {width: 90px;}
     .layui-input-block {margin-left: 120px;}
     .tab-item-self .layui-input-block {margin-right: 150px;}
@@ -12,15 +12,15 @@
 
 {{block 'main'}}
 <form method="post" class="layui-form">
-    <div class="layui-tab" lay-filter="demo">
-        <ul class="layui-tab-title">
+    <div class="layui-tabs" lay-filter="demo" style="margin-top: 0;">
+        <ul class="layui-tabs-header">
             <li class="layui-this">站点设置</li>
             <li>图片上传</li>
             <li>其他</li>
             <li>自定义</li>
         </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+        <div class="layui-tabs-body">
+            <div class="layui-tabs-item layui-show">
                 {{each list item}}
                 {{if item.group == 'web'}}
                 <div class="layui-form-item">
@@ -39,7 +39,7 @@
                 {{/if}}
                 {{/each}}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{each list item}}
                 {{if item.group == 'image'}}
                 <div class="layui-form-item">
@@ -58,7 +58,7 @@
                 {{/if}}
                 {{/each}}
             </div>
-            <div class="layui-tab-item">
+            <div class="layui-tabs-item">
                 {{each list item}}
                 {{if item.group == 'other'}}
                 <div class="layui-form-item">
@@ -77,7 +77,7 @@
                 {{/if}}
                 {{/each}}
             </div>
-            <div class="layui-tab-item tab-item-self">
+            <div class="layui-tabs-item tab-item-self">
                 {{each list item}}
                 {{if item.group == 'self'}}
                 <div class="layui-form-item">
@@ -107,9 +107,9 @@
 
 {{block 'js'}}
 <script>
-    layui.use(['form', 'element'], function(){
+    layui.use(['form'], function(){
         var form = layui.form
-        ,element = layui.element;
+        ,tabs = layui.tabs;
 
         $('a.btn-del').each(function() {
             var url = $(this).attr('href');
@@ -129,7 +129,7 @@
             });
         });
 
-        element.on('tab(demo)', function(e) {
+        tabs.on('afterChange', function(e) {
             if(e.index == 3) {
                 $('.btn-add').removeClass('layui-hide');
             } else {

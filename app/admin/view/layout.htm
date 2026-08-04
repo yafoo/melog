@@ -3,117 +3,79 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{title}} - {{site.webname}}</title>
+    <title>管理中心 - {{site.webname}}</title>
     <link href="/static/admin/layui/css/layui.css" rel="stylesheet">
-    <style>
-        .sp5 {width: 5px;}
-        .sp10 {width: 10px;}
-        .layui-nav, .layui-nav .layui-nav-item>a {padding: 0 10px; height: 60px;}
-        .layui-nav .layui-nav-item .layui-nav-more {height: 30px; line-height: 30px; margin-top: 15px;}
-        .layui-nav-child {left: auto; right: 0;}
-        .layui-form-label {width: 60px;}
-        .layui-input-block {margin-left: 90px;}
-        .table-wrap {margin: 10px 0; overflow-x: auto;}
-        .table-wrap .layui-table {margin: 0;}
-        .table-wrap .layui-table th,
-        .table-wrap .layui-table td {white-space: nowrap;}
-        .table-wrap .layui-table .title {white-space: break-spaces; min-width: 250px;}
-        .table-wrap .layui-table .content {white-space: break-spaces;}
-        .table-tools {display: flex;}
-        .table-tools .select {width: 100px;}
-        .table-tools .input {flex: 1; max-width: 250px;}
-        
-        /* pagination */
-        .pagination {
-            margin: 10px 0;
-        }
-        .page {
-            display: flex;
-        }
-        .page li {
-            margin-right: 6px;
-        }
-        .page li a {
-            display: block;
-            border: 1px solid #ccc;
-            transition: border-color .2s;
-            min-width: 36px;
-            height: 36px;
-            line-height: 34px;
-            overflow: hidden;
-            text-align: center;
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-        .page li:hover a {
-            border: 1px solid #46bc99;
-            color: #46bc99;
-        }
-        .page li.active a {
-            border: 1px solid #46bc99;
-            background-color: #46bc99;
-            color: #fff;
-        }
-        .pagination .info {
-            display: block;
-            margin-top: 10px;
-        }
-        .page li.prev, .page li.next {
-            display: none;
-        }
-        @media screen and (min-width: 961px) {
-            .pagination {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .pagination .info {
-                margin-top: 0;
-            }
-            .pagination .page li.prev,
-            .pagination .page li.next {
-                display: block;
-            }
-        }
-        </style>
+    <link href="/static/admin/admin.css" rel="stylesheet">
     {{block 'css'}}{{/block}}
 </head>
 <body>
 {{if user}}
-<header>
-    <ul class="layui-nav" style="border-radius: 0;">
-        <li class="layui-nav-item"><a href="{{url('index/index')}}" title="{{site.webname}}" style="font-size: 0;"><img src="/favicon.ico" style="width: 20px; width: 28px; border-radius: 2px;"/></a></li>
-        <li class="layui-nav-item"><a href="{{url('article/index')}}">文章</a></li>
-        <li class="layui-nav-item"><a href="{{url('comment/index')}}">评论</a></li>
-        <li class="layui-nav-item"><a href="{{url('upload/index')}}">图片</a></li>
-        <li class="layui-nav-item"><a href="{{url('article/form')}}">新增</a></li>
-        <li class="layui-nav-item" style="float: right;">
-            <a href="javascript:;" style="padding-right: 20px;">系统</a>
+<!-- 遮罩层 -->
+<div class="me-mobile-mask" id="meMask"></div>
+
+<!-- 左侧导航 -->
+<div class="me-side layui-bg-cyan" id="meSide">
+    <div class="me-logo">
+        <img src="/favicon.ico" alt="logo">
+        <span>{{site.webname}}</span>
+    </div>
+    <ul class="layui-nav layui-nav-tree" lay-filter="sideNav" lay-shrink="all">
+        <li class="layui-nav-item{{ctrl == 'index' ? ' layui-this' : ''}}">
+            <a href="{{url('index/index')}}"><i class="layui-icon layui-icon-console"></i><span class="layui-nav-text">仪表盘</span></a>
+        </li>
+        <li class="layui-nav-item{{(ctrl == 'article' || ctrl == 'cate' || ctrl == 'comment') ? ' layui-nav-itemed' : ''}}">
+            <a href="javascript:;"><i class="layui-icon layui-icon-read"></i><span class="layui-nav-text">内容管理</span></a>
             <dl class="layui-nav-child">
-                <dd><a href="{{url('/')}}" target="_blank">前台首页</a></dd>
-                <dd><a href="{{url('site/index')}}">系统设置</a></dd>
-                <dd><a href="javascript:;" id="cache-clear">清理缓存</a></dd>
-                <dd><a href="{{url('index/logout')}}">退出</a></dd>
+                <dd{{@ ctrl == 'article' ? ' class="layui-this"' : ''}}><a href="{{url('article/index')}}">文章</a></dd>
+                <dd{{@ ctrl == 'cate' ? ' class="layui-this"' : ''}}><a href="{{url('cate/index')}}">分类</a></dd>
+                <dd{{@ ctrl == 'comment' ? ' class="layui-this"' : ''}}><a href="{{url('comment/index')}}">评论</a></dd>
             </dl>
         </li>
+        <li class="layui-nav-item{{(ctrl == 'upload' || ctrl == 'link') ? ' layui-nav-itemed' : ''}}">
+            <a href="javascript:;"><i class="layui-icon layui-icon-picture"></i><span class="layui-nav-text">媒体</span></a>
+            <dl class="layui-nav-child">
+                <dd{{@ ctrl == 'upload' ? ' class="layui-this"' : ''}}><a href="{{url('upload/index')}}">图片</a></dd>
+                <dd{{@ ctrl == 'link' ? ' class="layui-this"' : ''}}><a href="{{url('link/index')}}">链接</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item{{(ctrl == 'site') ? ' layui-nav-itemed' : ''}}">
+            <a href="javascript:;"><i class="layui-icon layui-icon-set"></i><span class="layui-nav-text">设置</span></a>
+            <dl class="layui-nav-child">
+                <dd{{@ ctrl == 'site' ? ' class="layui-this"' : ''}}><a href="{{url('site/index')}}">系统设置</a></dd>
+                <dd{{@ ctrl == 'cache' ? ' class="layui-this"' : ''}}><a href="javascript:;" id="cache-clear" data-url="{{url('site/clear')}}">清理缓存</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item{{ctrl == 'user' ? ' layui-this' : ''}}">
+            <a href="{{url('user/index')}}"><i class="layui-icon layui-icon-user"></i><span class="layui-nav-text">账号管理</span></a>
+        </li>
     </ul>
-</header>
-{{/if}}
-<div class="main" style="margin: 15px 10px;">
+    <div class="me-side-bottom">
+        <a href="{{url('/')}}" target="_blank"><i class="layui-icon layui-icon-website"></i><span>访问前台</span></a>
+        <a href="{{url('index/logout')}}"><i class="layui-icon layui-icon-logout"></i><span>退出登录</span></a>
+    </div>
+</div>
+
+<!-- 右侧主体 -->
+<div class="me-main" id="meMain">
+    <div class="me-header">
+        <span class="me-toggle" id="meToggle"><i class="layui-icon layui-icon-shrink-right"></i></span>
+        <span class="me-title">{{title}}</span>
+    </div>
+    <div class="me-content">
+        {{block 'main'}}{{/block}}
+    </div>
+</div>
+
+<script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/admin/layui/layui.js"></script>
+<script src="/static/admin/admin.js"></script>
+{{else}}
+<div class="login-wrap">
     {{block 'main'}}{{/block}}
 </div>
 <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="/static/admin/layui/layui.js"></script>
-<script>
-    layui.use('element', function() {
-        var element = layui.element;
-        $('#cache-clear').click(function() {
-            $.get("{{url('site/clear')}}", function(res) {
-                layer.msg(res.msg);
-            });
-        });
-    });
-</script>
+{{/if}}
 {{block 'js'}}{{/block}}
 </body>
 </html>

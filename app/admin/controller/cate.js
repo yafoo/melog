@@ -5,6 +5,7 @@ class Cate extends Base
     async index() {
         const list = await this.$model.cate.getCateList();
         this.$assign('list', list);
+        this.$assign('title', '分类管理');
         await this.$fetch();
     }
 
@@ -16,6 +17,7 @@ class Cate extends Base
         }
 
         this.$assign('cate', cate);
+        this.$assign('title', '分类编辑');
         await this.$fetch();
     }
 

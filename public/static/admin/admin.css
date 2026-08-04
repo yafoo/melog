@@ -1,0 +1,192 @@
+html, body {height: 100%; margin: 0;}
+
+/* === 登录页 === */
+.login-wrap {max-width: 400px; margin: 80px auto; padding: 0 15px;}
+
+/* === 后台框架 === */
+.me-side {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: 200px;
+    z-index: 1001;
+    display: flex; flex-direction: column;
+    transition: width .3s, transform .3s;
+}
+.me-side.me-collapsed {
+    width: 60px;
+}
+.me-side.me-collapsed .layui-nav.layui-nav-tree {
+    width: 60px;
+}
+.me-side.me-collapsed .me-logo span,
+.me-side.me-collapsed .layui-nav-text,
+.me-side.me-collapsed .layui-nav-more,
+.me-side.me-collapsed .me-side-bottom span {
+    display: none;
+}
+.me-side.me-collapsed .me-logo {
+    justify-content: center;
+    padding: 0;
+}
+.me-side.me-collapsed .layui-nav-item > a {
+    text-align: center;
+    padding: 0 !important;
+}
+.me-side.me-collapsed .layui-nav-item > a .layui-icon {
+    margin-right: 0;
+    font-size: 20px;
+}
+.me-side.me-collapsed .layui-nav-child dd a {
+    padding: 0 5px !important;
+    text-align: center;
+}
+.me-side.me-collapsed .me-side-bottom a {
+    text-align: center;
+    padding: 10px 0;
+}
+.me-side.me-collapsed .me-side-bottom .layui-icon {
+    margin-right: 0;
+}
+.me-logo {
+    height: 50px; display: flex; align-items: center;
+    padding: 0 15px; color: #fff; font-size: 16px; font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    flex-shrink: 0; gap: 10px;
+}
+.me-logo img {width: 24px; height: 24px; border-radius: 3px;}
+.me-side .layui-nav {
+    background: transparent; flex: 1;
+    padding: 10px 0;
+}
+.me-side .layui-nav .layui-nav-item a {
+    color: rgba(255,255,255,.8); height: 44px; line-height: 44px;
+}
+.me-side .layui-nav .layui-nav-item a:hover {
+    color: #fff; background: rgba(255,255,255,.1);
+}
+.me-side .layui-nav .layui-this > a {
+    color: #fff !important; background: rgba(255,255,255,.2) !important;
+}
+.me-side .layui-nav .layui-nav-item .layui-icon {
+    margin-right: 8px; font-size: 16px;
+}
+.me-side .layui-nav-tree .layui-nav-bar {display: none;}
+.me-side .layui-nav .layui-nav-child {
+    background: rgba(0,0,0,.1); padding: 5px 0;
+}
+.me-side .layui-nav .layui-nav-child dd a {
+    color: rgba(255,255,255,.7); height: 40px; line-height: 40px;
+    padding-left: 44px;
+}
+.me-side .layui-nav .layui-nav-child dd a:hover {
+    color: #fff; background: rgba(255,255,255,.1);
+}
+.me-side .layui-nav .layui-nav-child dd.layui-this a {
+    color: #fff; background: rgba(255,255,255,.2);
+}
+.me-side .layui-nav .layui-nav-more {
+    border-color: rgba(255,255,255,.5) transparent transparent;
+}
+.me-side .layui-nav .layui-nav-mored {
+    border-color: transparent transparent rgba(255,255,255,.5);
+}
+
+/* 底部系统菜单 */
+.me-side-bottom {
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding: 10px 0;
+}
+.me-side-bottom a {
+    display: block; padding: 10px 15px;
+    color: rgba(255,255,255,.8); font-size: 14px;
+}
+.me-side-bottom a:hover {
+    color: #fff; background: rgba(255,255,255,.1);
+}
+.me-side-bottom .layui-icon {
+    margin-right: 8px; font-size: 16px;
+}
+
+.me-main {
+    margin-left: 200px; min-height: 100%;
+    display: flex; flex-direction: column;
+    transition: margin-left .3s;
+}
+.me-main.me-expanded {
+    margin-left: 60px;
+}
+.me-header {
+    height: 50px; background: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex; align-items: center;
+    padding: 0 20px;
+    flex-shrink: 0;
+}
+.me-header .me-toggle {
+    cursor: pointer;
+    font-size: 20px;
+    color: #666;
+    margin-right: 15px;
+}
+.me-header .me-toggle:hover {
+    color: #009688;
+}
+.me-header .me-title {
+    font-size: 16px; color: #333; font-weight: bold;
+}
+.me-content {
+    flex: 1; padding: 15px; background: #f2f2f2;
+}
+
+/* 移动端 */
+.me-mobile-mask {
+    display: none; position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,.3); z-index: 1000;
+}
+@media screen and (max-width: 768px) {
+    .me-side {
+        transform: translateX(-100%);
+    }
+    .me-side.me-mobile-show {
+        transform: translateX(0);
+    }
+    .me-main {margin-left: 0 !important;}
+    .me-mobile-show + .me-mobile-mask {display: block;}
+}
+
+/* 通用样式 */
+.sp5 {width: 5px;}
+.sp10 {width: 10px;}
+.layui-form {background-color: #fff; padding: 10px 0;}
+.layui-form.table-tools {padding: 10px;}
+.layui-form-label {width: 60px;}
+.layui-input-block {margin-left: 90px;}
+.table-wrap {margin: 10px 0; overflow-x: auto;}
+.table-wrap .layui-table {margin: 0;}
+.table-wrap .layui-table th,
+.table-wrap .layui-table td {white-space: nowrap;}
+.table-wrap .layui-table .title {white-space: break-spaces; min-width: 250px;}
+.table-wrap .layui-table .content {white-space: break-spaces;}
+.table-tools {display: flex;}
+.table-tools .select {width: 100px;}
+.table-tools .input {flex: 1; max-width: 250px;}
+
+/* pagination */
+.pagination {margin: 10px 0;}
+.page {display: flex;}
+.page li {margin-right: 6px;}
+.page li a {
+    display: block; border: 1px solid #ccc; transition: border-color .2s;
+    min-width: 36px; height: 36px; line-height: 34px; overflow: hidden;
+    text-align: center; padding: 0 10px; box-sizing: border-box;
+}
+.page li:hover a {border: 1px solid #46bc99; color: #46bc99;}
+.page li.active a {border: 1px solid #46bc99; background-color: #46bc99; color: #fff;}
+.pagination .info {display: block; margin-top: 10px;}
+.page li.prev, .page li.next {display: none;}
+@media screen and (min-width: 961px) {
+    .pagination {display: flex; justify-content: space-between; align-items: center;}
+    .pagination .info {margin-top: 0;}
+    .pagination .page li.prev,
+    .pagination .page li.next {display: block;}
+}

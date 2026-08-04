@@ -17,6 +17,7 @@ class Upload extends Base
         this.$assign('list', list);
         this.$assign('pagination', pagination.render());
         this.$assign('callback', this.$request.get('callback', 'callback'));
+        this.$assign('title', '图片上传');
         await this.$fetch();
     }
 
