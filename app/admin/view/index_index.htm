@@ -2,72 +2,233 @@
 
 {{block 'css'}}
 <style>
-.site-box {
-    font-size: 0;
+.dash-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
 }
-.site-box a {
-    display: inline-block;
-    vertical-align: middle;
-    width: 120px;
-    margin-left: 20px;
-    margin-top: 20px;
-    padding: 21px 10px;
-    color: #fff;
+.stat-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 18px 15px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: box-shadow .2s, transform .2s;
+    text-decoration: none;
+}
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    transform: translateY(-2px);
+}
+.stat-icon {
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.stat-icon .layui-icon { font-size: 22px; color: #fff; }
+.stat-info { flex: 1; min-width: 0; }
+.stat-num { font-size: 26px; font-weight: bold; color: #333; line-height: 1.2; }
+.stat-label { font-size: 13px; color: #888; margin-top: 2px; }
+
+.dash-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.dash-panel {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.dash-panel-head {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.dash-panel-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+.dash-panel-body { padding: 0; }
+.dash-panel-body .layui-table { margin: 0; }
+
+.dash-sys {
+    background: #fff;
+    border-radius: 6px;
+    padding: 15px;
+}
+.dash-sys-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f6f6f6;
+    gap: 10px;
+}
+.dash-sys-row:last-child { border-bottom: none; }
+.dash-sys-label {
+    color: #888;
+    font-size: 13px;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+.dash-sys-val {
+    color: #333;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+.dash-empty {
+    padding: 30px 0;
     text-align: center;
-    border-radius: 2px;
-    line-height: 22px;
-    font-size: 16px;
+    color: #ccc;
+    font-size: 13px;
 }
-.site-box a span {
-    display: block;
-    line-height: 18px;
-    font-size: 14px;
-    text-indent: 5px;
+
+@media screen and (max-width: 768px) {
+    .dash-stats { grid-template-columns: repeat(2, 1fr); }
+    .dash-row { grid-template-columns: 1fr; }
+    .dash-sys-label { min-width: 70px; }
 }
 </style>
 {{/block}}
 
 {{block 'main'}}
-<div>
-    <ul class="site-box">
-        <a style="background-color: #009688;" href="{{url('article/index')}}">
-            <i class="layui-icon layui-icon-read"></i> 文章
-            <span>( {{count.article}} )</span>
-        </a>
-        <a style="background-color: #5FB878;" href="{{url('cate/index')}}">
-            <i class="layui-icon layui-icon-list"></i> 分类
-            <span>( {{count.cate}} )</span>
-        </a>
-        <a style="background-color: #393D49;" href="{{url('comment/index')}}">
-            <i class="layui-icon layui-icon-dialogue"></i> 评论
-            <span>( {{count.comment}} )</span>
-        </a>
-        <a style="background-color: #1E9FFF;" href="{{url('upload/index')}}">
-            <i class="layui-icon layui-icon-picture"></i> 图片
-            <span>( {{count.upload}} )</span>
-        </a>
-        <a style="background-color: #FFB800;" href="{{url('link/index')}}">
-            <i class="layui-icon layui-icon-link"></i> 链接
-            <span>( {{count.link}} )</span>
-        </a>
-        <a style="background-color: #FF5722;" href="{{url('user/index')}}">
-            <i class="layui-icon layui-icon-user"></i> 账号
-            <span>( {{count.user}} )</span>
-        </a>
-        <a style="background-color: #01AAED; padding: 30px 10px;" href="{{url('site/index')}}">
-            <i class="layui-icon layui-icon-set"></i> 设置
-        </a>
-        <a style="background-color: #2F4056; padding: 30px 10px;" href="/" target="blank">
-            <i class="layui-icon layui-icon-website"></i> 前台
-        </a>
-    </ul>
+
+<!-- 欢迎语 -->
+<div style="margin-bottom:15px;color:#666;font-size:14px;">
+    欢迎回来，<b style="color:#333;">{{user.nickname || user.username}}</b>，今天是 <span id="dash-today"></span>
 </div>
+
+<!-- 统计卡片 -->
+<div class="dash-stats">
+    <a class="stat-card" href="{{url('article/index')}}">
+        <div class="stat-icon" style="background:#009688;"><i class="layui-icon layui-icon-read"></i></div>
+        <div class="stat-info">
+            <div class="stat-num">{{count.article}}</div>
+            <div class="stat-label">文章</div>
+        </div>
+    </a>
+    <a class="stat-card" href="{{url('cate/index')}}">
+        <div class="stat-icon" style="background:#5FB878;"><i class="layui-icon layui-icon-list"></i></div>
+        <div class="stat-info">
+            <div class="stat-num">{{count.cate}}</div>
+            <div class="stat-label">分类</div>
+        </div>
+    </a>
+    <a class="stat-card" href="{{url('comment/index')}}">
+        <div class="stat-icon" style="background:#1E9FFF;"><i class="layui-icon layui-icon-dialogue"></i></div>
+        <div class="stat-info">
+            <div class="stat-num">{{count.comment}}</div>
+            <div class="stat-label">评论</div>
+        </div>
+    </a>
+    <a class="stat-card" href="{{url('upload/index')}}">
+        <div class="stat-icon" style="background:#FFB800;"><i class="layui-icon layui-icon-picture"></i></div>
+        <div class="stat-info">
+            <div class="stat-num">{{count.upload}}</div>
+            <div class="stat-label">图片</div>
+        </div>
+    </a>
+</div>
+
+<!-- 最新文章 + 最新评论 -->
+<div class="dash-row">
+    <!-- 最新文章 -->
+    <div class="dash-panel">
+        <div class="dash-panel-head">
+            <span class="dash-panel-title"><i class="layui-icon layui-icon-read" style="color:#009688;margin-right:5px;"></i>最新文章</span>
+            <a href="{{url('article/index')}}" style="font-size:12px;color:#999;">查看全部 &raquo;</a>
+        </div>
+        <div class="dash-panel-body">
+            {{if recent_articles.length}}
+            <table class="layui-table" lay-size="sm">
+                <thead><tr><th class="title">标题</th><th style="width:70px;">分类</th><th style="width:90px;">时间</th></tr></thead>
+                <tbody>
+                    {{each recent_articles item}}
+                    <tr>
+                        <td class="title"><a href="{{url('article/form', {id: item.id})}}" style="color:#333;">{{item.title}}</a></td>
+                        <td>{{item.cate_name}}</td>
+                        <td style="color:#999;font-size:12px;">{{item.date}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <div class="dash-empty">暂无文章</div>
+            {{/if}}
+        </div>
+    </div>
+
+    <!-- 最新评论 -->
+    <div class="dash-panel">
+        <div class="dash-panel-head">
+            <span class="dash-panel-title"><i class="layui-icon layui-icon-dialogue" style="color:#1E9FFF;margin-right:5px;"></i>最新评论</span>
+            <a href="{{url('comment/index')}}" style="font-size:12px;color:#999;">查看全部 &raquo;</a>
+        </div>
+        <div class="dash-panel-body">
+            {{if recent_comments.length}}
+            <table class="layui-table" lay-size="sm">
+                <thead><tr><th style="width:60px;">昵称</th><th class="content">内容</th><th style="width:90px;">时间</th></tr></thead>
+                <tbody>
+                    {{each recent_comments item}}
+                    <tr>
+                        <td>{{item.uname}}</td>
+                        <td class="content" style="font-size:12px;color:#666;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{item.content}}</td>
+                        <td style="color:#999;font-size:12px;">{{item.date}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <div class="dash-empty">暂无评论</div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<!-- 系统信息 -->
+<div class="dash-sys">
+    <div class="dash-panel-title" style="margin-bottom:10px;"><i class="layui-icon layui-icon-set" style="color:#888;margin-right:5px;"></i>系统信息</div>
+    <div class="dash-sys-row">
+        <span class="dash-sys-label">博客程序</span>
+        <span class="dash-sys-val">Melog v{{sys.melog_version}}</span>
+    </div>
+    <div class="dash-sys-row">
+        <span class="dash-sys-label">运行环境</span>
+        <span class="dash-sys-val">Node.js {{sys.node_version}}</span>
+    </div>
+    <div class="dash-sys-row">
+        <span class="dash-sys-label">网站名称</span>
+        <span class="dash-sys-val">{{site.webname}}</span>
+    </div>
+    <div class="dash-sys-row">
+        <span class="dash-sys-label">快捷入口</span>
+        <span class="dash-sys-val">
+            <a href="{{url('link/index')}}" class="layui-btn layui-btn-xs layui-btn-primary">链接管理</a>
+            <a href="{{url('site/index')}}" class="layui-btn layui-btn-xs layui-btn-primary">系统设置</a>
+            <a href="/" target="_blank" class="layui-btn layui-btn-xs layui-btn-primary">访问前台</a>
+        </span>
+    </div>
+</div>
+
 {{/block}}
 
 {{block 'js'}}
 <script>
-    layui.use(['form'], function(){
-        var form = layui.form;
+    layui.use([], function(){
+        // 显示今天日期
+        var d = new Date();
+        var week = ['日','一','二','三','四','五','六'];
+        var today = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 星期' + week[d.getDay()];
+        document.getElementById('dash-today').textContent = today;
     });
 </script>
 {{/block}}

@@ -1,4 +1,5 @@
 const Base = require('./base');
+const pkg = require('../../../package.json');
 
 class Index extends Base
 {
@@ -13,6 +14,31 @@ class Index extends Base
             this.$model.user.db.count()
         ]);
         this.$assign('count', {article, cate, comment, upload, link, user});
+
+        // 最新文章
+        const recent_articles = await this.$db.table('article a')
+            .field('a.id,a.title,a.add_time,a.click,c.cate_name')
+            .join('cate c', 'a.cate_id=c.id')
+            .order('a.id', 'desc').limit(5).select();
+        recent_articles.forEach(item => {
+            item.date = this.$utils.date('m-d H:i', item.add_time);
+        });
+
+        // 最新评论
+        const recent_comments = await this.$db.table('comment c')
+            .field('c.id,c.uname,c.content,c.add_time,a.title')
+            .join('article a', 'c.article_id=a.id')
+            .order('c.id', 'desc').limit(5).select();
+        recent_comments.forEach(item => {
+            item.date = this.$utils.date('m-d H:i', item.add_time);
+        });
+
+        this.$assign('recent_articles', recent_articles);
+        this.$assign('recent_comments', recent_comments);
+        this.$assign('sys', {
+            melog_version: pkg.version,
+            node_version: process.version,
+        });
 
         this.$assign('title', '仪表盘');
         await this.$fetch();
