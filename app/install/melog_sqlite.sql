@@ -174,6 +174,24 @@ CREATE TABLE `melog_upload` (
 );
 
 -- ----------------------------
+-- Table structure for melog_token
+-- ----------------------------
+DROP TABLE IF EXISTS `melog_token`;
+CREATE TABLE `melog_token` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `user_id` INTEGER NOT NULL DEFAULT 0,
+  `name` VARCHAR(100) NOT NULL DEFAULT '',
+  `token` VARCHAR(128) NOT NULL DEFAULT '',
+  `permissions` INTEGER NOT NULL DEFAULT 0,
+  `expire_time` INTEGER NOT NULL DEFAULT 0,
+  `add_time` INTEGER NOT NULL DEFAULT 0,
+  `update_time` INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE INDEX `idx_token_user_id` ON `melog_token` (`user_id`);
+CREATE INDEX `idx_token` ON `melog_token` (`token`);
+
+-- ----------------------------
 -- Table structure for melog_user
 -- ----------------------------
 DROP TABLE IF EXISTS `melog_user`;

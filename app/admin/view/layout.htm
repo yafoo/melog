@@ -45,8 +45,12 @@
                 <dd{{@ ctrl == 'cache' ? ' class="layui-this"' : ''}}><a href="javascript:;" id="cache-clear" data-url="{{url('site/clear')}}">清理缓存</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item{{ctrl == 'user' ? ' layui-this' : ''}}">
-            <a href="{{url('user/index')}}"><i class="layui-icon layui-icon-user"></i><span class="layui-nav-text">账号管理</span></a>
+        <li class="layui-nav-item{{(ctrl == 'user' || ctrl == 'token') ? ' layui-nav-itemed' : ''}}">
+            <a href="javascript:;"><i class="layui-icon layui-icon-user"></i><span class="layui-nav-text">账号</span></a>
+            <dl class="layui-nav-child">
+                <dd{{@ ctrl == 'user' ? ' class="layui-this"' : ''}}><a href="{{url('user/index')}}">账号管理</a></dd>
+                <dd{{@ ctrl == 'token' ? ' class="layui-this"' : ''}}><a href="{{url('token/index')}}">Token管理</a></dd>
+            </dl>
         </li>
     </ul>
     <div class="me-side-bottom">

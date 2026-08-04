@@ -3,36 +3,35 @@
 {{block 'main'}}
 <form method="post" action="{{url('save')}}" class="layui-form">
     <input type="hidden" name="id" value="{{user.id}}">
-    <div class="layui-tab-item layui-show">
-        <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" name="username" class="layui-input" value="{{user.username}}">
-            </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" class="layui-input" value="{{user.username}}">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">昵称</label>
-            <div class="layui-input-block">
-                <input type="text" name="nickname" class="layui-input" value="{{user.nickname}}">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-block">
+            <input type="text" name="nickname" class="layui-input" value="{{user.nickname}}">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" name="email" lay-verType="tips" placeholder="请输入邮箱" class="layui-input" value="{{user.email}}">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="text" name="email" lay-verType="tips" placeholder="请输入邮箱" class="layui-input" value="{{user.email}}">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
-            <div class="layui-input-block">
-                <input type="password" name="password" class="layui-input" value="">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" class="layui-input" value="">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码确认</label>
-            <div class="layui-input-block">
-                <input type="password" name="password2" class="layui-input" value="">
-            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码确认</label>
+        <div class="layui-input-block">
+            <input type="password" name="password2" class="layui-input" value="">
         </div>
     </div>
 

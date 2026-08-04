@@ -1,0 +1,73 @@
+{{extend './layout.htm'}}
+
+{{block 'main'}}
+<form method="post" action="{{url('save')}}" class="layui-form">
+    <input type="hidden" name="id" value="{{token.id}}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">Token名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" class="layui-input" value="{{token.name}}" placeholder="请输入Token名称，便于识别" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属账号</label>
+        <div class="layui-input-block">
+            <select name="user_id" lay-verify="required">
+                <option value="">请选择账号</option>
+                {{each users u}}
+                <option value="{{u.id}}"{{token.user_id == u.id ? ' selected' : ''}}>{{u.username}} ({{u.nickname || u.username.toUpperCase()}})</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    {{if token.token}}
+    <div class="layui-form-item">
+        <label class="layui-form-label">Token值</label>
+        <div class="layui-input-block">
+            <input type="text" readonly class="layui-input layui-disabled" value="{{token.token}}" style="color:#009688;font-family:monospace;">
+            <div class="layui-form-mid layui-word-aux">Token仅在新增时生成，可通过列表页"重置Token"按钮重新生成</div>
+        </div>
+    </div>
+    {{/if}}
+    <div class="layui-form-item">
+        <label class="layui-form-label">过期时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="expire_date" class="layui-input" id="expire-date" placeholder="yyyy-MM-dd HH:mm:ss">
+            <div class="layui-form-mid layui-word-aux">留空表示永不过期</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">API权限</label>
+        <div class="layui-input-block">
+            {{each perm_groups group}}
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top:10px;margin-bottom:5px;">
+                <legend style="font-size:14px;">{{group.name}}</legend>
+            </fieldset>
+            {{each group.items item}}
+            <input type="checkbox" name="permissions_arr[]" value="{{item.key}}" title="{{item.label}}"{{token.perm_arr && token.perm_arr.includes(item.key) ? ' checked' : ''}}>
+            {{/each}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="layui-btn" lay-submit>提交</button>
+    </div>
+</form>
+{{/block}}
+
+{{block 'js'}}
+<script>
+    layui.use(['form', 'layer'], function(){
+        var form = layui.form;
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#expire-date',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            value: '{{token.expire_date}}'
+        });
+    });
+</script>
+{{/block}}

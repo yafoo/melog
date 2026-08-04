@@ -47,7 +47,7 @@ function getIP(req) {
 const md5 = require('jj.js').utils.md5;
 
 // 获取时间戳
-const time = () => Math.round(new Date() / 1000);
+const time = (date) => Math.round((date ? new Date(date) : new Date()).getTime() / 1000);
 
 // 日期格式化
 const date = (format, value) => require('jj.js').utils.date.format(format, value);

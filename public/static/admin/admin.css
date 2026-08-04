@@ -157,10 +157,8 @@ html, body {height: 100%; margin: 0;}
 /* 通用样式 */
 .sp5 {width: 5px;}
 .sp10 {width: 10px;}
-.layui-form {background-color: #fff; padding: 10px 0;}
+.layui-form {background-color: #fff; padding: 10px;}
 .layui-form.table-tools {padding: 10px;}
-.layui-form-label {width: 60px;}
-.layui-input-block {margin-left: 90px;}
 .table-wrap {margin: 10px 0; overflow-x: auto;}
 .table-wrap .layui-table {margin: 0;}
 .table-wrap .layui-table th,

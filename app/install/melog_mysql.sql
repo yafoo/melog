@@ -169,6 +169,24 @@ CREATE TABLE `melog_upload`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for melog_token
+-- ----------------------------
+DROP TABLE IF EXISTS `melog_token`;
+CREATE TABLE `melog_token`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'Token名称',
+  `token` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'Token值',
+  `permissions` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '权限位图',
+  `expire_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '过期时间',
+  `add_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE,
+  INDEX `token`(`token`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for melog_user
 -- ----------------------------
 DROP TABLE IF EXISTS `melog_user`;
