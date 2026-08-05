@@ -10,8 +10,8 @@ layui.use(['element'], function() {
     });
     
     // 折叠按钮
+    var isMobile = $(window).width() <= 768;
     $('#meToggle').on('click', function() {
-        var isMobile = $(window).width() <= 768;
         if (isMobile) {
             // 移动端：滑入/滑出
             $('#meSide').toggleClass('me-mobile-show');
@@ -38,4 +38,5 @@ layui.use(['element'], function() {
         $('#meSide').removeClass('me-mobile-show');
         $(this).hide();
     });
+    if(isMobile) $('#meToggle .layui-icon').removeClass('layui-icon-shrink-right').addClass('layui-icon-spread-left');
 });

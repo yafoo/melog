@@ -53,10 +53,8 @@ html, body {height: 100%; margin: 0;}
     flex-shrink: 0; gap: 10px;
 }
 .me-logo img {width: 24px; height: 24px; border-radius: 3px;}
-.me-side .layui-nav {
-    background: transparent; flex: 1;
-    padding: 10px 0;
-}
+.me-side .layui-nav {background: transparent; flex: 1; padding: 10px 0;}
+.me-side .layui-nav.layui-nav-tree {width: 100%;}
 .me-side .layui-nav .layui-nav-item a {
     color: rgba(255,255,255,.8); height: 44px; line-height: 44px;
 }
