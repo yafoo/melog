@@ -49,7 +49,7 @@ class Link extends Base
 
     async delete() {
         const id = this.$request.get('id', 0);
-        if(id == 1 || id == 2) {
+        if([1, 2, 3, 4].includes(id)) {
             return this.$error('系统固定链接不可删除！');
         }
 
