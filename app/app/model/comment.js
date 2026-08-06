@@ -20,7 +20,7 @@ class Comment extends Base
             await this.db.startTrans(async () => {
                 const result = await this.add(data);
                 data.comment_id || await this.save({comment_id: result.insertId}, {id: result.insertId});
-                await this.$admin.model.article.updateCommentTotal(data.article_id);
+                await this.$model.article.updateCommentTotal(data.article_id);
             });
 
             // 清理数据库缓存

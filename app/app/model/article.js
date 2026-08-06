@@ -94,6 +94,12 @@ class Article extends Base
         }
         return articles;
     }
+
+    // 更新评论总数
+    async updateCommentTotal(id) {
+        const comment_count = await this.$db.table('comment').where({article_id: id}).count();
+        return await this.save({id, comment_count});
+    }
 }
 
 module.exports = Article;
