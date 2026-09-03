@@ -126,12 +126,14 @@ class Index extends Controller
             default_content = `    default: {
         type      : 'sqlite', // 数据库类型
         database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
+        optimize  : false, // 是否启用性能优化（WAL模式、减少磁盘同步、锁等待超时）
         prefix    : 'melog_' // 数据库表前缀
     }`;
         } else if(db_type === 'sqljs') {
             default_content = `    default: {
         type      : 'sqljs', // 数据库类型（基于sql.js的纯JS SQLite驱动）
         database  : database, // 数据库文件绝对地址，支持:memory:内存数据库
+        optimize  : false, // 是否启用性能优化（WAL模式、减少磁盘同步、锁等待超时）
         prefix    : 'melog_' // 数据库表前缀
     }`;
         } else {
